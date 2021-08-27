@@ -9,9 +9,13 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    main.cpp
+    ".\RPG\main.cpp" \
+    ".\RPG\apps\map\source\map.cpp" \
+    ".\RPG\apps\map\source\room.cpp"
 
-HEADERS +=
+HEADERS += \
+    ".\RPG\apps\map\include\map.h" \
+    ".\RPG\apps\map\include\room.h"
 
 FORMS +=
 
