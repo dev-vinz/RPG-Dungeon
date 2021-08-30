@@ -1,7 +1,8 @@
-#include "gamemanager.h"
+#include "../include/gamemanager.h"
 
 GameManager::GameManager(QWidget *_parent) : QWidget(_parent)
 {
+    connect(this, &GameManager::newActionRPG, this, &GameManager::refreshGame);
 }
 
 void GameManager::display()
@@ -9,16 +10,8 @@ void GameManager::display()
     // Créer une scène ici, et ajouter le game (item)
     QGridLayout *globalGrid = new QGridLayout(this);
     this->map = new Map;
-    this->game = new Game(this->size(), this->map, globalGrid->widget());
+    this->game = new Game(this->size(), this->map);
 
-    QGraphicsScene *gameScene = new QGraphicsScene(this);
-    gameScene->addRect(0, 0, width(), height(), QPen(Qt::black), QBrush(Qt::red));
-
-    QGraphicsView *gameView = this->game;
-    gameView->setScene(gameScene);
-
-    //QGridLayout *gameLayout = this->createGameLayout();
-    //QGridLayout *gameMap = this->map->getQGridLayout();
     QGridLayout *actionButtons = this->createActionButtons();
     QGridLayout *characterStatistics = this->createCharacterStatistics();
     QGridLayout *informations = this->createInformationsBox();
@@ -26,9 +19,7 @@ void GameManager::display()
     QGridLayout *miniMap = this->createMiniMap();
 
     // Create the global layout
-    //globalGrid->addLayout(this->isGameDisplaying ? gameLayout : gameMap, 0, 0, 4, 4);
-    //globalGrid->addLayout(gameLayout, 0, 0, 4, 4);
-    globalGrid->addWidget(gameView, 0, 0, 4, 4);
+    globalGrid->addWidget(this->game, 0, 0, 4, 4);
     globalGrid->addLayout(actionButtons, 4, 0, 1, 2);
     globalGrid->addLayout(characterStatistics, 0, 4, 3, 1);
     globalGrid->addLayout(informations, 5, 0, 1, 4);
@@ -37,6 +28,22 @@ void GameManager::display()
 
     this->setWindowTitle("RPG - HE-Arc");
     this->setLayout(globalGrid);
+}
+
+void GameManager::startGame()
+{
+    this->game->start();
+}
+
+void GameManager::mousePressEvent(QMouseEvent *_event)
+{
+    if (_event->button() == Qt::LeftButton)
+        emit GameManager::newActionRPG();
+}
+
+void GameManager::refreshGame()
+{
+    this->game->updateScene();
 }
 
 /* * * * * * * * * * * * * * * *
@@ -83,19 +90,6 @@ QGridLayout *GameManager::createCharacterStatistics()
     statistics->addWidget(warriorStatistics, 2, 0, Qt::AlignCenter);
 
     return statistics;
-}
-
-QGridLayout *GameManager::createGameLayout()
-{
-    QLabel *gameLabel = new QLabel("GAME");
-    gameLabel->setStyleSheet("background-color: red;");
-    gameLabel->setAlignment(Qt::AlignCenter);
-    gameLabel->setFixedSize(100, 200);
-
-    QGridLayout *gameLayout = new QGridLayout;
-    gameLayout->addWidget(gameLabel, 0, 0, Qt::AlignCenter);
-
-    return gameLayout;
 }
 
 /**

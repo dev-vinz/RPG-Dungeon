@@ -1,6 +1,6 @@
 #include <QApplication>
 
-#include "gamemanager.h"
+#include "RPG/apps/game/include/gamemanager.h"
 
 int main(int argc, char *argv[])
 {
@@ -10,6 +10,7 @@ int main(int argc, char *argv[])
 
     gManager.showFullScreen();
     gManager.display();
+    gManager.startGame();
 
     return a.exec();
 }
