@@ -10,19 +10,20 @@
 
 #include <QPushButton>
 
-enum class RoomType
-{
-    Start = 'E',
-    Exit = 'S',
-    Event = '?',
-    Battle = '!',
-    Current = 'P'
-};
+
 
 class Room
 {
 
 public:
+    enum class RoomType
+    {
+        Start = 'E',
+        Exit = 'S',
+        Event = '?',
+        Battle = '!',
+        Current = 'P'
+    };
     Room();
     Room(Room *r);
     Room(int, int);  

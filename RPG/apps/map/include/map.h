@@ -30,6 +30,12 @@ public:
     QGridLayout *layout = new QGridLayout(window);
     QGridLayout *miniMapLayout = new QGridLayout(miniMapWindow);
 
+    QPushButton *topMini = new QPushButton;
+    QPushButton *leftMini = new QPushButton;
+    QPushButton *rightMini = new QPushButton;
+    QPushButton *bottomMini = new QPushButton;
+    QPushButton *activeMini = new QPushButton;
+
     void changeActive(int);
     void move(int);
     bool checkDist(int);
@@ -48,6 +54,7 @@ protected:
     void revealTile();
     void generateRoomType();
     void generateMiniMap();
+    void updateMiniMap();
 
     QButtonGroup *roomsBtnGroup = new QButtonGroup;
 

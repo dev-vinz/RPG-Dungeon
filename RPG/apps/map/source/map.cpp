@@ -7,7 +7,10 @@ Map::Map(QWidget *parent)
     generateRoomType();
     changeActive(0);
     connectRooms();
+    generateMiniMap();
+    updateMiniMap();
     window->show();
+    miniMapWindow->show();
 }
 
 void Map::createRooms()
@@ -50,7 +53,7 @@ void Map::move(int clickedRoomid)
     if(checkDist(clickedRoomid))
     {
         changeActive(clickedRoomid);
-
+        updateMiniMap();
     }
 }
 bool Map::checkDist(int otherRoom)
@@ -70,10 +73,66 @@ int Map::checkDistY(int otherRoom)
 {
     return rooms[otherRoom].getPosy()-rooms[activeRoom].getPosy();
 }
+void Map::generateMiniMap()
+{
+    activeMini->setStyleSheet(rooms[activeRoom].roomBtn->styleSheet());
+    activeMini->setText(rooms[activeRoom].roomBtn->text());
+    miniMapLayout->addWidget(topMini,0,1);
+    miniMapLayout->addWidget(leftMini,1,0);
+    miniMapLayout->addWidget(rightMini,1,2);
+    miniMapLayout->addWidget(bottomMini, 2, 1);
+    miniMapLayout->addWidget(activeMini, 1,1);
+    topMini->setEnabled(false);
+    leftMini->setEnabled(false);
+    rightMini->setEnabled(false);
+    bottomMini->setEnabled(false);
+    activeMini->setEnabled(false);
 
+}
+void Map::updateMiniMap()
+{
+    topMini->setVisible(false);
+    leftMini->setVisible(false);
+    rightMini->setVisible(false);
+    bottomMini->setVisible(false);
+    for (int i = 0; i < NBROFROOMS; i++)
+    {
+        if(checkDistX(i) == -1 && checkDistY(i)==0)
+        {
+            topMini->setText(rooms[i].roomBtn->text());
+            topMini->setStyleSheet(rooms[i].roomBtn->styleSheet());
+            topMini->setVisible(true);
+        }
+        else if(checkDistX(i) == 0 && checkDistY(i)==-1)
+        {
+            leftMini->setText(rooms[i].roomBtn->text());
+            leftMini->setStyleSheet(rooms[i].roomBtn->styleSheet());
+            leftMini->setVisible(true);
+        }
+        else if(checkDistX(i) == 0 && checkDistY(i)== 1)
+        {
+            rightMini->setText(rooms[i].roomBtn->text());
+            rightMini->setStyleSheet(rooms[i].roomBtn->styleSheet());
+            rightMini->setVisible(true);
+        }
+        else if(checkDistX(i) == 1 && checkDistY(i)==0)
+        {
+            bottomMini->setText(rooms[i].roomBtn->text());
+            bottomMini->setStyleSheet(rooms[i].roomBtn->styleSheet());
+            bottomMini->setVisible(true);
+        }
+    }
+}
 void Map::changeActive(int newActive)
 {
-    rooms[activeRoom].roomBtn->setText("");
+    if(rooms[activeRoom].getType() != Room::RoomType::Start)
+    {
+       rooms[activeRoom].roomBtn->setText("");
+    }
+    else
+    {
+        rooms[activeRoom].roomBtn->setText("E");
+    }
     rooms[activeRoom].roomBtn->setStyleSheet("QPushButton{ background-color: rgb(200,200,200); }\n");
     rooms[activeRoom].setVisited(true);
     activeRoom = newActive;
@@ -103,22 +162,22 @@ void Map::generateRoomType()
     {
         if(i==0)
         {
-            rooms[i].setType(RoomType::Start);
+            rooms[i].setType(Room::RoomType::Start);
         }
         else if(i==exitIndex)
         {
-            rooms[i].setType(RoomType::Exit);
+            rooms[i].setType(Room::RoomType::Exit);
         }
         else
         {
             int randEvent = QRandomGenerator::global()->bounded(0,2);
             if(randEvent == 0)
             {
-                rooms[i].setType(RoomType::Event);
+                rooms[i].setType(Room::RoomType::Event);
             }
             else
             {
-                rooms[i].setType(RoomType::Battle);
+                rooms[i].setType(Room::RoomType::Battle);
             }
         }
     }

@@ -29,7 +29,7 @@ int Room::getPosy()
 {
     return posy;
 }
-RoomType Room::getType()
+Room::RoomType Room::getType()
 {
     return this->type;
 }
