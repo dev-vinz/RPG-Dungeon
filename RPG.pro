@@ -1,5 +1,4 @@
-QT       += core gui \
-            sql
+QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -10,23 +9,13 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    ".\RPG\apps\game\source\game.cpp" \
-    ".\RPG\apps\game\source\gamemanager.cpp" \
     ".\RPG\main.cpp" \
-    ".\RPG\map.cpp" \
-    ".\RPG\apps\event\source\eventmanager.cpp" \
-    ".\RPG\apps\event\source\battle.cpp" \
-    ".\RPG\apps\event\source\loot.cpp" \
-    ".\RPG\apps\event\source\riddle.cpp"
+    ".\RPG\apps\map\source\map.cpp" \
+    ".\RPG\apps\map\source\room.cpp"
 
 HEADERS += \
-    ".\RPG\apps\game\include\game.h" \
-    ".\RPG\apps\game\include\gamemanager.h" \
-    ".\RPG\map.h" \
-    ".\RPG\apps\event\include\eventmanager.h" \
-    ".\RPG\apps\event\include\battle.h" \
-    ".\RPG\apps\event\include\loot.h" \
-    ".\RPG\apps\event\include\riddle.h"
+    ".\RPG\apps\map\include\map.h" \
+    ".\RPG\apps\map\include\room.h"
 
 FORMS +=
 
