@@ -1,4 +1,4 @@
-#include "room.h"
+#include "..\include\room.h"
 
 Room::Room()
 {
@@ -18,7 +18,6 @@ Room::Room(Room *r)
     this->posy = r->getPosy();
     this->type = r->getType();
     this->visited = r->isVisited();
-    //this->active = r->isActive();
     this->roomBtn = r->roomBtn;
 }
 
@@ -38,11 +37,7 @@ void Room::setVisited(bool v)
 {
     this->visited = v;
 }
-/*
-bool Room::isActive()
-{
-    return active;
-}*/
+
 bool Room::isVisited()
 {
     return visited;
@@ -51,6 +46,7 @@ void Room::setType(RoomType t)
 {
     this->type = t;
 }
+
 Room::~Room()
 {
 

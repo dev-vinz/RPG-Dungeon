@@ -1,4 +1,4 @@
-#include "map.h"
+#include "..\include\map.h"
 
 Map::Map(QWidget *parent)
     : QWidget(parent)
@@ -62,8 +62,14 @@ bool Map::checkDist(int otherRoom)
     delta = deltaX + deltaY;
     return(delta==1);
 }
-
-
+int Map::checkDistX(int otherRoom)
+{
+    return rooms[otherRoom].getPosx()-rooms[activeRoom].getPosx();
+}
+int Map::checkDistY(int otherRoom)
+{
+    return rooms[otherRoom].getPosy()-rooms[activeRoom].getPosy();
+}
 
 void Map::changeActive(int newActive)
 {
@@ -91,6 +97,7 @@ void Map::revealTile()
 }
 void Map::generateRoomType()
 {
+
     int exitIndex = QRandomGenerator::global()->bounded(1,25);
     for(int i = 0; i < NBROFROOMS; i++)
     {

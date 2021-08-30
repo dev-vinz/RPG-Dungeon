@@ -1,3 +1,10 @@
+/**
+ * RPG Project
+ * Authors : Vincent JEANNIN, Benjamin MOUCHET, Guillaume MOUCHET
+ * Date : 30.08.2021
+ * Course : HES d'Été
+ */
+
 #ifndef MAP_H
 #define MAP_H
 
@@ -10,6 +17,7 @@
 #include "room.h"
 
 #define NBROFROOMS 24
+
 class Map : public QWidget
 {
     Q_OBJECT
@@ -25,6 +33,10 @@ public:
     void changeActive(int);
     void move(int);
     bool checkDist(int);
+    int checkDistX(int);
+    int checkDistY(int);
+
+
     ~Map();
 
 protected:
@@ -35,7 +47,12 @@ protected:
     void revealMap();
     void revealTile();
     void generateRoomType();
+    void generateMiniMap();
+
     QButtonGroup *roomsBtnGroup = new QButtonGroup;
+
+
+
 
 };
 #endif // MAP_H
