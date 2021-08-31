@@ -18,7 +18,7 @@ void Character::show()
     //QString _string = "\n=========================\n" + QString("Damage : ") + QString::number(this->getDamage()) + "\nHealth : " + QString::number(this->getHealth()) + "\nAgility : " + QString::number(this->getAgility()) + "\nDefense : " + QString::number(this->getDefense()) + "\n=========================\n";
     cout << endl
          << "=========================" << endl
-         << "Name : " << this->getName() << endl
+         //<< "Name : " << this->getName() << endl
          << "=========================" << endl
          << "Damage : " << this->getDamage() << endl
          << "Health : " << this->getHealth() << endl
@@ -50,7 +50,7 @@ void Character::updateHealth(double _health)
 {
     if(_health>0)
     {
-        cout << this->getName() +" gagne des points de vie" << endl;
+        //cout << this->getName() +" gagne des points de vie" << endl;
         if (_health >= (MAX_HEALTH - this->getHealth()))
         {
             this->health = MAX_HEALTH;
@@ -63,11 +63,11 @@ void Character::updateHealth(double _health)
         }
     }else if (_health<0)
     {
-        cout << this->getName() << " perds de points de vie" << endl;
+        //cout << this->getName() << " perds de points de vie" << endl;
         if (this->dodge())
         {
             //globalLabel->UpdateText("Bravo vous avez esquivé l'attaque");
-            cout << this->getName() << " a esquivé l'attaque" << endl;
+            //cout << this->getName() << " a esquivé l'attaque" << endl;
         } else
         {
             //Since damage are counted as negatives we must add them to the total health

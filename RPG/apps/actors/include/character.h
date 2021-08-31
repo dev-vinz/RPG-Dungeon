@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 #include <QRandomGenerator>
+#include <QString>
 
 #include "..\..\..\settings\settings.h"
 using namespace std;
@@ -28,12 +29,12 @@ public:
     int totalDamage(Character* _character);
     void updateHealth(double _health);
 
-    int getDamage(){return this->damage;};
-    int getDefense(){return this->defense;};
-    int getAgility(){return this->agility;};
-    double getHealth(){return this->health;};
+    int getDamage()const{return this->damage;};
+    int getDefense()const{return this->defense;};
+    int getAgility()const{return this->agility;};
+    double getHealth()const{return this->health;};
 
-    string virtual getName() = 0;
+    QString virtual getName() const = 0;
     void virtual attack1(Character*) = 0;
     void virtual attack2(Character*) = 0;
 

@@ -15,7 +15,7 @@ public:
     Skeleton()=delete;
     Skeleton(int,int, int, double);
     ~Skeleton();
-    string getName() override {return "Skeleton";};
+    QString getName() const override {return QString("Skeleton");};
 };
 
 #endif // SKELETON_H

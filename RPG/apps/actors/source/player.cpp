@@ -1,16 +1,19 @@
 #include "..\include\player.h"
-
-
-
+#include <QLabel>
+#include "..\include\wizard.h"
+#include "..\include\warrior.h"
+#include "..\include\healer.h"
 Player::Player(int _damage, int _agility, int _defense, double _health) : Character(_damage, _agility, _defense, _health)
 {
 
 }
 void Player::show()
 {
+
+    //On affiche le sprit du personnage pour les events
     cout << endl
          << "=========================" << endl
-         << "Name : " << this->getName() << endl
+         //<< "Name : " << this->getName() << endl
          << "=========================" << endl
          << "Damage : " << this->getDamage() << endl
          << "Health : " << this->getHealth() << endl

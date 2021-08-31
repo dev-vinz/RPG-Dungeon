@@ -21,9 +21,11 @@
 #include ".\apps\stuff\include\torch.h"
 
 #include ".\apps\game\include\battle.h"
-using namespace std;
 
-int main()
+#include ".\apps\game\include\graph.h"
+using namespace std;
+#include <QApplication>
+int main(int argc, char *argv[])
 {
     cout << "Hi" << endl;
     cout << "-----------------------------------------------------------------------------------------" << endl;
@@ -44,12 +46,16 @@ int main()
     myParty.push_front(wizard);
     myParty.push_back(healer);
 
-    Battle myBattle(myParty,ghoul);
+    Battle myBattle;
     myBattle.startBattle(myParty,ghoul);
 
     ghoul->show();
     skeleton->show();
 
+    QApplication a(argc, argv);
+    Graph myGraph;
+    myGraph.show();
+    return a.exec();
 
     return 0;
 }

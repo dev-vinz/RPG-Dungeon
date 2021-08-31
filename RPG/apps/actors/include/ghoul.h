@@ -2,6 +2,7 @@
 #define GHOUL_H
 #include "oponnent.h"
 #include <iostream>
+
 using namespace std;
 class Ghoul : public Oponnent
 {
@@ -12,7 +13,7 @@ public:
     Ghoul()=delete;
     Ghoul(int,int,int,double);
     ~Ghoul();
-    string getName() override {return "Ghoul";};
+    QString getName() const override {return QString("Ghoul");};
 };
 
 #endif // GHOUL_H

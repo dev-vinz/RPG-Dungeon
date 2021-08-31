@@ -7,10 +7,9 @@
 #include <list>
 class Battle
 {
-    list<Character*> myParty;
-    Character* enemy;
+
 public:
-    Battle(list<Character*> myParty, Character* enemy);
+    Battle();
 
 
 

@@ -1,9 +1,8 @@
 #include "..\include\battle.h"
 
-Battle::Battle(list<Character*> _myParty, Character* _enemy)
+Battle::Battle()
 {
-    this->myParty = _myParty;
-    this->enemy = _enemy;
+
 }
 
 void Battle::startBattle(list<Character*> _myParty, Character* _enemy)

@@ -1,8 +1,10 @@
-QT -= gui
+QT -= core gui \
+sql
 
-CONFIG += c++11 console
-CONFIG -= app_bundle
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
+
+CONFIG += c++11
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
@@ -22,7 +24,8 @@ SOURCES += \
         ".\RPG\apps\actors\source\skeleton.cpp" \
         ".\RPG\apps\stuff\source\torch.cpp" \
         ".\RPG\apps\actors\source\warrior.cpp" \
-        ".\RPG\apps\actors\source\wizard.cpp"
+        ".\RPG\apps\actors\source\wizard.cpp" \
+        ".\RPG\apps\game\source\graph.cpp" \
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -44,4 +47,5 @@ HEADERS += \
     ".\RPG\apps\stuff\include\torch.h" \
     ".\RPG\apps\actors\include\warrior.h" \
     ".\RPG\apps\actors\include\wizard.h" \
-    ".\RPG\settings\settings.h"
+    ".\RPG\settings\settings.h" \
+    ".\RPG\apps\game\include\graph.h" \

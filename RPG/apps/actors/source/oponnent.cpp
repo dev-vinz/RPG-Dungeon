@@ -9,7 +9,7 @@ void Oponnent::show()
 {
     cout << endl
          << "=========================" << endl
-         << "Name : " << this->getName() << endl
+         //<< "Name : " << this->getName() << endl
          << "=========================" << endl
          << "Damage : " << this->getDamage() << endl
          << "Health : " << this->getHealth() << endl
