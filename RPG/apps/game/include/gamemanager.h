@@ -23,6 +23,8 @@ class GameManager : public QWidget
 {
     Q_OBJECT
 
+    friend class Game;
+
 public:
     GameManager(QWidget *_parent = nullptr);
 
@@ -35,13 +37,17 @@ public:
         MapDisplay
     };
 
+    void updateLayout();
+
 protected:
     void mousePressEvent(QMouseEvent *event) override;
 
 private:
-    ActualDisplay currentDisplay = GameManager::ActualDisplay::MapDisplay;
+    ActualDisplay currentDisplay = GameManager::ActualDisplay::GameDisplay;
     Game *game;
     Map *map;
+    QGridLayout *globalGrid = nullptr;
+    QGraphicsView *globalView = nullptr;
 
     QGridLayout *createActionButtons();
     QGridLayout *createCharacterStatistics();

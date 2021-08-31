@@ -34,14 +34,19 @@ class Map : public QWidget
 public:
     Map(QWidget *parent = nullptr);
 
-    QWidget *window = new QWidget; //Used only for display when not connected to gameManger
-    QWidget *miniMapWindow = new QWidget; //Used only for display when not connected to gameManger
-    QGridLayout *layout = new QGridLayout(window); //Remove: (window) when connected with gameManager
-    QGridLayout *miniMapLayout = new QGridLayout(miniMapWindow); //Remove: (window) when connected with gameManager
+    //QWidget *window = new QWidget; //Used only for display when not connected to gameManger
+    //QWidget *miniMapWindow = new QWidget; //Used only for display when not connected to gameManger
+    QGridLayout *layout = new QGridLayout; //Remove: (window) when connected with gameManager
+    QGridLayout *miniMapLayout = new QGridLayout; //Remove: (window) when connected with gameManager
+    QGraphicsScene *mapScene;
 
-    QGraphicsScene *getScene(int, int) const;
+    QGraphicsScene *getScene() const;
 
     Room getActive();
+    QButtonGroup *getButtonGroup() const;
+
+    QGridLayout *getMiniMap() const;
+    QGridLayout *getMap() const;
 
     ~Map();
 
@@ -59,9 +64,6 @@ protected:
     QPushButton *rightMini = new QPushButton;
     QPushButton *bottomMini = new QPushButton;
     QPushButton *activeMini = new QPushButton;
-
-    Room getActive();
-    QButtonGroup *getButtonGroup() const;
 
     /**
      * @brief sets new active room, changes buttons stylesheet
@@ -84,17 +86,11 @@ protected:
      */
     int checkDistY(int);
 
-    QGridLayout *getMiniMap() const;
-    QGridLayout *getMap() const;
-
-    ~Map();
-
-protected:
-    int activeRoom = 0;
     /**
      * @brief Generates room in 4x6 disposition, directly adds them to rooms array, ButtonGroup and layout
      */
     void createRooms();
+    void createScene(int, int);
     /**
      * @brief Connects the idClicked signal from ButtonGroup to move() function
      */

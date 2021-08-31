@@ -9,8 +9,8 @@ Map::Map(QWidget *parent)
     connectRooms();
     generateMiniMap();
     updateMiniMap();
-    window->show(); //Used only for display when not connected to gameManger
-    miniMapWindow->show();//Used only for display when not connected to gameManger
+    //window->show(); //Used only for display when not connected to gameManger
+    //miniMapWindow->show();//Used only for display when not connected to gameManger
 }
 
 void Map::changeActive(int newActive)
@@ -84,6 +84,29 @@ void Map::createRooms()
         rooms[i].roomBtn->setMinimumSize(MINWIDTH, MINHEIGHT);
         rooms[i].roomBtn->setMaximumSize(MAXWIDTH, MAXHEIGHT);
     }
+
+    this->createScene(1700, 1000);
+}
+
+void Map::createScene(int _width, int _height)
+{
+    QGraphicsScene *scene = new QGraphicsScene;
+    scene->setSceneRect(0, 0, _width, _height);
+
+    const int SPACE_WIDTH = 100;
+    const int SPACE_HEIGHT = 100;
+
+    for (int k = 0; k < NBROFROOMS; k++)
+    {
+        Room room = this->rooms[k];
+        QPushButton *btn = room.roomBtn;
+
+        btn->setGeometry(SPACE_WIDTH * room.getPosy(), SPACE_HEIGHT * room.getPosx(), 90, 90);
+
+        scene->addWidget(btn);
+    }
+
+    this->mapScene = scene;
 }
 
 void Map::connectRooms()
@@ -195,14 +218,9 @@ void Map::move(int clickedRoomid)
     }
 }
 
-QGraphicsScene *Map::getScene(int _width, int _height) const
+QGraphicsScene *Map::getScene() const
 {
-    QGraphicsView *view = new QGraphicsView;
-    QGraphicsScene *scene = new QGraphicsScene;
-    scene->setSceneRect(0,0,_width,_height);
-    view->setScene(scene);
-    view->setLayout(layout);
-    return view->scene();
+    return this->mapScene;
 }
 
 void Map::revealTile()
@@ -261,14 +279,20 @@ void Map::updateMiniMap()
     miniMapLayout->setHorizontalSpacing(HORIZONTALSPACING);
 }
 
-Room Map::getActive()
-{
-    return rooms[activeRoom];
-}
 
 QButtonGroup *Map::getButtonGroup() const
 {
     return this->roomsBtnGroup;
+}
+
+QGridLayout *Map::getMap() const
+{
+    return layout;
+}
+
+QGridLayout *Map::getMiniMap() const
+{
+    return miniMapLayout;
 }
 
 Map::~Map()

@@ -2,15 +2,16 @@
 
 GameManager::GameManager(QWidget *_parent) : QWidget(_parent)
 {
+    this->map = new Map;
+    this->game = new Game(this->map);
+
+    connect(this->map->getButtonGroup(), &QButtonGroup::buttonClicked, this, &GameManager::updateLayout);
     connect(this, &GameManager::newActionRPG, this, &GameManager::refreshGame);
 }
 
 void GameManager::display()
 {
-    // Créer une scène ici, et ajouter le game (item)
-    QGridLayout *globalGrid = new QGridLayout(this);
-    this->map = new Map;
-    this->game = new Game(this->map);
+    this->globalGrid = new QGridLayout(this);
 
     QGridLayout *actionButtons = this->createActionButtons();
     QGridLayout *characterStatistics = this->createCharacterStatistics();
@@ -18,12 +19,14 @@ void GameManager::display()
     QGridLayout *legends = this->createLegends();
     QGridLayout *miniMap = this->createMiniMap();
 
-    // Create the global layout
-    if (this->currentDisplay == GameManager::ActualDisplay::GameDisplay)
-        globalGrid->addWidget(this->game, 0, 0, 4, 4);
-    else
-        globalGrid->addLayout(this->map->getMap(), 0, 0, 4, 4);
+    this->globalView = new QGraphicsView;
+    QGraphicsScene *mainScene = this->game->getScene();
+    //QGraphicsScene *mainScene = this->map->getScene();
 
+    globalView->setScene(mainScene);
+    globalView->fitInView(mainScene->sceneRect());
+
+    globalGrid->addWidget(globalView, 0, 0, 4, 4);
     globalGrid->addLayout(actionButtons, 4, 0, 1, 2);
     globalGrid->addLayout(characterStatistics, 0, 4, 3, 1);
     globalGrid->addLayout(informations, 5, 0, 1, 4);
@@ -54,24 +57,42 @@ void GameManager::refreshGame()
  * * * * PRIVATE METHODS * * * *
  * * * * * * * * * * * * * * * */
 
+void GameManager::updateLayout()
+{
+    QGraphicsScene *scene;
+
+    if (this->currentDisplay == GameManager::ActualDisplay::MapDisplay)
+    {
+        scene = this->game->getScene();
+        this->currentDisplay = GameManager::ActualDisplay::GameDisplay;
+    }
+    else
+    {
+        scene = this->map->getScene();
+        this->currentDisplay = GameManager::ActualDisplay::MapDisplay;
+        this->game->btnMap->setEnabled(false);
+    }
+
+    this->globalView->setScene(scene);
+    this->globalView->fitInView(this->globalView->sceneRect());
+
+    this->globalGrid->update();
+}
+
 /**
  * @brief Creates the layout for the action buttons
  * @return The layout
  */
 QGridLayout *GameManager::createActionButtons()
 {
-    QPushButton *btnOne = new QPushButton("Attaque &1");
-    QPushButton *btnTwo = new QPushButton("Attaque &2");
-    QPushButton *btnThree = new QPushButton("&Sac à Dos");
-    QPushButton *btnFour = new QPushButton("&Fuir");
 
     // TODO : Connect to player methods
 
     QGridLayout *actionButtons = new QGridLayout;
-    actionButtons->addWidget(btnOne, 0, 0);
-    actionButtons->addWidget(btnTwo, 0, 1);
-    actionButtons->addWidget(btnThree, 1, 0);
-    actionButtons->addWidget(btnFour, 1, 1);
+    actionButtons->addWidget(this->game->btnAttackOne, 0, 0);
+    actionButtons->addWidget(this->game->btnAttackTwo, 0, 1);
+    actionButtons->addWidget(this->game->btnBackpack, 1, 0);
+    actionButtons->addWidget(this->game->btnFlee, 1, 1);
 
     return actionButtons;
 }
@@ -147,8 +168,11 @@ QGridLayout *GameManager::createMiniMap()
     QLabel *mapTitle = new QLabel("Mini Map");
     QGridLayout *miniMap = this->map->getMiniMap();
 
+    connect(this->game->btnMap, &QPushButton::clicked, this, &GameManager::updateLayout);
+
     miniMap->addWidget(mapTitle, 0, 0, Qt::AlignHCenter);
     miniMap->addLayout(miniMap, 1, 0);
+    miniMap->addWidget(this->game->btnMap, 2, 0);
 
     return miniMap;
 }

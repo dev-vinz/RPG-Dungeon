@@ -1,6 +1,6 @@
 #include "..\include\ghoul.h"
 
-Ghoul::Ghoul(int _damage ,int _agility ,int _defense ,double _health/*, *pObject*/) : Oponnent(_damage, _agility, _defense, _health)
+Ghoul::Ghoul(int _damage ,int _agility ,int _defense ,double _health/*, *pObject*/) : Opponent(_damage, _agility, _defense, _health)
 {
 
 }

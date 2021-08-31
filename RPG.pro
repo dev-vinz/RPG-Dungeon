@@ -13,7 +13,7 @@ SOURCES += \
     ".\RPG\apps\actors\source\character.cpp" \
     ".\RPG\apps\actors\source\ghoul.cpp" \
     ".\RPG\apps\actors\source\healer.cpp" \
-    ".\RPG\apps\actors\source\oponnent.cpp" \
+    ".\RPG\apps\actors\source\opponent.cpp" \
     ".\RPG\apps\actors\source\player.cpp" \
     ".\RPG\apps\actors\source\skeleton.cpp" \
     ".\RPG\apps\actors\source\warrior.cpp" \
@@ -43,7 +43,7 @@ HEADERS += \
     ".\RPG\apps\actors\include\character.h" \
     ".\RPG\apps\actors\include\ghoul.h" \
     ".\RPG\apps\actors\include\healer.h" \
-    ".\RPG\apps\actors\include\oponnent.h" \
+    ".\RPG\apps\actors\include\opponent.h" \
     ".\RPG\apps\actors\include\player.h" \
     ".\RPG\apps\actors\include\skeleton.h" \
     ".\RPG\apps\actors\include\warrior.h" \

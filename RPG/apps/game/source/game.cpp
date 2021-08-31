@@ -1,8 +1,12 @@
 #include "../include/game.h"
+#include "../include/gamemanager.h"
+
+double Game::GAME_RATIO = 1.5;
 
 Game::Game(Map *_map, QWidget *_parent) : QGraphicsView(_parent)
 {
     this->map = _map;
+    this->createButtons();
     this->createScene();
 }
 
@@ -29,7 +33,7 @@ void Game::play()
 
     // Si la sortie est trouvée, arrêter le jeu
     if (this->isExitFound)
-        this->end();
+        return this->end();
 }
 
 void Game::start()
@@ -37,7 +41,7 @@ void Game::start()
     this->isExitFound = false;
     this->initializePlayer();
 
-    connect(this->map->getButtonGroup(), &QButtonGroup::buttonClicked, this, &Game::play);
+    QObject::connect(this->map->getButtonGroup(), &QButtonGroup::buttonClicked, this, &Game::play);
 
     // TODO : Say Welcome
     this->play();
@@ -45,7 +49,7 @@ void Game::start()
 
 void Game::updateScene()
 {
-    this->scene()->addRect(100, 100, 300, 100, QPen(Qt::black), QBrush(Qt::yellow));
+    this->gameScene->addRect(100, 100, 300, 100, QPen(Qt::black), QBrush(Qt::yellow));
 }
 
 /* * * * * * * * * * * * * * * * *
@@ -55,6 +59,11 @@ void Game::updateScene()
 void Game::battle()
 {
     QMessageBox::information(NULL, "Battle", "Nouvelle guerre");
+    this->btnAttackOne->setEnabled(true);
+    this->btnAttackTwo->setEnabled(true);
+    this->btnFlee->setEnabled(true);
+
+    //Battle battle(this.player);
 }
 
 void Game::chooseRandomEvent()
@@ -83,6 +92,15 @@ void Game::releaseEvent(Room::RoomType _roomType)
         qDebug() << "[ERROR] Game::releaseEvent : Unknown type of Room::RoomType";
         exit(-1);
     }
+
+    // Initial state of buttons
+    this->btnMap->setEnabled(true);
+    this->btnAttackOne->setEnabled(false);
+    this->btnAttackTwo->setEnabled(false);
+    this->btnBackpack->setEnabled(true);
+    this->btnFlee->setEnabled(false);
+
+    // TODO : Check si on est mort
 }
 
 void Game::riddle()
@@ -99,19 +117,33 @@ void Game::treasure()
  * * * * PRIVATE METHODS * * * *
  * * * * * * * * * * * * * * * */
 
+void Game::createButtons()
+{
+    this->btnMap = new QPushButton("&Ouvrir Map");
+    this->btnAttackOne = new QPushButton("Attaque &1");
+    this->btnAttackTwo = new QPushButton("Attaque &2");
+    this->btnBackpack = new QPushButton("&Sac à Dos");
+    this->btnFlee = new QPushButton("&Fuir");
+
+    this->btnAttackOne->setEnabled(false);
+    this->btnAttackTwo->setEnabled(false);
+    this->btnBackpack->setEnabled(true);
+    this->btnFlee->setEnabled(false);
+}
+
 void Game::createScene()
 {
-    QGraphicsScene *gameScene = new QGraphicsScene(this);
+    QGraphicsScene *gameScene = new QGraphicsScene;
     gameScene->setSceneRect(0, 0, Game::GAME_WIDTH, Game::GAME_HEIGHT);
 
     gameScene->addRect(gameScene->sceneRect(), QPen(Qt::DashDotLine));
 
-    this->setScene(gameScene);
+    //this->setScene(gameScene);
 
-    qreal w = gameScene->sceneRect().width();
+    /*qreal w = gameScene->sceneRect().width();
     qreal h = gameScene->sceneRect().height();
 
-    this->fitInView(0, 0, w / this->GAME_RATIO, h / this->GAME_RATIO, Qt::KeepAspectRatioByExpanding);
+    this->fitInView(0, 0, w / this->GAME_RATIO, h / this->GAME_RATIO, Qt::KeepAspectRatioByExpanding);*/
 
     this->gameScene = gameScene;
 }
@@ -123,5 +155,7 @@ void Game::end()
 
 void Game::initializePlayer()
 {
-
+    /*this->player.push_back(new Warrior(80, 20, 90, 100));
+    this->player.push_back(new Wizard(70, 50, 60, 100, 100));
+    this->player.push_back(new Healer(20, 80, 50, 100));*/
 }

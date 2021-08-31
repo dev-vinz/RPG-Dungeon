@@ -8,8 +8,15 @@
 #ifndef GAME_H
 #define GAME_H
 
+#include <list>
+
 #include <QGraphicsView>
 #include <QGraphicsScene>
+
+/*#include "../../actors/include/player.h"
+#include "../../actors/include/healer.h"
+#include "../../actors/include/warrior.h"
+#include "../../actors/include/wizard.h"*/
 
 #include "../../event/include/eventmanager.h"
 #include "../../map/include/map.h"
@@ -20,22 +27,32 @@ class Game : public QGraphicsView
 {
     Q_OBJECT
 
+    friend class GameManager;
+
 private:
-    const double GAME_RATIO = 1.5;
     const int GAME_WIDTH = 1700;
     const int GAME_HEIGHT = 1000;
 
     bool isExitFound = false;
+    //list<Player *> player;
 
     EventManager eventManager;
     Map *map;
     QGraphicsScene *gameScene;
 
+    QPushButton *btnMap;
+    QPushButton *btnAttackOne;
+    QPushButton *btnAttackTwo;
+    QPushButton *btnBackpack;
+    QPushButton *btnFlee;
+
+    void createButtons();
     void createScene();
     void end();
     void initializePlayer();
 
 public:
+    static double GAME_RATIO;
     Game(Map *_map, QWidget *_parent = nullptr);
 
     QGraphicsScene *getScene();

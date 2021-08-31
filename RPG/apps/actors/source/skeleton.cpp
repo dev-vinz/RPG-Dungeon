@@ -13,7 +13,7 @@ void Skeleton::attack2(Character* _character)
     int damage = this->totalDamage(_character);
     _character->updateHealth(-damage);
 }
-Skeleton::Skeleton(int _damage ,int _agility ,int _defense ,double _health) : Oponnent(_damage, _agility, _defense, _health)
+Skeleton::Skeleton(int _damage ,int _agility ,int _defense ,double _health) : Opponent(_damage, _agility, _defense, _health)
 {
 
 }
