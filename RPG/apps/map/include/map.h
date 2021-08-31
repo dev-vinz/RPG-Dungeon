@@ -24,7 +24,7 @@
 #define VERTICALSPACING 5
 #define HORIZONTALSPACING 5
 
-
+/*Map class is an aggregation of room instances, main purpose is to manage the player's movements*/
 
 class Map : public QWidget
 {
@@ -33,11 +33,12 @@ class Map : public QWidget
 public:
     Map(QWidget *parent = nullptr);
 
-    QWidget *window = new QWidget;
-    QWidget *miniMapWindow = new QWidget;
-    QGridLayout *layout = new QGridLayout(window);
-    QGridLayout *miniMapLayout = new QGridLayout(miniMapWindow);
+    QWidget *window = new QWidget; //Used only for display when not connected to gameManger
+    QWidget *miniMapWindow = new QWidget; //Used only for display when not connected to gameManger
+    QGridLayout *layout = new QGridLayout(window); //Remove: (window) when connected with gameManager
+    QGridLayout *miniMapLayout = new QGridLayout(miniMapWindow); //Remove: (window) when connected with gameManager
 
+    //Buttons used for the miniMap display
     QPushButton *topMini = new QPushButton;
     QPushButton *leftMini = new QPushButton;
     QPushButton *rightMini = new QPushButton;
@@ -45,32 +46,60 @@ public:
     QPushButton *activeMini = new QPushButton;
 
     Room getActive();
-
+    /**
+     * @brief sets new active room, changes buttons stylesheet
+     */
     void changeActive(int);
-    void move(int);
+    /**
+     * @brief Checks distance with another room
+     * @param otherRoom index
+     * @return true if distance with a room == 1
+     */
     bool checkDist(int);
+    /**
+     * @brief Used to check x distance for the miniMap display
+     * @param otherRoom index
+     */
     int checkDistX(int);
+    /**
+     * @brief Used to check y distance for the miniMap display
+     * @param otherRoom index
+     */
     int checkDistY(int); 
-
+    /**
+     * @brief Used to move player if distance with a room is == 1
+     * @param clickedRoomid
+     */
+    void move(int);
 
     ~Map();
 
 protected:
+    //Index of the active room
     int activeRoom = 0;
-    void createRooms();
-    void connectRooms();
+    //Array receiving generated rooms
     Room rooms[NBROFROOMS];
-    void revealMap();
-    void revealTile();
-    void generateRoomType();
-    void generateMiniMap();
-    void updateMiniMap();
-
-
+    //ButtonGroup used to know which button is pushed, the button's id is the same as it's index in the rooms array
     QButtonGroup *roomsBtnGroup = new QButtonGroup;
-
-
-
+    /**
+     * @brief Generates room in 4x6 disposition, directly adds them to rooms array, ButtonGroup and layout
+     */
+    void createRooms();
+    /**
+     * @brief Connects the idClicked signal from ButtonGroup to move() function
+     */
+    void connectRooms();
+    void generateMiniMap();
+    void generateRoomType();
+    void revealMap();
+    /**
+     * @brief Used when changing active room to show adjacent rooms
+     */
+    void revealTile();
+    /**
+     * @brief Called at each movement to update the miniMap
+     */
+    void updateMiniMap(); 
 
 };
 #endif // MAP_H
