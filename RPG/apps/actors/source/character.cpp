@@ -1,6 +1,6 @@
 #include "..\include\character.h"
 #include "..\include\player.h"
-
+#include <QLabel>
 Character::Character(int _damage, int _agility, int _defense, double _health)
 {
     this->damage = _damage;
@@ -13,20 +13,16 @@ Character::~Character()
 
 }
 
-void Character::show()
+QGridLayout *Character::show() const
 {
-    //QString _string = "\n=========================\n" + QString("Damage : ") + QString::number(this->getDamage()) + "\nHealth : " + QString::number(this->getHealth()) + "\nAgility : " + QString::number(this->getAgility()) + "\nDefense : " + QString::number(this->getDefense()) + "\n=========================\n";
-    cout << endl
-         << "=========================" << endl
-         //<< "Name : " << this->getName() << endl
-         << "=========================" << endl
-         << "Damage : " << this->getDamage() << endl
-         << "Health : " << this->getHealth() << endl
-         << "Agility : " << this->getAgility() << endl
-         << "Defense : " << this->getDefense() << endl
-         << "=========================" << endl
-         << endl;
-    //return _string;
+    QGridLayout *statistics = new QGridLayout;
+    //Sprite
+    QLabel *myimage = new QLabel();
+    QPixmap pix("C:/DEV/HES_ETE_Projet/QT/Serie7_Ex1/img/Smiley.jpg");
+    pix.scaled(20,20);
+    myimage->setPixmap(pix);
+    statistics->addWidget(myimage,0,0,Qt::AlignCenter);
+    return statistics;
 }
 
 bool Character::isAlive()

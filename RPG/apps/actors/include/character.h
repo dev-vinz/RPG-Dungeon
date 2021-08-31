@@ -1,3 +1,9 @@
+/**
+ * RPG Project
+ * Authors : Vincent JEANNIN, Benjamin MOUCHET, Guillaume MOUCHET
+ * Date : 30.08.2021
+ * Course : HES d'Été
+ */
 #ifndef CHARACTER_H
 #define CHARACTER_H
 
@@ -5,6 +11,8 @@
 #include <string>
 #include <QRandomGenerator>
 #include <QString>
+#include <QGridLayout>
+
 
 #include "..\..\..\settings\settings.h"
 using namespace std;
@@ -21,7 +29,7 @@ public:
     Character(int _damage, int _agility, int _defense, double _health);
     ~Character();
 
-    void virtual show();
+    QGridLayout virtual *show() const = 0;
 
     bool isAlive();
     void interaction(Character* _character, Action _action);

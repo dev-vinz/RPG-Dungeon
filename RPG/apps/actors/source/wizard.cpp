@@ -27,20 +27,16 @@ void Wizard::attack1(Character* _character)
         _character->updateHealth(-damage);
     }
 }
-void Wizard::show()
+QGridLayout *Wizard::show() const
 {
-    cout << endl
-         << "=========================" << endl
-         //<< "Name : " << this->getName() << endl
-         << "=========================" << endl
-         << "Damage : " << this->getDamage() << endl
-         << "Health : " << this->getHealth() << endl
-         << "Agility : " << this->getAgility() << endl
-         << "Defense : " << this->getDefense() << endl
-         << "Mana :" << this->getMana() <<endl;
-         //   << "Item : "; this->pObject->show();
-         cout << "=========================" << endl
-         << endl;
+    QGridLayout *statistics = new QGridLayout;
+    //Sprite
+    QLabel *myimage = new QLabel();
+    QPixmap pix("C:/DEV/HES_ETE_Projet/QT/Serie7_Ex1/img/Smiley.jpg");
+    pix.scaled(20,20);
+    myimage->setPixmap(pix);
+    statistics->addWidget(myimage,0,0,Qt::AlignCenter);
+    return statistics;
 }
 QGridLayout *Wizard::showStat() const
 {

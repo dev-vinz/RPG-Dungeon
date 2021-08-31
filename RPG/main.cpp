@@ -27,6 +27,9 @@ using namespace std;
 #include <QApplication>
 int main(int argc, char *argv[])
 {
+
+    QApplication a(argc, argv);
+    Graph myGraph;
     cout << "Hi" << endl;
     cout << "-----------------------------------------------------------------------------------------" << endl;
 
@@ -52,8 +55,6 @@ int main(int argc, char *argv[])
     ghoul->show();
     skeleton->show();
 
-    QApplication a(argc, argv);
-    Graph myGraph;
     myGraph.show();
     return a.exec();
 

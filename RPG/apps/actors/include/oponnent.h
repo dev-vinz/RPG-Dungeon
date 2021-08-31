@@ -1,3 +1,9 @@
+/**
+ * RPG Project
+ * Authors : Vincent JEANNIN, Benjamin MOUCHET, Guillaume MOUCHET
+ * Date : 30.08.2021
+ * Course : HES d'Été
+ */
 #ifndef OPONNENT_H
 #define OPONNENT_H
 #include "character.h"
@@ -11,7 +17,7 @@ public:
     Oponnent(int _damage, int _agility, int _defense, double _health);
     ~Oponnent();
 
-    void virtual show() override;
+    //QGridLayout virtual *show() const override;
     void virtual attack1(Character*) override = 0;
     void virtual attack2(Character*) override = 0;
 };

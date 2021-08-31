@@ -1,3 +1,9 @@
+/**
+ * RPG Project
+ * Authors : Vincent JEANNIN, Benjamin MOUCHET, Guillaume MOUCHET
+ * Date : 30.08.2021
+ * Course : HES d'Été
+ */
 #ifndef WARRIOR_H
 #define WARRIOR_H
 #include "player.h"
@@ -15,6 +21,7 @@ Warrior(int _damage, int _agility, int _defense, double _health);
 ~Warrior();
 QString getName() const override {return QString("Warrior");};
 QGridLayout virtual *showStat() const override;
+QGridLayout virtual *show() const override;
 
 };
 #endif

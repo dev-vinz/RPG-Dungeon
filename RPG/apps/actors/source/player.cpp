@@ -7,7 +7,7 @@ Player::Player(int _damage, int _agility, int _defense, double _health) : Charac
 {
 
 }
-void Player::show()
+/*void Player::show() const
 {
 
     //On affiche le sprit du personnage pour les events
@@ -22,15 +22,15 @@ void Player::show()
          //<< "Item : "; this->pObject->show();
          cout << "=========================" << endl
          << endl;
-}
+}*/
 
 void Player::backpack()
 {
     cout<<"Bienvenue dans votre sac à dos"<<endl;
     this->playerBackpack.show();
 
-    this->playerBackpack.useItem(0,this);
-    this->playerBackpack.show();
+    //this->playerBackpack.useItem(0,this);
+    //this->playerBackpack.show();
 }
 
 void Player::flee()

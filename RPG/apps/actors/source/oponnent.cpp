@@ -5,7 +5,7 @@ Oponnent::Oponnent(int _damage, int _agility, int _defense, double _health/*,*_p
 
 }
 
-void Oponnent::show()
+/*QGridLayout *Oponnent::show()const
 {
     cout << endl
          << "=========================" << endl
@@ -17,4 +17,4 @@ void Oponnent::show()
          << "Defense : " << this->getDefense() << endl
          << "=========================" << endl
          << endl;
-}
+}*/
