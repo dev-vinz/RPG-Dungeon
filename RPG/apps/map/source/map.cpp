@@ -36,6 +36,8 @@ void Map::createRooms()
         }
         roomsBtnGroup->addButton(rooms[i].roomBtn, i);
         layout->addWidget(rooms[i].roomBtn, rooms[i].getPosx(), rooms[i].getPosy());
+        rooms[i].roomBtn->setMinimumSize(MINWIDTH, MINHEIGTH);
+        rooms[i].roomBtn->setMaximumSize(MAXWIDTH, MAXHEIGTH);
     }
 }
 
@@ -75,6 +77,8 @@ int Map::checkDistY(int otherRoom)
 }
 void Map::generateMiniMap()
 {
+    miniMapLayout->setVerticalSpacing(VERTICALSPACING);
+    miniMapLayout->setHorizontalSpacing(HORIZONTALSPACING);
     activeMini->setStyleSheet(rooms[activeRoom].roomBtn->styleSheet());
     activeMini->setText(rooms[activeRoom].roomBtn->text());
     miniMapLayout->addWidget(topMini,0,1);
@@ -87,10 +91,22 @@ void Map::generateMiniMap()
     rightMini->setEnabled(false);
     bottomMini->setEnabled(false);
     activeMini->setEnabled(false);
+    activeMini->setStyleSheet("QPushButton:disabled{ background-color: rgb(255,255,255);color: black; }\n");
+    activeMini->setMinimumSize(MINWIDTH, MINHEIGTH);
+    activeMini->setMaximumSize(MAXWIDTH, MAXHEIGTH);
+    topMini->setMinimumSize(MINWIDTH, MINHEIGTH);
+    topMini->setMaximumSize(MAXWIDTH, MAXHEIGTH);
+    leftMini->setMinimumSize(MINWIDTH, MINHEIGTH);
+    leftMini->setMaximumSize(MAXWIDTH, MAXHEIGTH);
+    rightMini->setMinimumSize(MINWIDTH, MINHEIGTH);
+    rightMini->setMaximumSize(MAXWIDTH, MAXHEIGTH);
+    bottomMini->setMinimumSize(MINWIDTH, MINHEIGTH);
+    bottomMini->setMaximumSize(MAXWIDTH, MAXHEIGTH);
 
 }
 void Map::updateMiniMap()
 {
+
     topMini->setVisible(false);
     leftMini->setVisible(false);
     rightMini->setVisible(false);
@@ -122,6 +138,8 @@ void Map::updateMiniMap()
             bottomMini->setVisible(true);
         }
     }
+    miniMapLayout->setVerticalSpacing(VERTICALSPACING);
+    miniMapLayout->setHorizontalSpacing(HORIZONTALSPACING);
 }
 void Map::changeActive(int newActive)
 {
@@ -133,11 +151,11 @@ void Map::changeActive(int newActive)
     {
         rooms[activeRoom].roomBtn->setText("E");
     }
-    rooms[activeRoom].roomBtn->setStyleSheet("QPushButton{ background-color: rgb(200,200,200); }\n");
+    rooms[activeRoom].roomBtn->setStyleSheet("QPushButton{ background-color: rgb(200,200,200); }\n QPushButton:disabled{ color: black; }\n");
     rooms[activeRoom].setVisited(true);
     activeRoom = newActive;
     rooms[newActive].roomBtn->setText("P");
-    rooms[newActive].roomBtn->setStyleSheet("QPushButton{ background-color: rgb(255,255,255); }\n");
+    rooms[newActive].roomBtn->setStyleSheet("QPushButton{ background-color: rgb(255,255,255); }\n QPushButton:disabled{ color: black; }\n");
     revealTile();
 
 }
@@ -149,7 +167,7 @@ void Map::revealTile()
         if(checkDist(i)==true && rooms[i].isVisited()==false)
         {
             QString roomType = QChar((char)rooms[i].getType());
-            rooms[i].roomBtn->setStyleSheet("QPushButton{ background-color: rgb(100,100,100); }\n");
+            rooms[i].roomBtn->setStyleSheet("QPushButton{ background-color: rgb(100,100,100); }\n QPushButton:disabled{ color: black; }\n");
             rooms[i].roomBtn->setText(roomType);
         }
     }
@@ -181,6 +199,10 @@ void Map::generateRoomType()
             }
         }
     }
+}
+Room Map::getActive()
+{
+    return rooms[activeRoom];
 }
 Map::~Map()
 {

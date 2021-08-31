@@ -21,8 +21,7 @@ public:
         Start = 'E',
         Exit = 'S',
         Event = '?',
-        Battle = '!',
-        Current = 'P'
+        Battle = '!'
     };
     Room();
     Room(Room *r);

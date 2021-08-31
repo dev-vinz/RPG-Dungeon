@@ -17,6 +17,14 @@
 #include "room.h"
 
 #define NBROFROOMS 24
+#define MAXWIDTH 50
+#define MINWIDTH 50
+#define MAXHEIGTH 50
+#define MINHEIGTH 50
+#define VERTICALSPACING 5
+#define HORIZONTALSPACING 5
+
+
 
 class Map : public QWidget
 {
@@ -36,11 +44,13 @@ public:
     QPushButton *bottomMini = new QPushButton;
     QPushButton *activeMini = new QPushButton;
 
+    Room getActive();
+
     void changeActive(int);
     void move(int);
     bool checkDist(int);
     int checkDistX(int);
-    int checkDistY(int);
+    int checkDistY(int); 
 
 
     ~Map();
@@ -55,6 +65,7 @@ protected:
     void generateRoomType();
     void generateMiniMap();
     void updateMiniMap();
+
 
     QButtonGroup *roomsBtnGroup = new QButtonGroup;
 
