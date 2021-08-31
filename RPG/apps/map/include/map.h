@@ -92,6 +92,10 @@ protected:
      * @param clickedRoomid
      */
     void move(int);
+    /**
+     * @brief Returns distance between two rooms
+     */
+    int getDist(int);
     void revealMap();
     /**
      * @brief Used when changing active room to show adjacent rooms

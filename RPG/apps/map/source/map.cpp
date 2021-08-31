@@ -37,11 +37,15 @@ bool Map::checkDist(int otherRoom)
 {
     //By checking distance in x and y in the layout, it is possible to assume the distance between two rooms.
     //If it is strictly equal to 1 the rooms are adjacent. A diagonal room would be equal to 2
+    return(getDist(otherRoom)==1);
+}
+int Map::getDist(int otherRoom)
+{
     int deltaX, deltaY, delta;
     deltaX = abs(rooms[otherRoom].getPosx()-rooms[activeRoom].getPosx());
     deltaY = abs(rooms[otherRoom].getPosy()-rooms[activeRoom].getPosy());
     delta = deltaX + deltaY;
-    return(delta==1);
+    return delta;
 }
 
 int Map::checkDistX(int otherRoom)
@@ -128,7 +132,13 @@ void Map::generateRoomType()
 {
 
     //Random determines exit room index
-    int exitIndex = QRandomGenerator::global()->bounded(1,25);
+    int exitIndex = 0;
+    do
+    {
+        exitIndex=QRandomGenerator::global()->bounded(1,25);
+    }
+    while(getDist(exitIndex) < 3);
+
     for(int i = 0; i < NBROFROOMS; i++)
     {
         if(i==0)
