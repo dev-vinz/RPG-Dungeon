@@ -38,6 +38,18 @@ public:
     QGridLayout *layout = new QGridLayout(window); //Remove: (window) when connected with gameManager
     QGridLayout *miniMapLayout = new QGridLayout(miniMapWindow); //Remove: (window) when connected with gameManager
 
+    Room getActive();
+
+    ~Map();
+
+protected:
+
+    //Index of the active room
+    int activeRoom = 0;
+    //Array receiving generated rooms
+    Room rooms[NBROFROOMS];
+    //ButtonGroup used to know which button is pushed, the button's id is the same as it's index in the rooms array
+    QButtonGroup *roomsBtnGroup = new QButtonGroup;
     //Buttons used for the miniMap display
     QPushButton *topMini = new QPushButton;
     QPushButton *leftMini = new QPushButton;
@@ -45,7 +57,6 @@ public:
     QPushButton *bottomMini = new QPushButton;
     QPushButton *activeMini = new QPushButton;
 
-    Room getActive();
     /**
      * @brief sets new active room, changes buttons stylesheet
      */
@@ -65,22 +76,7 @@ public:
      * @brief Used to check y distance for the miniMap display
      * @param otherRoom index
      */
-    int checkDistY(int); 
-    /**
-     * @brief Used to move player if distance with a room is == 1
-     * @param clickedRoomid
-     */
-    void move(int);
-
-    ~Map();
-
-protected:
-    //Index of the active room
-    int activeRoom = 0;
-    //Array receiving generated rooms
-    Room rooms[NBROFROOMS];
-    //ButtonGroup used to know which button is pushed, the button's id is the same as it's index in the rooms array
-    QButtonGroup *roomsBtnGroup = new QButtonGroup;
+    int checkDistY(int);
     /**
      * @brief Generates room in 4x6 disposition, directly adds them to rooms array, ButtonGroup and layout
      */
@@ -91,6 +87,11 @@ protected:
     void connectRooms();
     void generateMiniMap();
     void generateRoomType();
+    /**
+     * @brief Used to move player if distance with a room is == 1
+     * @param clickedRoomid
+     */
+    void move(int);
     void revealMap();
     /**
      * @brief Used when changing active room to show adjacent rooms
