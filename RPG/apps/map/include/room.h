@@ -10,7 +10,7 @@
 
 #include <QPushButton>
 
-
+/*Room class is used for the Map class. It is used to have a PushButton as well as a type and other attributes*/
 
 class Room
 {
@@ -21,19 +21,22 @@ public:
         Start = 'E',
         Exit = 'S',
         Event = '?',
-        Battle = '!',
-        Current = 'P'
+        Battle = '!'
     };
     Room();
     Room(Room *r);
+    /**
+     * @brief Constructor used for the room generation in map class in order to have the correct room disposition in the layout
+     */
     Room(int, int);  
     QPushButton *roomBtn = new QPushButton;
 
+    //Getters
     int getPosx();
     int getPosy();
     bool isVisited();
     RoomType getType();
-
+    //Setters
     void setVisited(bool);
     void setType(RoomType);
 
