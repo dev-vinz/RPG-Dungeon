@@ -14,13 +14,14 @@
 #include <cmath>
 #include <QRandomGenerator>
 #include <QString>
+#include <QGraphicsScene>
 #include "room.h"
 
 #define NBROFROOMS 24
 #define MAXWIDTH 50
 #define MINWIDTH 50
-#define MAXHEIGTH 50
-#define MINHEIGTH 50
+#define MAXHEIGHT 50
+#define MINHEIGHT 50
 #define VERTICALSPACING 5
 #define HORIZONTALSPACING 5
 
@@ -37,6 +38,8 @@ public:
     QWidget *miniMapWindow = new QWidget; //Used only for display when not connected to gameManger
     QGridLayout *layout = new QGridLayout(window); //Remove: (window) when connected with gameManager
     QGridLayout *miniMapLayout = new QGridLayout(miniMapWindow); //Remove: (window) when connected with gameManager
+
+    QGraphicsScene *getScene(int, int) const;
 
     Room getActive();
 

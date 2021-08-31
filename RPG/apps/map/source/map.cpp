@@ -81,8 +81,8 @@ void Map::createRooms()
         }
         roomsBtnGroup->addButton(rooms[i].roomBtn, i);
         layout->addWidget(rooms[i].roomBtn, rooms[i].getPosx(), rooms[i].getPosy());
-        rooms[i].roomBtn->setMinimumSize(MINWIDTH, MINHEIGTH);
-        rooms[i].roomBtn->setMaximumSize(MAXWIDTH, MAXHEIGTH);
+        rooms[i].roomBtn->setMinimumSize(MINWIDTH, MINHEIGHT);
+        rooms[i].roomBtn->setMaximumSize(MAXWIDTH, MAXHEIGHT);
     }
 }
 
@@ -132,16 +132,16 @@ void Map::generateMiniMap()
     sp_retain_bottom.setRetainSizeWhenHidden(true);
     bottomMini->setSizePolicy(sp_retain_bottom);
 
-    activeMini->setMinimumSize(MINWIDTH, MINHEIGTH);
-    activeMini->setMaximumSize(MAXWIDTH, MAXHEIGTH);
-    topMini->setMinimumSize(MINWIDTH, MINHEIGTH);
-    topMini->setMaximumSize(MAXWIDTH, MAXHEIGTH);
-    leftMini->setMinimumSize(MINWIDTH, MINHEIGTH);
-    leftMini->setMaximumSize(MAXWIDTH, MAXHEIGTH);
-    rightMini->setMinimumSize(MINWIDTH, MINHEIGTH);
-    rightMini->setMaximumSize(MAXWIDTH, MAXHEIGTH);
-    bottomMini->setMinimumSize(MINWIDTH, MINHEIGTH);
-    bottomMini->setMaximumSize(MAXWIDTH, MAXHEIGTH);
+    activeMini->setMinimumSize(MINWIDTH, MINHEIGHT);
+    activeMini->setMaximumSize(MAXWIDTH, MAXHEIGHT);
+    topMini->setMinimumSize(MINWIDTH, MINHEIGHT);
+    topMini->setMaximumSize(MAXWIDTH, MAXHEIGHT);
+    leftMini->setMinimumSize(MINWIDTH, MINHEIGHT);
+    leftMini->setMaximumSize(MAXWIDTH, MAXHEIGHT);
+    rightMini->setMinimumSize(MINWIDTH, MINHEIGHT);
+    rightMini->setMaximumSize(MAXWIDTH, MAXHEIGHT);
+    bottomMini->setMinimumSize(MINWIDTH, MINHEIGHT);
+    bottomMini->setMaximumSize(MAXWIDTH, MAXHEIGHT);
 }
 
 void Map::generateRoomType()
@@ -193,6 +193,16 @@ void Map::move(int clickedRoomid)
         changeActive(clickedRoomid);
         updateMiniMap();
     }
+}
+
+QGraphicsScene *Map::getScene(int _width, int _height) const
+{
+    QGraphicsView *view = new QGraphicsView;
+    QGraphicsScene *scene = new QGraphicsScene;
+    scene->setSceneRect(0,0,_width,_height);
+    view->setScene(scene);
+    view->setLayout(layout);
+    return view->scene();
 }
 
 void Map::revealTile()
