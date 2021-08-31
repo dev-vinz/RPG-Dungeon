@@ -1,8 +1,8 @@
 #include "..\include\wizard.h"
 
+#include <QLabel>
 
-
-Wizard::Wizard(int _damage ,int _agility ,int _defense ,double _health, double _mana) :Player(_damage, _agility, _defense, _health)
+Wizard::Wizard(int _damage ,int _agility ,int _defense ,double _health, double _mana) : Player(_damage, _agility, _defense, _health)
 {
     this->mana = _mana;
 }
@@ -27,20 +27,37 @@ void Wizard::attack1(Character* _character)
         _character->updateHealth(-damage);
     }
 }
-void Wizard::show()
+QGridLayout *Wizard::show() const
 {
-    cout << endl
-         << "=========================" << endl
-         << "Name : " << this->getName() << endl
-         << "=========================" << endl
-         << "Damage : " << this->getDamage() << endl
-         << "Health : " << this->getHealth() << endl
-         << "Agility : " << this->getAgility() << endl
-         << "Defense : " << this->getDefense() << endl
-         << "Mana :" << this->getMana() <<endl;
-         //   << "Item : "; this->pObject->show();
-         cout << "=========================" << endl
-         << endl;
+    QGridLayout *statistics = new QGridLayout;
+    //Sprite
+    QLabel *myimage = new QLabel();
+    QPixmap pix("C:/DEV/HES_ETE_Projet/QT/Serie7_Ex1/img/Smiley.jpg");
+    pix.scaled(20,20);
+    myimage->setPixmap(pix);
+    statistics->addWidget(myimage,0,0,Qt::AlignCenter);
+    return statistics;
+}
+QGridLayout *Wizard::showStat() const
+{
+    QGridLayout *statistics = new QGridLayout;
+    //sprite
+    QLabel *myimage = new QLabel();
+    QPixmap pix("C:/DEV/HES_ETE_Projet/QT/Serie7_Ex1/img/Smiley.jpg");
+    pix.scaled(20,20);
+    myimage->setPixmap(pix);
+    //Name
+    QString Name = QString("%1").arg(this->getName());
+    QLabel *wizardName = new QLabel(Name);
+    //stat
+    QLabel *wizardStat1 = new QLabel(QString::number(this->getHealth())+ "/" + QString::number(MAX_HEALTH));
+    QLabel *wizardStat2 = new QLabel(QString::number(this->getMana())+ "/" + QString::number(MAX_MANA));
+    //add
+    statistics->addWidget(myimage,0,0,Qt::AlignCenter);
+    statistics->addWidget(wizardName, 1, 0, Qt::AlignCenter);
+    statistics->addWidget(wizardStat1,2, 0, Qt::AlignCenter);
+    statistics->addWidget(wizardStat2,3, 0, Qt::AlignCenter);
+    return statistics;
 }
 
 void Wizard::updateMana(double _mana)

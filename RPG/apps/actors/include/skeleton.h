@@ -1,3 +1,9 @@
+/**
+ * RPG Project
+ * Authors : Vincent JEANNIN, Benjamin MOUCHET, Guillaume MOUCHET
+ * Date : 30.08.2021
+ * Course : HES d'Été
+ */
 #ifndef SKELETON_H
 #define SKELETON_H
 
@@ -15,7 +21,8 @@ public:
     Skeleton()=delete;
     Skeleton(int,int, int, double);
     ~Skeleton();
-    string getName() override {return "Skeleton";};
+    QString getName() const override {return QString("Skeleton");};
+    QGridLayout virtual *show() const override;
 };
 
 #endif // SKELETON_H

@@ -1,3 +1,10 @@
+
+/**
+ * RPG Project
+ * Authors : Vincent JEANNIN, Benjamin MOUCHET, Guillaume MOUCHET
+ * Date : 30.08.2021
+ * Course : HES d'Été
+ */
 #ifndef HEALER_H
 #define HEALER_H
 #include "player.h"
@@ -12,7 +19,9 @@ public:
 Healer()=delete;
 Healer(int _damage, int _agility, int _defense, double _health);
 ~Healer();
-string getName() override{return "Healer";};
+QString getName() const override{return QString("Healer");};
+QGridLayout virtual *show() const override;
+QGridLayout virtual *showStat() const override;
 
 };
 #endif

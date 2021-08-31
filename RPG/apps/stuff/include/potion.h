@@ -1,3 +1,9 @@
+/**
+ * RPG Project
+ * Authors : Vincent JEANNIN, Benjamin MOUCHET, Guillaume MOUCHET
+ * Date : 30.08.2021
+ * Course : HES d'Été
+ */
 #ifndef POTION_H
 #define POTION_H
 
