@@ -17,7 +17,7 @@
 #include <QGraphicsView>
 
 #include "game.h"
-#include "../../../map.h"
+#include "../../map/include/map.h"
 
 class GameManager : public QWidget
 {
@@ -39,7 +39,7 @@ protected:
     void mousePressEvent(QMouseEvent *event) override;
 
 private:
-    ActualDisplay currentDisplay = GameManager::ActualDisplay::GameDisplay;
+    ActualDisplay currentDisplay = GameManager::ActualDisplay::MapDisplay;
     Game *game;
     Map *map;
 

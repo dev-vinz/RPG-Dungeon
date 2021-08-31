@@ -10,7 +10,7 @@ void GameManager::display()
     // Créer une scène ici, et ajouter le game (item)
     QGridLayout *globalGrid = new QGridLayout(this);
     this->map = new Map;
-    this->game = new Game(this->size(), this->map);
+    this->game = new Game(this->map);
 
     QGridLayout *actionButtons = this->createActionButtons();
     QGridLayout *characterStatistics = this->createCharacterStatistics();
@@ -19,7 +19,11 @@ void GameManager::display()
     QGridLayout *miniMap = this->createMiniMap();
 
     // Create the global layout
-    globalGrid->addWidget(this->game, 0, 0, 4, 4);
+    if (this->currentDisplay == GameManager::ActualDisplay::GameDisplay)
+        globalGrid->addWidget(this->game, 0, 0, 4, 4);
+    else
+        globalGrid->addLayout(this->map->getMap(), 0, 0, 4, 4);
+
     globalGrid->addLayout(actionButtons, 4, 0, 1, 2);
     globalGrid->addLayout(characterStatistics, 0, 4, 3, 1);
     globalGrid->addLayout(informations, 5, 0, 1, 4);
@@ -140,14 +144,11 @@ QGridLayout *GameManager::createLegends()
  */
 QGridLayout *GameManager::createMiniMap()
 {
-    // TODO : Get mini map from Map::getMiniQGridLayout();
-    // TEMP : Labels
     QLabel *mapTitle = new QLabel("Mini Map");
-    QLabel *mapObject = new QLabel("MINI MAP OBJECT");
+    QGridLayout *miniMap = this->map->getMiniMap();
 
-    QGridLayout *miniMap = new QGridLayout;
     miniMap->addWidget(mapTitle, 0, 0, Qt::AlignHCenter);
-    miniMap->addWidget(mapObject, 1, 0, Qt::AlignCenter);
+    miniMap->addLayout(miniMap, 1, 0);
 
     return miniMap;
 }

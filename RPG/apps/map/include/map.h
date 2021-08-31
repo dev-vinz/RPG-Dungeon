@@ -27,8 +27,8 @@ public:
 
     QWidget *window = new QWidget;
     QWidget *miniMapWindow = new QWidget;
-    QGridLayout *layout = new QGridLayout(window);
-    QGridLayout *miniMapLayout = new QGridLayout(miniMapWindow);
+    QGridLayout *layout = new QGridLayout;
+    QGridLayout *miniMapLayout = new QGridLayout;
 
     QPushButton *topMini = new QPushButton;
     QPushButton *leftMini = new QPushButton;
@@ -36,12 +36,17 @@ public:
     QPushButton *bottomMini = new QPushButton;
     QPushButton *activeMini = new QPushButton;
 
+    Room getActive();
+    QButtonGroup *getButtonGroup() const;
+
     void changeActive(int);
     void move(int);
     bool checkDist(int);
     int checkDistX(int);
     int checkDistY(int);
 
+    QGridLayout *getMiniMap() const;
+    QGridLayout *getMap() const;
 
     ~Map();
 

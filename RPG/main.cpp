@@ -6,8 +6,6 @@
  */
 
 #include <QApplication>
-#include "apps\map\include\map.h"
-#include "apps\map\include\room.h"
 
 #include "RPG/apps/game/include/gamemanager.h"
 

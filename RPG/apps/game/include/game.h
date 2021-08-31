@@ -12,7 +12,9 @@
 #include <QGraphicsScene>
 
 #include "../../event/include/eventmanager.h"
-#include "../../../map.h"
+#include "../../map/include/map.h"
+
+#include <QLabel>
 
 class Game : public QGraphicsView
 {
@@ -23,25 +25,29 @@ private:
     const int GAME_WIDTH = 1700;
     const int GAME_HEIGHT = 1000;
 
-    bool isPlaying = false;
+    bool isExitFound = false;
+
     EventManager eventManager;
     Map *map;
     QGraphicsScene *gameScene;
 
+    void createScene();
     void end();
-    void createScene(QSize);
+    void initializePlayer();
 
 public:
-    Game(QSize _size, Map *_map, QWidget *_parent = nullptr);
+    Game(Map *_map, QWidget *_parent = nullptr);
 
     QGraphicsScene *getScene();
 
+    void play();
     void start();
     void updateScene();
 
 protected:
     void battle();
-    void releaseEvent();
+    void chooseRandomEvent();
+    void releaseEvent(Room::RoomType);
     void riddle();
     void treasure();
 };

@@ -1,4 +1,5 @@
-QT       += core gui
+QT       += core gui \
+            sql
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -11,11 +12,25 @@ CONFIG += c++11
 SOURCES += \
     ".\RPG\main.cpp" \
     ".\RPG\apps\map\source\map.cpp" \
-    ".\RPG\apps\map\source\room.cpp"
+    ".\RPG\apps\map\source\room.cpp" \
+    ".\RPG\apps\game\source\game.cpp" \
+    ".\RPG\apps\game\source\gamemanager.cpp" \
+    ".\RPG\apps\event\source\eventmanager.cpp" \
+    ".\RPG\apps\event\source\battle.cpp" \
+    ".\RPG\apps\event\source\loot.cpp" \
+    ".\RPG\apps\event\source\riddle.cpp"
+
 
 HEADERS += \
     ".\RPG\apps\map\include\map.h" \
-    ".\RPG\apps\map\include\room.h"
+    ".\RPG\apps\map\include\room.h" \
+    ".\RPG\apps\game\include\game.h" \
+    ".\RPG\apps\game\include\gamemanager.h" \
+    ".\RPG\apps\event\include\eventmanager.h" \
+    ".\RPG\apps\event\include\battle.h" \
+    ".\RPG\apps\event\include\loot.h" \
+    ".\RPG\apps\event\include\riddle.h"
+
 
 FORMS +=
 

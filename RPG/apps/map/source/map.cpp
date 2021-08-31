@@ -9,8 +9,19 @@ Map::Map(QWidget *parent)
     connectRooms();
     generateMiniMap();
     updateMiniMap();
-    window->show();
-    miniMapWindow->show();
+
+    //window->show();
+    //miniMapWindow->show();
+}
+
+QGridLayout *Map::getMiniMap() const
+{
+    return this->miniMapLayout;
+}
+
+QGridLayout *Map::getMap() const
+{
+    return this->layout;
 }
 
 void Map::createRooms()
@@ -182,6 +193,17 @@ void Map::generateRoomType()
         }
     }
 }
+
+Room Map::getActive()
+{
+    return rooms[activeRoom];
+}
+
+QButtonGroup *Map::getButtonGroup() const
+{
+    return this->roomsBtnGroup;
+}
+
 Map::~Map()
 {
 }
