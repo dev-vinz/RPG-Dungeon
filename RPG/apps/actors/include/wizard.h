@@ -7,9 +7,9 @@
 #ifndef WIZARD_H
 #define WIZARD_H
 #include "player.h"
-#include <iostream>
 
-using namespace std;
+
+
 class Wizard : public Player
 {
 protected:

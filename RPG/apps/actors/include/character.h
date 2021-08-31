@@ -7,7 +7,7 @@
 #ifndef CHARACTER_H
 #define CHARACTER_H
 
-#include <iostream>
+
 #include <string>
 #include <QRandomGenerator>
 #include <QString>
@@ -15,7 +15,7 @@
 
 
 #include "..\..\..\settings\settings.h"
-using namespace std;
+
 class Character
 {
 protected:

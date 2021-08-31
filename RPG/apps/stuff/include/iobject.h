@@ -7,9 +7,9 @@
 #ifndef IOBJECT_H
 #define IOBJECT_H
 
-#include <iostream>
+
 #include "..\..\actors\include\character.h"
-using namespace std;
+
 
 class IObject
 {
@@ -20,7 +20,7 @@ public:
     IObject(int _power);
     ~IObject();
 
-    string virtual getName() = 0;
+    QString virtual getName() = 0;
     int virtual getFeature() = 0;
     void show();
     void virtual use(Character* _character) = 0;

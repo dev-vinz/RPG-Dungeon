@@ -8,7 +8,7 @@
 #define SCROLL_H
 
 #include "iobject.h"
-#include <iostream>
+
 class Scroll : public IObject
 {
 public:
@@ -20,7 +20,7 @@ public:
 
     void virtual use(Character* _character) override;
     int getFeature() override{return this->power;};
-    string getName() override{return "Scroll";};
+    QString getName() override{return QString("Scroll");};
 
 };
 

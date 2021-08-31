@@ -7,8 +7,6 @@
 #ifndef OPPONENT_H
 #define OPPONENT_H
 #include "character.h"
-#include <iostream>
-using namespace std;
 
 class Opponent : public Character
 {

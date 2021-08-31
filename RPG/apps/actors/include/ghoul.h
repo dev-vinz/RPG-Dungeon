@@ -7,9 +7,9 @@
 #ifndef GHOUL_H
 #define GHOUL_H
 #include "opponent.h"
-#include <iostream>
 
-using namespace std;
+
+
 class Ghoul : public Opponent
 {
 protected:

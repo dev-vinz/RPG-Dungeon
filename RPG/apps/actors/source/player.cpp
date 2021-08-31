@@ -11,7 +11,7 @@ Player::Player(int _damage, int _agility, int _defense, double _health) : Charac
 
 void Player::backpack()
 {
-    cout<<"Bienvenue dans votre sac à dos"<<endl;
+    //cout<<"Bienvenue dans votre sac à dos"<<endl;
     this->playerBackpack.show();
 
     //this->playerBackpack.useItem(0,this);
@@ -20,7 +20,7 @@ void Player::backpack()
 
 void Player::flee()
 {
-    cout << "Vous fuyez" << endl;
+    //cout << "Vous fuyez" << endl;
     exit(-1);
 }
 

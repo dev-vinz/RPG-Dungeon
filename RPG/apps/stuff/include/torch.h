@@ -7,10 +7,10 @@
 #ifndef TORCH_H
 #define TORCH_H
 
-#include <iostream>
+
 
 #include "iobject.h"
-using namespace std;
+
 
 class Torch : public IObject
 {
@@ -20,7 +20,7 @@ public:
     ~Torch();
     void virtual use(Character* _character) override;
     int getFeature() override{return this->power;};
-    string getName() override{return "Torch";};
+    QString getName() override{return QString("Torch");};
 
 };
 

@@ -8,7 +8,7 @@ Wizard::Wizard(int _damage ,int _agility ,int _defense ,double _health, double _
 }
 void Wizard::attack1(Character* _character)
 {
-    cout << "Vous faites une attaque simple" << endl;
+    //cout << "Vous faites une attaque simple" << endl;
     int damage = this->totalDamage(_character);
     _character->updateHealth(-damage);
 }
@@ -18,11 +18,11 @@ void Wizard::attack1(Character* _character)
     if(manaCost>this->getMana())
     {
         //globalLabel->UpdateText("Vous n'avez pas assez de mana.");
-        cout <<"Vous n'avez pas assez de mana." << endl;
+        //cout <<"Vous n'avez pas assez de mana." << endl;
         this->interaction(_character, Action::attack1);
     }else{
         this->updateMana(-manaCost);
-        cout << "Vous faire une grosse attaque" << endl;
+        //cout << "Vous faire une grosse attaque" << endl;
         int damage = this->totalDamage(_character) + 10;
         _character->updateHealth(-damage);
     }

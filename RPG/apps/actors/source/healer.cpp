@@ -6,14 +6,14 @@ void Healer::attack1(Character* _character)
     //Watch to target a Player and not an Opponent
 
     int heal = 20;
-    cout << "Vous soignez un allié" << endl;
+    //cout << "Vous soignez un allié" << endl;
     _character->updateHealth(heal);
 }
 
 void Healer::attack2(Character* _character)
 {
     int damage = this->totalDamage(_character);
-    cout << "Vous infligez des dégats." << endl;
+    //cout << "Vous infligez des dégats." << endl;
     _character->updateHealth(-damage);
 }
 

@@ -8,8 +8,10 @@
 #ifndef BATTLE_H
 #define BATTLE_H
 
+#include <list>
+
 #include "../../actors/include/opponent.h"
-//#include "../../actors/include/player.h"
+#include "../../actors/include/player.h"
 
 class Battle
 {

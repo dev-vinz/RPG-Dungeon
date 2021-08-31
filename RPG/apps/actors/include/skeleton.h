@@ -8,9 +8,9 @@
 #define SKELETON_H
 
 #include "opponent.h"
-#include <iostream>
 
-using namespace std;
+
+
 
 class Skeleton : public Opponent
 {

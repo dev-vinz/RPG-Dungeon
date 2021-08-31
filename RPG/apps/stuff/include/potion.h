@@ -7,9 +7,9 @@
 #ifndef POTION_H
 #define POTION_H
 
-#include <iostream>
+
 #include "iobject.h"
-using namespace std;
+
 
 class Potion : public IObject
 {
@@ -23,7 +23,7 @@ public:
     void virtual use(Character* _character)override;
 
     int getFeature() override{return this->power;};
-    string getName() override{return "Potion";};
+    QString getName() override{return QString("Potion");};
 
 };
 

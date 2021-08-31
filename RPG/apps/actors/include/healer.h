@@ -8,8 +8,8 @@
 #ifndef HEALER_H
 #define HEALER_H
 #include "player.h"
-#include <iostream>
-using namespace std;
+
+
 class Healer : public Player
 {
 protected:

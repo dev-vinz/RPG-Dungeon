@@ -11,9 +11,9 @@
 #include "..\..\stuff\include\iobject.h"
 #include "..\..\stuff\include\backpack.h"
 #include <QtWidgets/QGridLayout>
-#include <iostream>
+
 #include <QtWidgets/QGraphicsScene>
-using namespace std;
+
 class Player : public Character{
 
 public:

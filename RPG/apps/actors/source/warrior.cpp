@@ -3,13 +3,13 @@
 void Warrior::attack1(Character* _character)
 {
     int damage = this->totalDamage(_character);
-    cout << "Vous infligez des dégats" << endl;
+    //cout << "Vous infligez des dégats" << endl;
     _character->updateHealth(-damage);
 }
 
 void Warrior::attack2(Character* _character)
 {
-    cout << "Vous protegez un allié" << endl;
+    //cout << "Vous protegez un allié" << endl;
     _character->show();
 }
 

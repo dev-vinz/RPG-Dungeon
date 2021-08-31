@@ -7,9 +7,9 @@
 #ifndef WARRIOR_H
 #define WARRIOR_H
 #include "player.h"
-#include <iostream>
 
-using namespace std;
+
+
 class Warrior : public Player
 {
 protected:

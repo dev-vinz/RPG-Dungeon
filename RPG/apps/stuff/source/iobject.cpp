@@ -6,7 +6,7 @@ IObject::IObject(int _power)
 }
 void IObject::show()
 {
-    cout << this->getName() + "(" + to_string(this->getFeature()) + ")" << endl;
+    //cout << this->getName() + "(" + to_string(this->getFeature()) + ")" << endl;
 }
 
 IObject::~IObject()

@@ -19,7 +19,7 @@ class Backpack
 {
 
 private:
-    vector<IObject *> myBackpack;
+    std::vector<IObject *> myBackpack;
 public:
     Backpack();
     ~Backpack();
