@@ -116,6 +116,22 @@ void Map::generateMiniMap()
     bottomMini->setEnabled(false);
     activeMini->setEnabled(false);
 
+    QSizePolicy sp_retain_top = topMini->sizePolicy();
+    sp_retain_top.setRetainSizeWhenHidden(true);
+    topMini->setSizePolicy(sp_retain_top);
+
+    QSizePolicy sp_retain_left = leftMini->sizePolicy();
+    sp_retain_left.setRetainSizeWhenHidden(true);
+    leftMini->setSizePolicy(sp_retain_left);
+
+    QSizePolicy sp_retain_right = rightMini->sizePolicy();
+    sp_retain_right.setRetainSizeWhenHidden(true);
+    rightMini->setSizePolicy(sp_retain_right);
+
+    QSizePolicy sp_retain_bottom = bottomMini->sizePolicy();
+    sp_retain_bottom.setRetainSizeWhenHidden(true);
+    bottomMini->setSizePolicy(sp_retain_bottom);
+
     activeMini->setMinimumSize(MINWIDTH, MINHEIGTH);
     activeMini->setMaximumSize(MAXWIDTH, MAXHEIGTH);
     topMini->setMinimumSize(MINWIDTH, MINHEIGTH);
@@ -230,6 +246,7 @@ void Map::updateMiniMap()
             bottomMini->setVisible(true);
         }
     }
+
     miniMapLayout->setVerticalSpacing(VERTICALSPACING);
     miniMapLayout->setHorizontalSpacing(HORIZONTALSPACING);
 }
