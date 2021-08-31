@@ -17,7 +17,7 @@ SOURCES += \
         ".\RPG\apps\actors\source\healer.cpp" \
         ".\RPG\apps\stuff\source\iobject.cpp" \
         ".\RPG\main.cpp" \
-        ".\RPG\apps\actors\source\oponnent.cpp" \
+        ".\RPG\apps\actors\source\opponent.cpp" \
         ".\RPG\apps\actors\source\player.cpp" \
         ".\RPG\apps\stuff\source\potion.cpp" \
         ".\RPG\apps\stuff\source\scroll.cpp" \
@@ -32,6 +32,7 @@ qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
+
 HEADERS += \
     ".\RPG\apps\actors\include\character.h" \
     ".\RPG\apps\stuff\include\backpack.h" \
@@ -39,7 +40,7 @@ HEADERS += \
     ".\RPG\apps\actors\include\ghoul.h" \
     ".\RPG\apps\actors\include\healer.h" \
     ".\RPG\apps\stuff\include\iobject.h" \
-    ".\RPG\apps\actors\include\oponnent.h" \
+    ".\RPG\apps\actors\include\opponent.h" \
     ".\RPG\apps\actors\include\player.h" \
     ".\RPG\apps\stuff\include\potion.h" \
     ".\RPG\apps\stuff\include\scroll.h" \

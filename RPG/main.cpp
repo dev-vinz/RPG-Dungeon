@@ -11,7 +11,7 @@
 #include ".\apps\actors\include\healer.h"
 #include ".\apps\actors\include\wizard.h"
 
-#include ".\apps\actors\include\oponnent.h"
+#include ".\apps\actors\include\Opponent.h"
 #include ".\apps\actors\include\skeleton.h"
 #include ".\apps\actors\include\ghoul.h"
 

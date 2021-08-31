@@ -7,12 +7,12 @@
 #ifndef SKELETON_H
 #define SKELETON_H
 
-#include "oponnent.h"
+#include "opponent.h"
 #include <iostream>
 
 using namespace std;
 
-class Skeleton : public Oponnent
+class Skeleton : public Opponent
 {
 protected:
     void virtual attack1(Character*) override;

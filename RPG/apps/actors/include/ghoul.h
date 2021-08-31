@@ -6,11 +6,11 @@
  */
 #ifndef GHOUL_H
 #define GHOUL_H
-#include "oponnent.h"
+#include "opponent.h"
 #include <iostream>
 
 using namespace std;
-class Ghoul : public Oponnent
+class Ghoul : public Opponent
 {
 protected:
     void virtual attack1(Character*) override;

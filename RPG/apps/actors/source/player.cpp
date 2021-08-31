@@ -7,22 +7,7 @@ Player::Player(int _damage, int _agility, int _defense, double _health) : Charac
 {
 
 }
-/*void Player::show() const
-{
 
-    //On affiche le sprit du personnage pour les events
-    cout << endl
-         << "=========================" << endl
-         //<< "Name : " << this->getName() << endl
-         << "=========================" << endl
-         << "Damage : " << this->getDamage() << endl
-         << "Health : " << this->getHealth() << endl
-         << "Agility : " << this->getAgility() << endl
-         << "Defense : " << this->getDefense() << endl;
-         //<< "Item : "; this->pObject->show();
-         cout << "=========================" << endl
-         << endl;
-}*/
 
 void Player::backpack()
 {

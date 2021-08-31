@@ -40,7 +40,7 @@ QGridLayout *Wizard::show() const
 }
 QGridLayout *Wizard::showStat() const
 {
-     QGridLayout *statistics = new QGridLayout;
+    QGridLayout *statistics = new QGridLayout;
     //sprite
     QLabel *myimage = new QLabel();
     QPixmap pix("C:/DEV/HES_ETE_Projet/QT/Serie7_Ex1/img/Smiley.jpg");
