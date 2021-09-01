@@ -16,20 +16,24 @@ Map::Map(QWidget *parent)
 void Map::changeActive(int newActive)
 {
     //IF condition to keep "E" active on the entry room of the dungeon
-    if(rooms[activeRoom].getType() != Room::RoomType::Start)
+    /*if(rooms[activeRoom].getType() != Room::RoomType::Start)
     {
        rooms[activeRoom].roomBtn->setText("");
     }
     else
     {
         rooms[activeRoom].roomBtn->setText("E");
-    }
+    }*/
     //Sets new colors for visited and active rooms
-    rooms[activeRoom].roomBtn->setStyleSheet("QPushButton{ background-color: rgb(200,200,200); }\n QPushButton:disabled{ color: black; }\n");
+    //rooms[activeRoom].roomBtn->setStyleSheet("QPushButton{ background-color: rgb(200,200,200); }\n QPushButton:disabled{ color: black; }\n");
+    rooms[activeRoom].roomBtn->setStyleSheet("QPushButton{border-image:url(./debug/visited.png);}\n");
     rooms[activeRoom].setVisited(true);
+    //rooms[activeRoom].roomBtn->setIcon(QIcon());
     activeRoom = newActive;
-    rooms[newActive].roomBtn->setText("P");
-    rooms[newActive].roomBtn->setStyleSheet("QPushButton{ background-color: rgb(255,255,255); }\n QPushButton:disabled{ color: black; }\n");
+    //rooms[newActive].roomBtn->setText("");
+    //rooms[newActive].roomBtn->setStyleSheet("QPushButton{ background-color: rgb(255,255,255); }\n QPushButton:disabled{ color: black; }\n");
+    //rooms[newActive].roomBtn->setIcon(QIcon(REDICONPATH));
+    rooms[newActive].roomBtn->setStyleSheet("QPushButton{border-image:url(./debug/active.png);}\n");
     revealTile();
 }
 
@@ -100,9 +104,12 @@ void Map::generateMiniMap()
     miniMapLayout->setHorizontalSpacing(HORIZONTALSPACING);
 
     //activeMini button never changes stylesheet, it is defined here
-    activeMini->setText(rooms[activeRoom].roomBtn->text());
-    activeMini->setStyleSheet("QPushButton:disabled{ background-color: rgb(255,255,255);color: black; }\n");
-
+    //activeMini->setText(rooms[activeRoom].roomBtn->text());
+    //activeMini->setStyleSheet("QPushButton:disabled{ background-color: rgb(255,255,255);color: black; }\n");
+    //QIcon icon;
+    //icon.addPixmap(QPixmap(REDICONPATH), QIcon::Disabled); //This is to prevent the icon to grey out
+    //activeMini->setIcon(QIcon(icon));
+    activeMini->setStyleSheet("QPushButton{border-image:url(./debug/active.png);}\n");
     //The five buttons are added to the miniMap, they will be set in/visible when updateMiniMap() is called
     miniMapLayout->addWidget(topMini,0,1);
     miniMapLayout->addWidget(leftMini,1,0);
@@ -184,7 +191,10 @@ Room Map::getActive()
 {
     return rooms[activeRoom];
 }
-
+int Map::getActiveId() const
+{
+    return this->activeRoom;
+}
 void Map::move(int clickedRoomid)
 {
 
@@ -211,9 +221,22 @@ void Map::revealTile()
     {
         if(checkDist(i)==true && rooms[i].isVisited()==false)
         {
-            QString roomType = QChar((char)rooms[i].getType());
-            rooms[i].roomBtn->setStyleSheet("QPushButton{ background-color: rgb(100,100,100); }\n QPushButton:disabled{ color: black; }\n");
-            rooms[i].roomBtn->setText(roomType);
+            if(rooms[i].getType() == Room::RoomType::Battle)
+            {
+                rooms[i].roomBtn->setStyleSheet("QPushButton{border-image:url(./debug/monster.png);}\n");
+            }
+            else if (rooms[i].getType() == Room::RoomType::Event)
+            {
+                rooms[i].roomBtn->setStyleSheet("QPushButton{border-image:url(./debug/event.png);}\n");
+            }
+            else if (rooms[i].getType() == Room::RoomType::Exit)
+            {
+                rooms[i].roomBtn->setStyleSheet("QPushButton{border-image:url(./debug/exit.png);}\n");
+            }
+            //QString roomType = QChar((char)rooms[i].getType());
+            //rooms[i].roomBtn->setStyleSheet("QPushButton{ background-color: rgb(100,100,100); }\n QPushButton:disabled{ color: black; }\n");
+            //rooms[i].roomBtn->setText(roomType);
+
         }
     }
 }
