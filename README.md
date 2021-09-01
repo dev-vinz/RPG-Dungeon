@@ -1,10 +1,6 @@
 # Project Overview
 
-# Table of Contents
-
-- [Project Overview](#project-overview)
-- [Table of Contents](#table-of-contents)
-- [Contributors](#contributors)
+- [Project Wiki](https://gitlab-etu.ing.he-arc.ch/isc/2021-22/niveau-2/conception-logiciel-intro-donnees/g3/-/wikis/home)
 
 # Contributors
 
