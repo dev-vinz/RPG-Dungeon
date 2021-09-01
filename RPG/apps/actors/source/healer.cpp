@@ -4,7 +4,6 @@
 void Healer::attack1(Character* _character)
 {
     //Watch to target a Player and not an Opponent
-
     int heal = 20;
     cout << "Vous soignez un allié" << endl;
     _character->updateHealth(heal);
