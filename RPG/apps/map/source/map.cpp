@@ -34,6 +34,7 @@ void Map::changeActive(int newActive)
     //rooms[newActive].roomBtn->setStyleSheet("QPushButton{ background-color: rgb(255,255,255); }\n QPushButton:disabled{ color: black; }\n");
     //rooms[newActive].roomBtn->setIcon(QIcon(REDICONPATH));
     rooms[newActive].roomBtn->setStyleSheet("QPushButton{border-image:url(./debug/active.png);}\n");
+    //rooms[newActive].setVisited(true);
     revealTile();
 }
 
@@ -158,7 +159,7 @@ void Map::generateRoomType()
     int exitIndex = 0;
     do
     {
-        exitIndex=QRandomGenerator::global()->bounded(1,25);
+        exitIndex=QRandomGenerator::global()->bounded(1,24);
     }
     while(getDist(exitIndex) < 3);
 
@@ -187,9 +188,9 @@ void Map::generateRoomType()
     }
 }
 
-Room Map::getActive()
+Room *Map::getActive()
 {
-    return rooms[activeRoom];
+    return &rooms[activeRoom];
 }
 int Map::getActiveId() const
 {
@@ -200,6 +201,7 @@ void Map::move(int clickedRoomid)
 
     if(checkDist(clickedRoomid))
     {
+        qDebug() << "Clicked";
         changeActive(clickedRoomid);
         updateMiniMap();
     }
@@ -214,7 +216,31 @@ QGraphicsScene *Map::getScene(int _width, int _height) const
     view->setLayout(layout);
     return view->scene();
 }
+void Map::revealMap()
+{
+    for(int i = 0; i < NBROFROOMS; i++)
+    {
+        if(rooms[i].isVisited()==false)
+        {
+            if(rooms[i].getType() == Room::RoomType::Battle)
+            {
+                rooms[i].roomBtn->setStyleSheet("QPushButton{border-image:url(./debug/monster.png);}\n");
+            }
+            else if (rooms[i].getType() == Room::RoomType::Event)
+            {
+                rooms[i].roomBtn->setStyleSheet("QPushButton{border-image:url(./debug/event.png);}\n");
+            }
+            else if (rooms[i].getType() == Room::RoomType::Exit)
+            {
+                rooms[i].roomBtn->setStyleSheet("QPushButton{border-image:url(./debug/exit.png);}\n");
+            }
+            //QString roomType = QChar((char)rooms[i].getType());
+            //rooms[i].roomBtn->setStyleSheet("QPushButton{ background-color: rgb(100,100,100); }\n QPushButton:disabled{ color: black; }\n");
+            //rooms[i].roomBtn->setText(roomType);
 
+        }
+    }
+}
 void Map::revealTile()
 {
     for(int i = 0; i < NBROFROOMS; i++)

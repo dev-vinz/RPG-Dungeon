@@ -21,9 +21,9 @@
 #include "room.h"
 
 #define NBROFROOMS 24
-#define MAXWIDTH 100
+#define MAXWIDTH 200
 #define MINWIDTH 100
-#define MAXHEIGHT 100
+#define MAXHEIGHT 200
 #define MINHEIGHT 100
 #define VERTICALSPACING 5
 #define HORIZONTALSPACING 5
@@ -45,9 +45,12 @@ public:
 
     QGraphicsScene *getScene(int, int) const;
 
-    Room getActive();
+    Room *getActive();
     int getActiveId() const;
-
+    /**
+     * @brief Is called when Torch item is used
+     */
+    void revealMap();
     ~Map();
 
 protected:
@@ -104,7 +107,7 @@ protected:
      * @brief Returns distance between two rooms
      */
     int getDist(int);
-    void revealMap();
+
     /**
      * @brief Used when changing active room to show adjacent rooms
      */
