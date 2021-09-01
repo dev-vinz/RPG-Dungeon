@@ -3,6 +3,9 @@
  * Authors : Vincent JEANNIN, Benjamin MOUCHET, Guillaume MOUCHET
  * Date : 30.08.2021
  * Course : HES d'Été
+ * Games assets taken from:     https://0x72.itch.io/dungeontileset-ii?download  Artist: 0x72
+ *                              https://pixel-poem.itch.io/dungeon-assetpuck    Artist: Pixel_Poem
+ *                              https://ohnoponogames.itch.io/retro-cloud-tileset   Artist: ohnoponogames
  */
 
 #ifndef MAP_H
@@ -18,12 +21,13 @@
 #include "room.h"
 
 #define NBROFROOMS 24
-#define MAXWIDTH 50
-#define MINWIDTH 50
-#define MAXHEIGHT 50
-#define MINHEIGHT 50
+#define MAXWIDTH 200
+#define MINWIDTH 100
+#define MAXHEIGHT 200
+#define MINHEIGHT 100
 #define VERTICALSPACING 5
 #define HORIZONTALSPACING 5
+#define UNKNOWNROOMPATH "./debug/unknownRoom.png"
 
 /*Map class is an aggregation of room instances, main purpose is to manage the player's movements*/
 
@@ -42,6 +46,12 @@ public:
 
     QGraphicsScene *getScene() const;
 
+    Room *getActive();
+    int getActiveId() const;
+    /**
+     * @brief Is called when Torch item is used
+     */
+    void revealMap();
     Room getActive();
     QButtonGroup *getButtonGroup() const;
 
@@ -109,7 +119,7 @@ protected:
      * @brief Returns distance between two rooms
      */
     int getDist(int);
-    void revealMap();
+
     /**
      * @brief Used when changing active room to show adjacent rooms
      */

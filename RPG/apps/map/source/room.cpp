@@ -9,7 +9,8 @@ Room::Room(int _x, int _y)
 {
     this->posx = _x;
     this->posy = _y;
-    roomBtn->setStyleSheet("QPushButton{ background-color: rgb(0,0,0); }\n");
+    //roomBtn->setStyleSheet("QPushButton{ background-color: rgb(0,0,0); }\n");
+    roomBtn->setStyleSheet("QPushButton{border-image:url(./debug/unknown.png);}\n");
 }
 
 Room::Room(Room *r)

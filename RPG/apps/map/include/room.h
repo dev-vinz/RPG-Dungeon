@@ -10,6 +10,7 @@
 
 #include <QPushButton>
 
+
 /*Room class is used for the Map class. It is used to have a PushButton as well as a type and other attributes*/
 
 class Room
