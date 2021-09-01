@@ -1,16 +1,21 @@
 #include "..\include\warrior.h"
 #include <QLabel>
+
+#include <QMessageBox>
+
 void Warrior::attack1(Character* _character)
 {
-    int damage = this->totalDamage(_character);
-    //cout << "Vous infligez des dégats" << endl;
-    _character->updateHealth(-damage);
+    //cout << "Vous protegez un allié" << endl;
+    _character->show();
+    QMessageBox::information(NULL, "Warrior", QString("Help on %1").arg(_character->getName()));
 }
 
 void Warrior::attack2(Character* _character)
 {
-    //cout << "Vous protegez un allié" << endl;
-    _character->show();
+    QMessageBox::information(NULL, "Warrior", QString("Attack on %1").arg(_character->getName()));
+    int damage = this->totalDamage(_character);
+    //cout << "Vous infligez des dégats" << endl;
+    _character->updateHealth(-damage);
 }
 
 Warrior::Warrior(int _damage ,int _agility ,int _defense ,double _health) :Player (_damage, _agility, _defense, _health)

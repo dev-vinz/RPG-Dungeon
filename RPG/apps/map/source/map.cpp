@@ -13,6 +13,11 @@ Map::Map(QWidget *parent)
     //miniMapWindow->show();//Used only for display when not connected to gameManger
 }
 
+int Map::getActiveId() const
+{
+    return this->activeRoom;
+}
+
 void Map::changeActive(int newActive)
 {
     //IF condition to keep "E" active on the entry room of the dungeon
@@ -30,6 +35,7 @@ void Map::changeActive(int newActive)
     activeRoom = newActive;
     rooms[newActive].roomBtn->setText("P");
     rooms[newActive].roomBtn->setStyleSheet("QPushButton{ background-color: rgb(255,255,255); }\n QPushButton:disabled{ color: black; }\n");
+    //rooms[newActive].setVisited(true);
     revealTile();
 }
 

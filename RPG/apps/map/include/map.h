@@ -50,12 +50,21 @@ public:
 
     ~Map();
 
+    /**
+     * @brief Checks distance with another room
+     * @param otherRoom index
+     * @return true if distance with a room == 1
+     */
+    bool checkDist(int);
+
+    int getActiveId() const;
+    Room rooms[NBROFROOMS];
+
 protected:
 
     //Index of the active room
     int activeRoom = 0;
     //Array receiving generated rooms
-    Room rooms[NBROFROOMS];
     //ButtonGroup used to know which button is pushed, the button's id is the same as it's index in the rooms array
     QButtonGroup *roomsBtnGroup = new QButtonGroup;
     //Buttons used for the miniMap display
@@ -69,12 +78,6 @@ protected:
      * @brief sets new active room, changes buttons stylesheet
      */
     void changeActive(int);
-    /**
-     * @brief Checks distance with another room
-     * @param otherRoom index
-     * @return true if distance with a room == 1
-     */
-    bool checkDist(int);
     /**
      * @brief Used to check x distance for the miniMap display
      * @param otherRoom index

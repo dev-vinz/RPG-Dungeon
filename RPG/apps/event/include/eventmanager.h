@@ -12,14 +12,16 @@
 #include "loot.h"
 #include "riddle.h"
 
+#include "../../../settings/ExtensionMethod.h"
+
 class EventManager
 {
 public:
     EventManager() = default;
 
-    Battle createBattle() const;
-    Loot createLoot() const;
-    Riddle createRiddle() const;
+    bool battleEvent(std::deque<Player *> *_player, QPushButton *_btnAOne, QPushButton *_btnATwo, QPushButton *_btnBackpack, QPushButton *_btnFlee) const;
+    void lootEvent(std::deque<Player *> *_player) const;
+    void riddleEvent(std::deque<Player *> *_player) const;
 };
 
 #endif // EVENTMANAGER_H

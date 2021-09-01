@@ -8,15 +8,18 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include <list>
+#include <deque>
 
 #include <QGraphicsView>
 #include <QGraphicsScene>
 
-/*#include "../../actors/include/player.h"
+#include "../../actors/include/ghoul.h"
 #include "../../actors/include/healer.h"
+#include "../../actors/include/opponent.h"
+#include "../../actors/include/player.h"
+#include "../../actors/include/skeleton.h"
 #include "../../actors/include/warrior.h"
-#include "../../actors/include/wizard.h"*/
+#include "../../actors/include/wizard.h"
 
 #include "../../event/include/eventmanager.h"
 #include "../../map/include/map.h"
@@ -34,7 +37,7 @@ private:
     const int GAME_HEIGHT = 1000;
 
     bool isExitFound = false;
-    //list<Player *> player;
+    std::deque<Player *> player;
 
     EventManager eventManager;
     Map *map;
@@ -62,7 +65,7 @@ public:
     void updateScene();
 
 protected:
-    void battle();
+    bool battle();
     void chooseRandomEvent();
     void releaseEvent(Room::RoomType);
     void riddle();

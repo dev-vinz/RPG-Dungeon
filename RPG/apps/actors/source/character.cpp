@@ -41,7 +41,7 @@ int Character::totalDamage(Character *_character)
     int total = ((this->getDamage()) * (100.0/(100+_character->getDefense())));
     return total;
 }
-
+#include <QMessageBox>
 void Character::updateHealth(double _health)
 {
     if(_health>0)
@@ -62,6 +62,7 @@ void Character::updateHealth(double _health)
         //cout << this->getName() << " perds de points de vie" << endl;
         if (this->dodge())
         {
+            QMessageBox::information(NULL, "Character", QString("%1 a dodge").arg(this->getName()));
             //globalLabel->UpdateText("Bravo vous avez esquivé l'attaque");
             //cout << this->getName() << " a esquivé l'attaque" << endl;
         } else

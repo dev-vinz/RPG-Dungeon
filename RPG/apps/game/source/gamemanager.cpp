@@ -103,16 +103,14 @@ QGridLayout *GameManager::createActionButtons()
  */
 QGridLayout *GameManager::createCharacterStatistics()
 {
-    // TODO : Add QGraphicsView *Player::getStatistics();
-    // TEMP : Labels
-    QLabel *mageStatistics = new QLabel("Stats Mage");
-    QLabel *healerStatistics = new QLabel("Stats Healer");
-    QLabel *warriorStatistics = new QLabel("Stats Warrior");
+    int row = 0;
 
     QGridLayout *statistics = new QGridLayout;
-    statistics->addWidget(mageStatistics, 0, 0, Qt::AlignCenter);
-    statistics->addWidget(healerStatistics, 1, 0, Qt::AlignCenter);
-    statistics->addWidget(warriorStatistics, 2, 0, Qt::AlignCenter);
+
+    for (Player *p : this->game->player)
+    {
+        statistics->addLayout(p->showStat(), row, 0, Qt::AlignHCenter);
+    }
 
     return statistics;
 }

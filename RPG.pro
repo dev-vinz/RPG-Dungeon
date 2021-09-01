@@ -48,6 +48,7 @@ HEADERS += \
     ".\RPG\apps\actors\include\skeleton.h" \
     ".\RPG\apps\actors\include\warrior.h" \
     ".\RPG\apps\actors\include\wizard.h" \
+    RPG/settings/ExtensionMethod.h \
     \
     ".\RPG\apps\event\include\battle.h" \
     ".\RPG\apps\event\include\eventmanager.h" \

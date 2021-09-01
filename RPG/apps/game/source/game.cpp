@@ -8,6 +8,7 @@ Game::Game(Map *_map, QWidget *_parent) : QGraphicsView(_parent)
     this->map = _map;
     this->createButtons();
     this->createScene();
+    this->initializePlayer();
 }
 
 QGraphicsScene *Game::getScene()
@@ -19,19 +20,27 @@ void Game::play()
 {
     if (this->isExitFound) return;
 
-    // Charger la salle
+    // Load room
     Room currentRoom = this->map->getActive();
 
-    // Récupérer l'évènement
+    // Get event
     Room::RoomType eventType = currentRoom.getType();
 
-    // Appeler EventManager
+    // Call event manager
     if (!currentRoom.isVisited())
         this->releaseEvent(eventType);
 
-    // Interaction avec boutons (Si bataille)
+    // TODO : Find other solution
+    this->map->rooms[this->map->getActiveId()].setVisited(true);
 
-    // Si la sortie est trouvée, arrêter le jeu
+    // Initial state of buttons
+    this->btnMap->setEnabled(true);
+    this->btnAttackOne->setEnabled(false);
+    this->btnAttackTwo->setEnabled(false);
+    this->btnBackpack->setEnabled(true);
+    this->btnFlee->setEnabled(false);
+
+    // If exit is found, stop the game
     if (this->isExitFound)
         return this->end();
 }
@@ -39,7 +48,6 @@ void Game::play()
 void Game::start()
 {
     this->isExitFound = false;
-    this->initializePlayer();
 
     QObject::connect(this->map->getButtonGroup(), &QButtonGroup::buttonClicked, this, &Game::play);
 
@@ -56,27 +64,46 @@ void Game::updateScene()
  * * * * PROTECTED METHODS * * * *
  * * * * * * * * * * * * * * * * */
 
-void Game::battle()
+bool Game::battle()
 {
-    QMessageBox::information(NULL, "Battle", "Nouvelle guerre");
-    this->btnAttackOne->setEnabled(true);
-    this->btnAttackTwo->setEnabled(true);
-    this->btnFlee->setEnabled(true);
-
-    //Battle battle(this.player);
+    return this->eventManager.battleEvent(&player, this->btnAttackOne, this->btnAttackTwo, this->btnBackpack, this->btnFlee);
 }
 
 void Game::chooseRandomEvent()
 {
-    QMessageBox::information(NULL, "Event", "Event random");
+
+    qint32 e = QRandomGenerator::global()->bounded(1, 5);
+
+    switch (e)
+    {
+    case 1:
+        // Empty room
+        QMessageBox::information(NULL, "Event", "CHEH");
+        break;
+    case 2:
+        // Riddle room
+    case 3:
+        // Riddle room
+        this->riddle();
+        break;
+    case 4:
+        this->treasure();
+        // Loot room
+        break;
+    default:
+        qDebug() << "[ERROR] Game::chooseRandomEvent : Problem with QRandomGenerator";
+        exit(-1);
+    }
 }
 
 void Game::releaseEvent(Room::RoomType _roomType)
 {
+    bool doWeContinue = true;
+
     switch (_roomType)
     {
     case Room::RoomType::Battle:
-        this->battle();
+        doWeContinue = this->battle();
         break;
     case Room::RoomType::Event:
         this->chooseRandomEvent();
@@ -93,24 +120,21 @@ void Game::releaseEvent(Room::RoomType _roomType)
         exit(-1);
     }
 
-    // Initial state of buttons
-    this->btnMap->setEnabled(true);
-    this->btnAttackOne->setEnabled(false);
-    this->btnAttackTwo->setEnabled(false);
-    this->btnBackpack->setEnabled(true);
-    this->btnFlee->setEnabled(false);
-
-    // TODO : Check si on est mort
+    if (!doWeContinue)
+    {
+        QMessageBox::information(NULL, "Information", "Vous êtes mort, vous avez perdu");
+        exit(-1);
+    }
 }
 
 void Game::riddle()
 {
-    QMessageBox::information(NULL, "Riddle", "Nouvelle énigme");
+    this->eventManager.riddleEvent(&player);
 }
 
 void Game::treasure()
 {
-    QMessageBox::information(NULL, "Treasure", "Nouveau butin");
+    this->eventManager.lootEvent(&player);
 }
 
 /* * * * * * * * * * * * * * * *
@@ -155,7 +179,7 @@ void Game::end()
 
 void Game::initializePlayer()
 {
-    /*this->player.push_back(new Warrior(80, 20, 90, 100));
+    this->player.push_back(new Warrior(80, 20, 90, 100));
     this->player.push_back(new Wizard(70, 50, 60, 100, 100));
-    this->player.push_back(new Healer(20, 80, 50, 100));*/
+    this->player.push_back(new Healer(20, 80, 50, 100));
 }
