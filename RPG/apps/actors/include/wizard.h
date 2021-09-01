@@ -26,6 +26,6 @@ QGridLayout virtual *show() const override;
 double getMana()const{return this->mana;};
 void updateMana(double);
 QString getName() const override{return QString("Wizard");};
-QGridLayout virtual *showStat() const override;
+QString virtual showStat() const override;
 };
 #endif

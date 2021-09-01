@@ -38,8 +38,9 @@ private:
 
     bool isExitFound = false;
     std::deque<Player *> player;
+    std::map<Player *, QLabel *> *statsLabel;
 
-    EventManager eventManager;
+    EventManager *eventManager;
     Map *map;
     QGraphicsScene *gameScene;
 
@@ -57,6 +58,8 @@ private:
 public:
     static double GAME_RATIO;
     Game(Map *_map, QWidget *_parent = nullptr);
+
+    std::map<Player *, QLabel *> *createStatsLabel();
 
     QGraphicsScene *getScene();
 

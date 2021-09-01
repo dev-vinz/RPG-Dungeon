@@ -173,7 +173,7 @@ void Map::generateMiniMap()
     sp_retain_bottom.setRetainSizeWhenHidden(true);
     bottomMini->setSizePolicy(sp_retain_bottom);
 
-    activeMini->setMinimumSize(MINWIDTH, MINHEIGHT);
+    /*activeMini->setMinimumSize(MINWIDTH, MINHEIGHT);
     activeMini->setMaximumSize(MAXWIDTH, MAXHEIGHT);
     topMini->setMinimumSize(MINWIDTH, MINHEIGHT);
     topMini->setMaximumSize(MAXWIDTH, MAXHEIGHT);
@@ -182,7 +182,18 @@ void Map::generateMiniMap()
     rightMini->setMinimumSize(MINWIDTH, MINHEIGHT);
     rightMini->setMaximumSize(MAXWIDTH, MAXHEIGHT);
     bottomMini->setMinimumSize(MINWIDTH, MINHEIGHT);
-    bottomMini->setMaximumSize(MAXWIDTH, MAXHEIGHT);
+    bottomMini->setMaximumSize(MAXWIDTH, MAXHEIGHT);*/
+
+    activeMini->setMinimumSize(75, 75);
+    activeMini->setMaximumSize(75, 75);
+    topMini->setMinimumSize(75, 75);
+    topMini->setMaximumSize(75, 75);
+    leftMini->setMinimumSize(75, 75);
+    leftMini->setMaximumSize(75, 75);
+    rightMini->setMinimumSize(75, 75);
+    rightMini->setMaximumSize(75, 75);
+    bottomMini->setMinimumSize(75, 75);
+    bottomMini->setMaximumSize(75, 75);
 }
 
 void Map::generateRoomType()
@@ -226,7 +237,6 @@ void Map::move(int clickedRoomid)
 
     if(checkDist(clickedRoomid))
     {
-        qDebug() << "Clicked";
         changeActive(clickedRoomid);
         updateMiniMap();
     }

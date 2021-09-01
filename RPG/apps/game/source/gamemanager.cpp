@@ -4,6 +4,7 @@ GameManager::GameManager(QWidget *_parent) : QWidget(_parent)
 {
     this->map = new Map;
     this->game = new Game(this->map);
+    this->playerStatLabel = this->game->createStatsLabel();
 
     connect(this->map->getButtonGroup(), &QButtonGroup::buttonClicked, this, &GameManager::updateLayout);
     connect(this, &GameManager::newActionRPG, this, &GameManager::refreshGame);
@@ -17,11 +18,10 @@ void GameManager::display()
     QGridLayout *characterStatistics = this->createCharacterStatistics();
     QGridLayout *informations = this->createInformationsBox();
     QGridLayout *legends = this->createLegends();
-    QGridLayout *miniMap = this->createMiniMap();
+    QVBoxLayout *miniMap = this->createMiniMap();
 
     this->globalView = new QGraphicsView;
     QGraphicsScene *mainScene = this->game->getScene();
-    //QGraphicsScene *mainScene = this->map->getScene();
 
     globalView->setScene(mainScene);
     globalView->fitInView(mainScene->sceneRect());
@@ -53,12 +53,10 @@ void GameManager::refreshGame()
     this->game->updateScene();
 }
 
-/* * * * * * * * * * * * * * * *
- * * * * PRIVATE METHODS * * * *
- * * * * * * * * * * * * * * * */
-
 void GameManager::updateLayout()
 {
+    this->updateStatistics();
+
     QGraphicsScene *scene;
 
     if (this->currentDisplay == GameManager::ActualDisplay::MapDisplay)
@@ -79,15 +77,36 @@ void GameManager::updateLayout()
     this->globalGrid->update();
 }
 
+/* * * * * * * * * * * * * * * *
+ * * * * PRIVATE METHODS * * * *
+ * * * * * * * * * * * * * * * */
+
+void GameManager::updateStatistics()
+{
+    // We update the statistics shown
+
+    for (auto item : *this->playerStatLabel)
+    {
+        Player *p = item.first;
+        QLabel *l = item.second;
+
+        if (p->isAlive())
+        {
+            l->setText(p->showStat());
+        }
+        else
+        {
+            l->setText(p->getName() + "\nRIP");
+        }
+    }
+}
+
 /**
  * @brief Creates the layout for the action buttons
  * @return The layout
  */
 QGridLayout *GameManager::createActionButtons()
 {
-
-    // TODO : Connect to player methods
-
     QGridLayout *actionButtons = new QGridLayout;
     actionButtons->addWidget(this->game->btnAttackOne, 0, 0);
     actionButtons->addWidget(this->game->btnAttackTwo, 0, 1);
@@ -107,9 +126,25 @@ QGridLayout *GameManager::createCharacterStatistics()
 
     QGridLayout *statistics = new QGridLayout;
 
-    for (Player *p : this->game->player)
+    for (auto item : *this->playerStatLabel)
     {
-        statistics->addLayout(p->showStat(), row, 0, Qt::AlignHCenter);
+        Player *p = item.first;
+        QLabel *l = item.second;
+
+        QLabel *iconLabel = new QLabel;
+        QPixmap pix(QString("../img/characters/sprite_%1.png").arg(p->getName().toLower()));
+        pix = pix.scaled(50, 50, Qt::KeepAspectRatioByExpanding);
+        iconLabel->setPixmap(pix);
+
+        l->setText(p->showStat());
+
+        QVBoxLayout *box = new QVBoxLayout;
+        box->addWidget(iconLabel, Qt::AlignHCenter);
+        box->addWidget(l, Qt::AlignHCenter);
+
+        statistics->addLayout(box, row, 0, Qt::AlignHCenter);
+
+        row++;
     }
 
     return statistics;
@@ -161,16 +196,24 @@ QGridLayout *GameManager::createLegends()
  * @brief Create the layout for the mini map
  * @return The layout
  */
-QGridLayout *GameManager::createMiniMap()
+QVBoxLayout *GameManager::createMiniMap()
 {
+    QVBoxLayout *miniMap = new QVBoxLayout;
+
     QLabel *mapTitle = new QLabel("Mini Map");
-    QGridLayout *miniMap = this->map->getMiniMap();
+    QGridLayout *map = this->map->getMiniMap();
 
     connect(this->game->btnMap, &QPushButton::clicked, this, &GameManager::updateLayout);
 
-    miniMap->addWidget(mapTitle, 0, 0, Qt::AlignHCenter);
-    miniMap->addLayout(miniMap, 1, 0);
-    miniMap->addWidget(this->game->btnMap, 2, 0);
+    mapTitle->setAlignment(Qt::AlignHCenter | Qt::AlignBottom);
+    mapTitle->setStyleSheet("font: bold 20px; text-decoration: underline");
+
+    this->game->btnMap->setFixedWidth(225);
+    this->game->btnMap->setFixedHeight(50);
+
+    miniMap->addWidget(mapTitle, Qt::AlignHCenter);
+    miniMap->addLayout(map, Qt::AlignHCenter);
+    miniMap->addWidget(this->game->btnMap, Qt::AlignHCenter);
 
     return miniMap;
 }

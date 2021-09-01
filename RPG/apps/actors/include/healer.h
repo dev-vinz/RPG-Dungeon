@@ -21,7 +21,7 @@ Healer(int _damage, int _agility, int _defense, double _health);
 ~Healer();
 QString getName() const override{return QString("Healer");};
 QGridLayout virtual *show() const override;
-QGridLayout virtual *showStat() const override;
+QString virtual showStat() const override;
 
 };
 #endif

@@ -9,6 +9,7 @@
 #define BATTLE_H
 
 #include <deque>
+#include <map>
 
 #include <QObject>
 #include <QButtonGroup>
@@ -23,6 +24,8 @@
 #include "../../actors/include/skeleton.h"
 #include "../../actors/include/warrior.h"
 #include "../../actors/include/wizard.h"
+
+#include "../../../settings/ExtensionMethod.h"
 
 class Battle : public QWidget
 {
@@ -43,7 +46,7 @@ public:
         FleeType = 4
     };
 
-    Battle(std::deque<Player *> *, Opponent *, QWidget *_parent = nullptr);
+    Battle(std::map<Player *, QLabel *> *_statsLabels, std::deque<Player *> *, Opponent *, QWidget *_parent = nullptr);
 
     Turn getWinner(QPushButton *, QPushButton *, QPushButton *, QPushButton *);
 
@@ -68,6 +71,8 @@ private:
     QPushButton *btnAttackTwo;
     QPushButton *btnBackpack;
     QPushButton *btnFlee;
+
+    std::map<Player *, QLabel *> *statsLabels;
 
 public slots:
     void doAction(int id);

@@ -8,8 +8,11 @@
 #ifndef GAMEMANAGER_H
 #define GAMEMANAGER_H
 
+#include <map>
+
 #include <QApplication>
 #include <QGridLayout>
+#include <QHBoxLayout>
 #include <QLabel>
 #include <QMouseEvent>
 #include <QPushButton>
@@ -49,11 +52,15 @@ private:
     QGridLayout *globalGrid = nullptr;
     QGraphicsView *globalView = nullptr;
 
+    std::map<Player *, QLabel *> *playerStatLabel;
+
     QGridLayout *createActionButtons();
     QGridLayout *createCharacterStatistics();
     QGridLayout *createInformationsBox();
     QGridLayout *createLegends();
-    QGridLayout *createMiniMap();
+    QVBoxLayout *createMiniMap();
+
+    void updateStatistics();
 
 public slots:
     void refreshGame();

@@ -11,6 +11,21 @@ Game::Game(Map *_map, QWidget *_parent) : QGraphicsView(_parent)
     this->initializePlayer();
 }
 
+std::map<Player *, QLabel *> *Game::createStatsLabel()
+{
+    this->statsLabel = new std::map<Player *, QLabel *>();
+    this->eventManager = new EventManager(statsLabel);
+
+    for (Player *p : this->player)
+    {
+        QLabel *playerStat = new QLabel;
+
+        this->statsLabel->insert_or_assign(p, playerStat);
+    }
+
+    return this->statsLabel;
+}
+
 QGraphicsScene *Game::getScene()
 {
     return this->gameScene;
@@ -66,7 +81,7 @@ void Game::updateScene()
 
 bool Game::battle()
 {
-    return this->eventManager.battleEvent(&player, this->btnAttackOne, this->btnAttackTwo, this->btnBackpack, this->btnFlee);
+    return this->eventManager->battleEvent(&player, this->btnAttackOne, this->btnAttackTwo, this->btnBackpack, this->btnFlee);
 }
 
 void Game::chooseRandomEvent()
@@ -129,12 +144,12 @@ void Game::releaseEvent(Room::RoomType _roomType)
 
 void Game::riddle()
 {
-    this->eventManager.riddleEvent(&player);
+    this->eventManager->riddleEvent(&player);
 }
 
 void Game::treasure()
 {
-    this->eventManager.lootEvent(&player);
+    this->eventManager->lootEvent(&player);
 }
 
 /* * * * * * * * * * * * * * * *

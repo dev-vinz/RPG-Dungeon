@@ -38,26 +38,15 @@ QGridLayout *Wizard::show() const
     statistics->addWidget(myimage,0,0,Qt::AlignCenter);
     return statistics;
 }
-QGridLayout *Wizard::showStat() const
+QString Wizard::showStat() const
 {
-    QGridLayout *statistics = new QGridLayout;
-    //sprite
-    QLabel *myimage = new QLabel();
-    QPixmap pix("C:/DEV/HES_ETE_Projet/QT/Serie7_Ex1/img/Smiley.jpg");
-    pix.scaled(20,20);
-    myimage->setPixmap(pix);
     //Name
     QString Name = QString("%1").arg(this->getName());
-    QLabel *wizardName = new QLabel(Name);
     //stat
-    QLabel *wizardStat1 = new QLabel(QString::number(this->getHealth())+ "/" + QString::number(MAX_HEALTH));
-    QLabel *wizardStat2 = new QLabel(QString::number(this->getMana())+ "/" + QString::number(MAX_MANA));
-    //add
-    statistics->addWidget(myimage,0,0,Qt::AlignCenter);
-    statistics->addWidget(wizardName, 1, 0, Qt::AlignCenter);
-    statistics->addWidget(wizardStat1,2, 0, Qt::AlignCenter);
-    statistics->addWidget(wizardStat2,3, 0, Qt::AlignCenter);
-    return statistics;
+    QLabel *wizardStat1 = new QLabel("HP : " + QString::number(this->getHealth())+ "/" + QString::number(MAX_HEALTH));
+    QLabel *wizardStat2 = new QLabel("Mana : " + QString::number(this->getMana())+ "/" + QString::number(MAX_MANA));
+
+    return QString("%1\n%2\n%3").arg(Name, wizardStat1->text(), wizardStat2->text());
 }
 
 void Wizard::updateMana(double _mana)

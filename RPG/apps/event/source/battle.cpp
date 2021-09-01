@@ -1,10 +1,11 @@
 #include "../include/battle.h"
 
-Battle::Battle(std::deque<Player *> *_player, Opponent *_opponent, QWidget *_parent) : QWidget(_parent)
+Battle::Battle(std::map<Player *, QLabel *> *_statsLabels, std::deque<Player *> *_player, Opponent *_opponent, QWidget *_parent) : QWidget(_parent)
 {
     this->player = _player;
     this->opponent = _opponent;
     this->idPlayer = 0;
+    this->statsLabels = _statsLabels;
 }
 
 Battle::Turn Battle::getWinner(QPushButton *_btnAOne, QPushButton *_btnATwo, QPushButton *_btnBackpack, QPushButton *_btnFlee)
@@ -27,6 +28,7 @@ Battle::Turn Battle::getWinner(QPushButton *_btnAOne, QPushButton *_btnATwo, QPu
 
     while (this->isBattle)
     {
+        ExtensionMethod::UpdateStatsLayout(this->statsLabels);
         this->nextTurn();
     }
 
@@ -141,6 +143,7 @@ void Battle::doAction(int _id)
     ptrWizard = nullptr;
     ptrHealer = nullptr;
 
+    ExtensionMethod::UpdateStatsLayout(this->statsLabels);
     this->checkOver();
 }
 
@@ -221,6 +224,7 @@ void Battle::opponentTurn()
 
     this->opponent->interaction(p, attack);
 
+    ExtensionMethod::UpdateStatsLayout(this->statsLabels);
     this->checkOver();
 }
 
@@ -243,6 +247,7 @@ void Battle::playerTurn()
     // Wait for button to be clicked
     loop.exec();
 
+    ExtensionMethod::UpdateStatsLayout(this->statsLabels);
     QMessageBox::information(NULL, "Information", "Thanks for clicking");
 }
 

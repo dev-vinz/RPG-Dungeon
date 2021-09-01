@@ -23,24 +23,14 @@ Warrior::Warrior(int _damage ,int _agility ,int _defense ,double _health) :Playe
 
 }
 
-QGridLayout *Warrior::showStat() const
+QString Warrior::showStat() const
 {
-    QGridLayout *statistics = new QGridLayout;
-    //Sprite
-    QLabel *myimage = new QLabel();
-    QPixmap pix("C:/DEV/HES_ETE_Projet/QT/Serie7_Ex1/img/Smiley.jpg");
-    pix.scaled(20,20);
-    myimage->setPixmap(pix);
     //Name
     QString Name = QString("%1").arg(this->getName());
-    QLabel *warriorName = new QLabel(Name);
     //Stat
-    QLabel *warriorStat = new QLabel(QString::number(this->getHealth())+ "/" + QString::number(MAX_HEALTH));
-    //Add
-    statistics->addWidget(myimage,4,0,Qt::AlignCenter);
-    statistics->addWidget(warriorName, 5, 0, Qt::AlignCenter);
-    statistics->addWidget(warriorStat,6, 0, Qt::AlignCenter);
-    return statistics;
+    QLabel *warriorStat = new QLabel("HP : " + QString::number(this->getHealth())+ "/" + QString::number(MAX_HEALTH));
+
+    return QString("%1\n%2").arg(Name, warriorStat->text());
 }
 
 QGridLayout *Warrior::show() const{

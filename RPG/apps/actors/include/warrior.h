@@ -20,7 +20,7 @@ Warrior()=delete;
 Warrior(int _damage, int _agility, int _defense, double _health);
 ~Warrior();
 QString getName() const override {return QString("Warrior");};
-QGridLayout virtual *showStat() const override;
+QString virtual showStat() const override;
 QGridLayout virtual *show() const override;
 
 };

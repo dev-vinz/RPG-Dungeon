@@ -8,6 +8,8 @@
 #ifndef RIDDLE_H
 #define RIDDLE_H
 
+#include <map>
+
 #include <QApplication>
 #include <QButtonGroup>
 #include <QEventLoop>
@@ -19,6 +21,8 @@
 #include <QtSql/QSqlDatabase>
 #include <QtSql/QSqlError>
 #include <QtSql/QSqlQuery>
+
+#include "../../actors/include/player.h"
 
 class Riddle : public QWidget
 {

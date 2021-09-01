@@ -11,7 +11,7 @@
 #include "..\..\stuff\include\iobject.h"
 #include "..\..\stuff\include\backpack.h"
 #include <QtWidgets/QGridLayout>
-
+#include <QLabel>
 #include <QtWidgets/QGraphicsScene>
 
 class Player : public Character{
@@ -22,7 +22,7 @@ Player()= delete;
 Player(int _damage, int _agility, int _defense, double _health);
 ~Player();
 //void virtual show() const override;
-QGridLayout virtual *showStat() const = 0 ;
+QString virtual showStat() const = 0 ;
 void backpack();
 void flee();
 void virtual attack1(Character*) override = 0;

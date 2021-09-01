@@ -1,10 +1,14 @@
 #include "../include/eventmanager.h"
 
+EventManager::EventManager(std::map<Player *, QLabel *> *_statsLabels) : statsLabels(_statsLabels)
+{
+}
+
 bool EventManager::battleEvent(std::deque<Player *> *_player, QPushButton *_btnAOne, QPushButton *_btnATwo, QPushButton *_btnBackpack, QPushButton *_btnFlee) const
 {
     Opponent *newOpponent = new Skeleton(50, 20, 40, 100);
 
-    Battle battle(_player, newOpponent);
+    Battle battle(this->statsLabels, _player, newOpponent);
 
     Battle::Turn winner = battle.getWinner(_btnAOne, _btnATwo, _btnBackpack, _btnFlee);
 
@@ -47,6 +51,8 @@ void EventManager::riddleEvent(std::deque<Player *> *_player) const
 
         pInformation.push_back(QString("%1 : %2 HP").arg(p->getName(), QString::number(p->getHealth())));
     }
+
+    ExtensionMethod::UpdateStatsLayout(this->statsLabels);
 
     QString msgStatus = ExtensionMethod::Join(pInformation, "\n");
     QString msg = QString("Oups, mauvaise réponse... chacun de vos personnages a perdu 10% de ses points de vie restants.\n\nStatut des Personnages\n\n%1").arg(msgStatus);
