@@ -27,7 +27,7 @@
 #define MINHEIGHT 100
 #define VERTICALSPACING 5
 #define HORIZONTALSPACING 5
-#define UNKNOWNROOMPATH "./debug/unknownRoom.png"
+#define UNKNOWNROOMPATH "../img/mapunknownRoom.png"
 
 /*Map class is an aggregation of room instances, main purpose is to manage the player's movements*/
 
@@ -46,7 +46,6 @@ public:
 
     QGraphicsScene *getScene() const;
 
-    Room *getActive();
     int getActiveId() const;
     /**
      * @brief Is called when Torch item is used
@@ -67,7 +66,6 @@ public:
      */
     bool checkDist(int);
 
-    int getActiveId() const;
     Room rooms[NBROFROOMS];
 
 protected:

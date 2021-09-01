@@ -18,6 +18,11 @@ int Map::getActiveId() const
     return this->activeRoom;
 }
 
+Room Map::getActive()
+{
+    return this->rooms[this->activeRoom];
+}
+
 void Map::changeActive(int newActive)
 {
     //IF condition to keep "E" active on the entry room of the dungeon
@@ -31,14 +36,14 @@ void Map::changeActive(int newActive)
     }*/
     //Sets new colors for visited and active rooms
     //rooms[activeRoom].roomBtn->setStyleSheet("QPushButton{ background-color: rgb(200,200,200); }\n QPushButton:disabled{ color: black; }\n");
-    rooms[activeRoom].roomBtn->setStyleSheet("QPushButton{border-image:url(./debug/visited.png);}\n");
+    rooms[activeRoom].roomBtn->setStyleSheet("QPushButton{border-image:url(../img/map/visited.png);}\n");
     rooms[activeRoom].setVisited(true);
     //rooms[activeRoom].roomBtn->setIcon(QIcon());
     activeRoom = newActive;
     //rooms[newActive].roomBtn->setText("");
     //rooms[newActive].roomBtn->setStyleSheet("QPushButton{ background-color: rgb(255,255,255); }\n QPushButton:disabled{ color: black; }\n");
     //rooms[newActive].roomBtn->setIcon(QIcon(REDICONPATH));
-    rooms[newActive].roomBtn->setStyleSheet("QPushButton{border-image:url(./debug/active.png);}\n");
+    rooms[newActive].roomBtn->setStyleSheet("QPushButton{border-image:url(../img/map/active.png);}\n");
     //rooms[newActive].setVisited(true);
     revealTile();
 }
@@ -138,7 +143,7 @@ void Map::generateMiniMap()
     //QIcon icon;
     //icon.addPixmap(QPixmap(REDICONPATH), QIcon::Disabled); //This is to prevent the icon to grey out
     //activeMini->setIcon(QIcon(icon));
-    activeMini->setStyleSheet("QPushButton{border-image:url(./debug/active.png);}\n");
+    activeMini->setStyleSheet("QPushButton{border-image:url(../img/map/active.png);}\n");
     //The five buttons are added to the miniMap, they will be set in/visible when updateMiniMap() is called
     miniMapLayout->addWidget(topMini,0,1);
     miniMapLayout->addWidget(leftMini,1,0);
@@ -216,14 +221,6 @@ void Map::generateRoomType()
     }
 }
 
-Room *Map::getActive()
-{
-    return &rooms[activeRoom];
-}
-int Map::getActiveId() const
-{
-    return this->activeRoom;
-}
 void Map::move(int clickedRoomid)
 {
 
@@ -247,15 +244,15 @@ void Map::revealMap()
         {
             if(rooms[i].getType() == Room::RoomType::Battle)
             {
-                rooms[i].roomBtn->setStyleSheet("QPushButton{border-image:url(./debug/monster.png);}\n");
+                rooms[i].roomBtn->setStyleSheet("QPushButton{border-image:url(../img/map/monster.png);}\n");
             }
             else if (rooms[i].getType() == Room::RoomType::Event)
             {
-                rooms[i].roomBtn->setStyleSheet("QPushButton{border-image:url(./debug/event.png);}\n");
+                rooms[i].roomBtn->setStyleSheet("QPushButton{border-image:url(../img/map/event.png);}\n");
             }
             else if (rooms[i].getType() == Room::RoomType::Exit)
             {
-                rooms[i].roomBtn->setStyleSheet("QPushButton{border-image:url(./debug/exit.png);}\n");
+                rooms[i].roomBtn->setStyleSheet("QPushButton{border-image:url(../img/map/exit.png);}\n");
             }
             //QString roomType = QChar((char)rooms[i].getType());
             //rooms[i].roomBtn->setStyleSheet("QPushButton{ background-color: rgb(100,100,100); }\n QPushButton:disabled{ color: black; }\n");
@@ -272,15 +269,15 @@ void Map::revealTile()
         {
             if(rooms[i].getType() == Room::RoomType::Battle)
             {
-                rooms[i].roomBtn->setStyleSheet("QPushButton{border-image:url(./debug/monster.png);}\n");
+                rooms[i].roomBtn->setStyleSheet("QPushButton{border-image:url(../img/map/monster.png);}\n");
             }
             else if (rooms[i].getType() == Room::RoomType::Event)
             {
-                rooms[i].roomBtn->setStyleSheet("QPushButton{border-image:url(./debug/event.png);}\n");
+                rooms[i].roomBtn->setStyleSheet("QPushButton{border-image:url(../img/map/event.png);}\n");
             }
             else if (rooms[i].getType() == Room::RoomType::Exit)
             {
-                rooms[i].roomBtn->setStyleSheet("QPushButton{border-image:url(./debug/exit.png);}\n");
+                rooms[i].roomBtn->setStyleSheet("QPushButton{border-image:url(../img/map/exit.png);}\n");
             }
             //QString roomType = QChar((char)rooms[i].getType());
             //rooms[i].roomBtn->setStyleSheet("QPushButton{ background-color: rgb(100,100,100); }\n QPushButton:disabled{ color: black; }\n");
