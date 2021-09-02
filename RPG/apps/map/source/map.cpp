@@ -1,5 +1,7 @@
 #include "..\include\map.h"
 
+bool Map::torchUsed = false;
+
 Map::Map(QWidget *parent)
     : QWidget(parent)
 {
@@ -242,8 +244,12 @@ void Map::move(int clickedRoomid)
     }
 }
 
-QGraphicsScene *Map::getScene() const
+QGraphicsScene *Map::getScene()
 {
+    if (torchUsed == true)
+    {
+        revealMap();
+    }
     return this->mapScene;
 }
 void Map::revealMap()

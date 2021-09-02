@@ -6,6 +6,7 @@
  * Games assets taken from:     https://0x72.itch.io/dungeontileset-ii?download  Artist: 0x72
  *                              https://pixel-poem.itch.io/dungeon-assetpuck    Artist: Pixel_Poem
  *                              https://ohnoponogames.itch.io/retro-cloud-tileset   Artist: ohnoponogames
+ *                              https://darkpixel-kronovi.itch.io/mecha-golem-free Artist: Kronovi
  */
 
 #ifndef MAP_H
@@ -44,7 +45,7 @@ public:
     QGridLayout *miniMapLayout = new QGridLayout; //Remove: (window) when connected with gameManager
     QGraphicsScene *mapScene;
 
-    QGraphicsScene *getScene() const;
+    QGraphicsScene *getScene();
 
     int getActiveId() const;
     /**
@@ -67,7 +68,7 @@ public:
     bool checkDist(int);
 
     Room rooms[NBROFROOMS];
-
+    static bool torchUsed;
 protected:
 
     //Index of the active room

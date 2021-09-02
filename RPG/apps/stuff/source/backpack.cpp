@@ -59,7 +59,7 @@ void Backpack::useItem(int _indice)
     // USE TORCH
     if (ptrTorch != nullptr)
     {
-        //Map::TorchUsed = true;
+        Map::torchUsed = true;
     }
 
     //myBackpack[_indice]->use(_character);

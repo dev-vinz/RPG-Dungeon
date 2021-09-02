@@ -14,8 +14,12 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
 
     GameManager gManager;
+    /*
+    auto f = QGuiApplication::primaryScreen()->geometry();
+    qDebug() << f.width() << " " << f.height();*/
 
-    gManager.showFullScreen();
+    //gManager.showFullScreen();
+    gManager.showMaximized();
     gManager.display();
     gManager.startGame();
 
