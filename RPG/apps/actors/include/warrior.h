@@ -18,7 +18,6 @@ void virtual attack2(Character*) override;
 public:
 Warrior()=delete;
 Warrior(int _damage, int _agility, int _defense, double _health);
-~Warrior();
 QString getName() const override {return QString("Guerrier");};
 QString virtual showStat() const override;
 QGridLayout virtual *show() const override;

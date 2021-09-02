@@ -14,9 +14,7 @@
 class Potion : public IObject
 {
 public:
-    Potion()=delete;
-
-    Potion(int _power);
+    Potion(int _power = 0);
 
     ~Potion();
 

@@ -17,8 +17,7 @@ class IObject
 protected:
     int power;
 public:
-    IObject()=delete;
-    IObject(int _power);
+    IObject(int _power = 0);
     ~IObject();
 
     QString virtual getName() = 0;

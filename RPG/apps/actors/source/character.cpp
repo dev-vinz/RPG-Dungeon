@@ -8,10 +8,6 @@ Character::Character(int _damage, int _agility, int _defense, double _health)
     this->defense = _defense;
     this->health = _health;
 }
-Character::~Character()
-{
-
-}
 
 QGridLayout *Character::show() const
 {

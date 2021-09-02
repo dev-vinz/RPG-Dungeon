@@ -15,10 +15,9 @@
 class Torch : public IObject
 {
 public:
-    Torch()= delete;
-    Torch(int  _power);
+    Torch(int _power = 0);
     ~Torch();
-    void virtual use(Character* _character) override;
+    void virtual use(Character *) override;
     int getFeature() override{return this->power;};
     QString getName() override{return QString("Torche");};
     QString show() override;

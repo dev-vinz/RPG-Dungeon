@@ -1,14 +1,12 @@
 #include "../include/eventmanager.h"
 
-EventManager::EventManager(std::map<Player *, QLabel *> *_statsLabels) : statsLabels(_statsLabels)
+EventManager::EventManager(std::map<Player *, QLabel *> *_statsLabels, QLabel *_gameLabel) : statsLabels(_statsLabels), gameLabel(_gameLabel)
 {
 }
 
-bool EventManager::battleEvent(std::deque<Player *> *_player, QPushButton *_btnAOne, QPushButton *_btnATwo) const
+bool EventManager::battleEvent(std::deque<Player *> *_player, Opponent *_opponent, QPushButton *_btnAOne, QPushButton *_btnATwo) const
 {
-    Opponent *newOpponent = new Skeleton(50, 20, 40, 100);
-
-    Battle battle(this->statsLabels, _player, newOpponent);
+    Battle battle(this->statsLabels, _player, _opponent, this->gameLabel);
 
     Battle::Turn winner = battle.getWinner(_btnAOne, _btnATwo);
 

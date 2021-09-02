@@ -12,9 +12,7 @@
 class Scroll : public IObject
 {
 public:
-    Scroll()=delete;
-
-    Scroll(int _power);
+    Scroll(int _power = 0);
 
     ~Scroll();
 

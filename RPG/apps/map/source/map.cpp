@@ -110,15 +110,20 @@ void Map::createScene(int _width, int _height)
     QGraphicsScene *scene = new QGraphicsScene;
     scene->setSceneRect(0, 0, _width, _height);
 
-    const int SPACE_WIDTH = 200;
-    const int SPACE_HEIGHT = 200;
+    scene->setBackgroundBrush(QBrush(Qt::black));
+
+    const double SPACE_WIDTH = _width / 6.0;
+    const double SPACE_HEIGHT = _height / 4.0;
 
     for (int k = 0; k < NBROFROOMS; k++)
     {
         Room room = this->rooms[k];
         QPushButton *btn = room.roomBtn;
 
-        btn->setGeometry(SPACE_WIDTH * room.getPosy(), SPACE_HEIGHT * room.getPosx(), 1100, 1100);
+        btn->setMinimumSize(SPACE_WIDTH, SPACE_HEIGHT);
+        btn->setMaximumSize(SPACE_WIDTH, SPACE_HEIGHT);
+        btn->setGeometry(SPACE_WIDTH * room.getPosy(), SPACE_HEIGHT * room.getPosx(), SPACE_WIDTH, SPACE_HEIGHT);
+        btn->setAttribute(Qt::WA_UnderMouse, false);
 
         scene->addWidget(btn);
     }
@@ -250,6 +255,7 @@ QGraphicsScene *Map::getScene()
     {
         revealMap();
     }
+
     return this->mapScene;
 }
 void Map::revealMap()

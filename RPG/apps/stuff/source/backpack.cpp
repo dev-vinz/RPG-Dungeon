@@ -12,16 +12,6 @@ Backpack::Backpack(std::deque<Player *> *_player, QWidget *_parent) : QWidget(_p
     this->window->setWindowFlags(Qt::WindowTitleHint);
     this->window->setWindowTitle("Sac à Dos");
     this->window->setLayout(layout);
-
-    this->addItem(new Scroll(1));
-    this->addItem(new Scroll(2));
-    this->addItem(new Scroll(3));
-    this->addItem(new Potion(4));
-    this->addItem(new Potion(5));
-    this->addItem(new Potion(6));
-    this->addItem(new Torch(7));
-    this->addItem(new Torch(8));
-    this->addItem(new Torch(9));
 }
 
 void Backpack::addItem(IObject* _pObject)
@@ -32,6 +22,11 @@ void Backpack::addItem(IObject* _pObject)
     QListWidgetItem *it = new QListWidgetItem(_pObject->show(), this->listItem);
 
     it->setIcon(px);
+}
+
+QPushButton *Backpack::getUseButton() const
+{
+    return this->btnUse;
 }
 
 void Backpack::useItem(int _indice)

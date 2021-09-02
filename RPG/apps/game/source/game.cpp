@@ -14,7 +14,6 @@ Game::Game(Map *_map, QWidget *_parent) : QGraphicsView(_parent)
 std::map<Player *, QLabel *> *Game::createStatsLabel()
 {
     this->statsLabel = new std::map<Player *, QLabel *>();
-    this->eventManager = new EventManager(statsLabel);
 
     for (Player *p : this->player)
     {
@@ -60,6 +59,12 @@ void Game::play()
         return this->end();
 }
 
+void Game::setLabelInformations(QLabel *_label)
+{
+    this->labelInformations = _label;
+    this->eventManager = new EventManager(this->statsLabel, _label);
+}
+
 void Game::start()
 {
     this->isExitFound = false;
@@ -67,12 +72,55 @@ void Game::start()
     QObject::connect(this->map->getButtonGroup(), &QButtonGroup::buttonClicked, this, &Game::play);
 
     // TODO : Say Welcome
+    this->update();
     this->play();
 }
 
-void Game::updateScene()
+void Game::updateScene(EventManager::Event _event, Opponent *_opponent)
 {
-    this->gameScene->addRect(100, 100, 300, 100, QPen(Qt::black), QBrush(Qt::yellow));
+    // Update scene in function of room
+
+    this->gameScene->clear();
+
+    this->gameScene->addRect(gameScene->sceneRect(), QPen(Qt::DashDotLine));
+
+    QPixmap basic("../img/rooms/basicRoom.png");
+    QPixmap loot("../img/rooms/lootRoom.png");
+    QPixmap riddle("../img/rooms/riddleRoom.png");
+
+    basic = basic.scaled(this->gameScene->sceneRect().width(), this->gameScene->sceneRect().height(), Qt::KeepAspectRatioByExpanding);
+    loot = loot.scaled(this->gameScene->sceneRect().width(), this->gameScene->sceneRect().height(), Qt::KeepAspectRatioByExpanding);
+    riddle = riddle.scaled(this->gameScene->sceneRect().width(), this->gameScene->sceneRect().height(), Qt::KeepAspectRatioByExpanding);
+
+    Room currentRoom = this->map->getActive();
+
+    if (currentRoom.isVisited())
+    {
+        this->gameScene->setBackgroundBrush(QBrush(basic));
+    }
+    else
+    {
+        switch (_event)
+        {
+        case EventManager::Event::NothingEvent:
+            this->gameScene->setBackgroundBrush(QBrush(basic));
+            break;
+        case EventManager::Event::LootEvent:
+            this->gameScene->setBackgroundBrush(QBrush(loot));
+            break;
+        case EventManager::Event::RiddleEvent:
+            this->gameScene->setBackgroundBrush(QBrush(riddle));
+            break;
+        default:
+            qDebug() << "[ERROR] Game::updateScene : Unknown state of EventManager::Event";
+            exit(-1);
+        }
+    }
+
+    this->addScenePlayers();
+
+    if (_opponent != nullptr)
+        this->addSceneOpponent(_opponent);
 }
 
 /* * * * * * * * * * * * * * * * *
@@ -81,27 +129,35 @@ void Game::updateScene()
 
 bool Game::battle()
 {
-    return this->eventManager->battleEvent(&player, this->btnAttackOne, this->btnAttackTwo);
+    this->opponent = new Ghoul(50, 20, 40, 100);
+    this->updateScene(EventManager::Event::NothingEvent, this->opponent);
+    bool win = this->eventManager->battleEvent(&player, this->opponent, this->btnAttackOne, this->btnAttackTwo);
+    this->opponent = nullptr;
+    this->updateScene();
+
+    return win;
 }
 
 void Game::chooseRandomEvent()
 {
-
     qint32 e = QRandomGenerator::global()->bounded(1, 5);
 
     switch (e)
     {
     case 1:
         // Empty room
+        this->updateScene(EventManager::Event::NothingEvent);
         QMessageBox::information(NULL, "Event", "CHEH");
         break;
     case 2:
         // Riddle room
     case 3:
         // Riddle room
+        this->updateScene(EventManager::Event::RiddleEvent);
         this->riddle();
         break;
     case 4:
+        this->updateScene(EventManager::Event::LootEvent);
         this->treasure();
         // Loot room
         break;
@@ -158,6 +214,61 @@ void Game::treasure()
  * * * * PRIVATE METHODS * * * *
  * * * * * * * * * * * * * * * */
 
+Opponent *Game::getOpponent() const
+{
+    return this->opponent;
+}
+
+void Game::addSceneOpponent(Opponent *_opponent)
+{
+    QPixmap opp(QString("../img/characters/sprite_%1.png").arg(_opponent->getName().toLower()));
+
+    opp = opp.scaled(150, 150, Qt::KeepAspectRatioByExpanding);
+
+    QGraphicsPixmapItem *iOpp = new QGraphicsPixmapItem(opp);
+
+    iOpp->setPos(1050, 250);
+
+    this->gameScene->addItem(iOpp);
+}
+
+void Game::addScenePlayers()
+{
+    QPixmap warrior("../img/characters/sprite_guerrier.png");
+    QPixmap wizard("../img/characters/sprite_sorcier.png");
+    QPixmap healer("../img/characters/sprite_soigneur.png");
+
+    warrior = warrior.scaled(100, 100, Qt::KeepAspectRatioByExpanding);
+    wizard = wizard.scaled(100, 100, Qt::KeepAspectRatioByExpanding);
+    healer = healer.scaled(100, 100, Qt::KeepAspectRatioByExpanding);
+
+    QGraphicsPixmapItem *iWarrior = new QGraphicsPixmapItem(warrior);
+    QGraphicsPixmapItem *iWizard = new QGraphicsPixmapItem(wizard);
+    QGraphicsPixmapItem *iHealer = new QGraphicsPixmapItem(healer);
+
+    iWarrior->setPos(650, 350);
+    iWizard->setPos(500, 200);
+    iHealer->setPos(420, 450);
+
+    for (Player *p : this->player)
+    {
+        Warrior *ptrWarrior = dynamic_cast<Warrior *>(p);
+        Wizard *ptrWizard = dynamic_cast<Wizard *>(p);
+        Healer *ptrHealer = dynamic_cast<Healer *>(p);
+
+        if (!p->isAlive()) continue;
+
+        if (ptrWarrior != nullptr)
+            this->gameScene->addItem(iWarrior);
+
+        if (ptrWizard != nullptr)
+            this->gameScene->addItem(iWizard);
+
+        if (ptrHealer != nullptr)
+            this->gameScene->addItem(iHealer);
+    }
+}
+
 void Game::createButtons()
 {
     this->btnMap = new QPushButton("&Ouvrir Map");
@@ -177,7 +288,7 @@ void Game::createScene()
     QGraphicsScene *gameScene = new QGraphicsScene;
     gameScene->setSceneRect(0, 0, Game::GAME_WIDTH, Game::GAME_HEIGHT);
 
-    gameScene->addRect(gameScene->sceneRect(), QPen(Qt::DashDotLine));
+    //gameScene->addRect(gameScene->sceneRect(), QPen(Qt::DashDotLine));
 
     this->gameScene = gameScene;
 }
@@ -189,9 +300,9 @@ void Game::end()
 
 void Game::initializePlayer()
 {
-    this->player.push_back(new Warrior(80, 20, 90, 100));
-    this->player.push_back(new Wizard(70, 50, 60, 100, 100));
-    this->player.push_back(new Healer(20, 80, 50, 100));
+    this->player.push_back(new Warrior(80, 20, 90, 1));
+    this->player.push_back(new Wizard(70, 50, 60, 1, 100));
+    this->player.push_back(new Healer(20, 80, 50, 1));
 
     this->playerBackpack = new Backpack(&player);
 }

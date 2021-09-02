@@ -7,7 +7,7 @@ GameManager::GameManager(QWidget *_parent) : QWidget(_parent)
     this->playerStatLabel = this->game->createStatsLabel();
 
     connect(this->map->getButtonGroup(), &QButtonGroup::buttonClicked, this, &GameManager::updateLayout);
-    connect(this, &GameManager::newActionRPG, this, &GameManager::refreshGame);
+    connect(this->map->getButtonGroup(), &QButtonGroup::buttonClicked, this, &GameManager::updateGame);
 }
 
 void GameManager::display()
@@ -16,12 +16,12 @@ void GameManager::display()
 
     QGridLayout *actionButtons = this->createActionButtons();
     QGridLayout *characterStatistics = this->createCharacterStatistics();
-    //QGridLayout *informations = this->createInformationsBox();
-    //QGridLayout *legends = this->createLegends();
     QVBoxLayout *miniMap = this->createMiniMap();
 
-    QLabel *gameInformations = new QLabel("ACTIONS JEU");
-    gameInformations->setAlignment(Qt::AlignCenter);
+    QLabel *gameInformations = new QLabel;
+    gameInformations->setAlignment(Qt::AlignLeft);
+
+    this->game->setLabelInformations(gameInformations);
 
     this->globalView = new QGraphicsView;
     QGraphicsScene *mainScene = this->game->getScene();
@@ -32,18 +32,8 @@ void GameManager::display()
     globalGrid->addWidget(globalView, 0, 0, 5, 4);
     globalGrid->addLayout(actionButtons, 5, 0, 1, 2);
     globalGrid->addLayout(characterStatistics, 0, 4, 3, 1);
-    //globalGrid->addLayout(informations, 5, 0, 1, 4);
-    //globalGrid->addLayout(legends, 4, 2, 1, 2);
     globalGrid->addWidget(gameInformations, 5, 2, 1, 2);
     globalGrid->addLayout(miniMap, 4, 4, 2, 1);
-
-    /*globalGrid->addWidget(globalView, 0, 0, 3, 4);
-    globalGrid->addLayout(actionButtons, 3, 0, 1, 2);
-    globalGrid->addLayout(characterStatistics, 0, 4, 1, 1);
-    //globalGrid->addLayout(informations, 5, 0, 1, 4);
-    //globalGrid->addLayout(legends, 4, 2, 1, 2);
-    globalGrid->addWidget(gameInformations, 3, 2, 1, 2);
-    globalGrid->addLayout(miniMap, 2, 4, 2, 1);*/
 
     this->setWindowTitle("RPG - HE-Arc");
     this->setLayout(globalGrid);
@@ -54,15 +44,9 @@ void GameManager::startGame()
     this->game->start();
 }
 
-void GameManager::mousePressEvent(QMouseEvent *_event)
+void GameManager::updateGame()
 {
-    if (_event->button() == Qt::LeftButton)
-        emit GameManager::newActionRPG();
-}
-
-void GameManager::refreshGame()
-{
-    this->game->updateScene();
+    this->game->updateScene(EventManager::Event::NothingEvent, this->game->getOpponent());
 }
 
 void GameManager::updateLayout()
@@ -79,10 +63,26 @@ void GameManager::updateLayout()
     else
     {
         scene = this->map->getScene();
-        scene->addRect(scene->sceneRect(), Qt::DashDotLine);
+        //scene->addRect(scene->sceneRect(), Qt::DashDotLine);
         this->currentDisplay = GameManager::ActualDisplay::MapDisplay;
         this->game->btnMap->setEnabled(false);
     }
+
+    this->globalView->setScene(scene);
+    this->globalView->fitInView(this->globalView->sceneRect());
+
+    this->globalGrid->update();
+}
+
+void GameManager::updateMap()
+{
+    this->updateStatistics();
+
+    if (this->currentDisplay != ActualDisplay::MapDisplay) return;
+
+    QGraphicsScene *scene;
+    scene = this->map->getScene();
+    scene->addRect(scene->sceneRect(), Qt::DashDotLine);
 
     this->globalView->setScene(scene);
     this->globalView->fitInView(this->globalView->sceneRect());
@@ -126,8 +126,11 @@ QGridLayout *GameManager::createActionButtons()
     actionButtons->addWidget(this->game->btnBackpack, 1, 0);
     actionButtons->addWidget(this->game->btnFlee, 1, 1);
 
+    QObject::connect(this->game->btnAttackOne, &QPushButton::clicked, this, &GameManager::updateGame);
+    QObject::connect(this->game->btnAttackTwo, &QPushButton::clicked, this, &GameManager::updateGame);
     QObject::connect(this->game->btnFlee, &QPushButton::clicked, this, &QApplication::quit);
     QObject::connect(this->game->btnBackpack, &QPushButton::clicked, this->game->playerBackpack, &Backpack::show);
+    QObject::connect(this->game->playerBackpack->getUseButton(), &QPushButton::clicked, this, &GameManager::updateMap);
 
     this->game->btnAttackOne->setFixedHeight(50);
     this->game->btnAttackTwo->setFixedHeight(50);
@@ -169,48 +172,6 @@ QGridLayout *GameManager::createCharacterStatistics()
     }
 
     return statistics;
-}
-
-/**
- * @brief Creates the layout for informations box
- * @return The layout
- */
-QGridLayout *GameManager::createInformationsBox()
-{
-    QPushButton *btnQuit = new QPushButton("&Quitter Jeu");
-    QLabel *informationBox = new QLabel("Box d'informations et de dialogue");
-
-    QObject::connect(btnQuit, &QPushButton::clicked, this, &QApplication::quit);
-
-    QGridLayout *informations = new QGridLayout;
-    informations->addWidget(btnQuit, 0, 0, 1, 1);
-    informations->addWidget(informationBox, 0, 1, 1, 6);
-
-    return informations;
-}
-
-/**
- * @brief Creates the layout for the game's legends
- * @return The layout
- */
-QGridLayout *GameManager::createLegends()
-{
-    QLabel *labelLegend = new QLabel("Légendes :");
-    QLabel *emptyLabel = new QLabel;
-    QLabel *entryLabel = new QLabel("( E ) : Entrée");
-    QLabel *exitLabel = new QLabel("( S ) : Sortie");
-    QLabel *eventLabel = new QLabel("( ? ) : Évènement");
-    QLabel *battleLabel = new QLabel("( ! ) : Combat");
-
-    QGridLayout *legends = new QGridLayout;
-    legends->addWidget(labelLegend, 0, 0, Qt::AlignRight);
-    legends->addWidget(emptyLabel, 0, 1);
-    legends->addWidget(entryLabel, 0, 2);
-    legends->addWidget(exitLabel, 0, 3);
-    legends->addWidget(eventLabel, 0, 4);
-    legends->addWidget(battleLabel, 0, 5);
-
-    return legends;
 }
 
 /**

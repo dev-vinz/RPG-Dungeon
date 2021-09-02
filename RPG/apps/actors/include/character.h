@@ -27,7 +27,6 @@ protected:
 public:
     Character()=delete;
     Character(int _damage, int _agility, int _defense, double _health);
-    ~Character();
 
     QGridLayout virtual *show() const = 0;
 

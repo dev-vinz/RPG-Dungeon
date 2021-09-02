@@ -18,8 +18,7 @@ protected:
 public:
     Ghoul()=delete;
     Ghoul(int,int,int,double);
-    ~Ghoul();
-    QString getName() const override {return QString("Ghoul");};
+    QString getName() const override {return QString("Goule");};
     QGridLayout virtual *show() const override;
 };
 

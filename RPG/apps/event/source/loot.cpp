@@ -55,5 +55,5 @@ IObject *Loot::getHealPotion() const
 
 IObject *Loot::getTorch() const
 {
-    return new Torch(0);
+    return new Torch;
 }

@@ -47,12 +47,20 @@ private:
     Map *map;
     QGraphicsScene *gameScene;
 
+    Opponent *opponent = nullptr;
+
+    QLabel *labelInformations = nullptr;
+
     QPushButton *btnMap;
     QPushButton *btnAttackOne;
     QPushButton *btnAttackTwo;
     QPushButton *btnBackpack;
     QPushButton *btnFlee;
 
+    Opponent *getOpponent() const;
+
+    void addSceneOpponent(Opponent *_opponent);
+    void addScenePlayers();
     void createButtons();
     void createScene();
     void end();
@@ -67,8 +75,9 @@ public:
     QGraphicsScene *getScene();
 
     void play();
+    void setLabelInformations(QLabel *_label);
     void start();
-    void updateScene();
+    void updateScene(EventManager::Event _event = EventManager::Event::NothingEvent, Opponent *_opponent = nullptr);
 
 protected:
     bool battle();

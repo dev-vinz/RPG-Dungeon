@@ -17,7 +17,6 @@ class Player : public Character{
 public:
     Player()= delete;
     Player(int _damage, int _agility, int _defense, double _health);
-    ~Player();
     //void virtual show() const override;
     QString virtual showStat() const = 0 ;
     void flee();

@@ -20,8 +20,7 @@ protected:
 public:
     Skeleton()=delete;
     Skeleton(int,int, int, double);
-    ~Skeleton();
-    QString getName() const override {return QString("Skeleton");};
+    QString getName() const override {return QString("Squelette");};
     QGridLayout virtual *show() const override;
 };
 

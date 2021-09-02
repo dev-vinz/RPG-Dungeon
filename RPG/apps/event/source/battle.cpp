@@ -1,9 +1,10 @@
 #include "../include/battle.h"
 
-Battle::Battle(std::map<Player *, QLabel *> *_statsLabels, std::deque<Player *> *_player, Opponent *_opponent, QWidget *_parent) : QWidget(_parent)
+Battle::Battle(std::map<Player *, QLabel *> *_statsLabels, std::deque<Player *> *_player, Opponent *_opponent, QLabel *informations, QWidget *_parent) : QWidget(_parent)
 {
     this->player = _player;
     this->opponent = _opponent;
+    this->informations = informations;
     this->idPlayer = 0;
     this->statsLabels = _statsLabels;
 }
@@ -25,7 +26,8 @@ Battle::Turn Battle::getWinner(QPushButton *_btnAOne, QPushButton *_btnATwo)
     while (this->isBattle)
     {
         ExtensionMethod::UpdateStatsLayout(this->statsLabels);
-        this->nextTurn();
+        QString report = this->nextTurn();
+        this->informations->setText(report);
     }
 
     return this->winner;
@@ -148,7 +150,14 @@ void Battle::checkOver()
         Player *p = this->player->front();
         this->player->pop_front();
 
-        if (p->isAlive()) alivePlayers.push_back(p);
+        if (p->isAlive()){
+            alivePlayers.push_back(p);
+        }
+        else
+        {
+            //delete p;
+            p = nullptr;
+        }
     }
 
     while (!alivePlayers.empty())
@@ -193,8 +202,10 @@ Character *Battle::chooseAlly() const
 
 }
 
-void Battle::opponentTurn()
+QString Battle::opponentTurn()
 {
+    this->oTurnString = "";
+
     // Disable buttons
     this->btnAttackOne->setEnabled(false);
     this->btnAttackTwo->setEnabled(false);
@@ -207,14 +218,20 @@ void Battle::opponentTurn()
     qint32 pId = QRandomGenerator::global()->bounded(0, (int)this->player->size());
     Player *p = this->player->at(pId);
 
+    oTurnString.append(QString("%1 utilise l'attaque %2").arg(this->opponent->getName(), QString::number(a)));
+
     this->opponent->interaction(p, attack);
 
     ExtensionMethod::UpdateStatsLayout(this->statsLabels);
     this->checkOver();
+
+    return oTurnString;
 }
 
-void Battle::playerTurn()
+QString Battle::playerTurn()
 {
+    this->pTurnString = "";
+
     // Réactiver les boutons
     this->btnAttackOne->setEnabled(true);
     this->btnAttackTwo->setEnabled(true);
@@ -230,18 +247,25 @@ void Battle::playerTurn()
 
     ExtensionMethod::UpdateStatsLayout(this->statsLabels);
     QMessageBox::information(NULL, "Information", "Thanks for clicking");
+
+    return this->pTurnString;
 }
 
-void Battle::nextTurn()
+QString Battle::nextTurn()
 {
+    QString report;
+
     if (this->turn == Battle::Turn::PlayerTurn)
     {
-        this->playerTurn();
+        report = this->playerTurn();
         this->turn = Battle::Turn::OpponentTurn;
     }
     else
     {
-        this->opponentTurn();
+        report = this->opponentTurn();
         this->turn = Battle::Turn::PlayerTurn;
+        //QThread::sleep(5);
     }
+
+    return report;
 }

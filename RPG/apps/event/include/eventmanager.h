@@ -20,11 +20,19 @@ class EventManager
 {
 private:
     std::map<Player *, QLabel *> *statsLabels;
+    QLabel *gameLabel;
 
 public:
-    EventManager(std::map<Player *, QLabel *> *_statsLabels);
+    enum Event
+    {
+        NothingEvent,
+        LootEvent,
+        RiddleEvent
+    };
 
-    bool battleEvent(std::deque<Player *> *_player, QPushButton *_btnAOne, QPushButton *_btnATwo) const;
+    EventManager(std::map<Player *, QLabel *> *_statsLabels, QLabel *_gameLabel);
+
+    bool battleEvent(std::deque<Player *> *_player, Opponent *_opponent, QPushButton *_btnAOne, QPushButton *_btnATwo) const;
     IObject *lootEvent() const;
     void riddleEvent(std::deque<Player *> *_player) const;
 };

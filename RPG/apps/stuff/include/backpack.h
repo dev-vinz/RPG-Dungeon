@@ -43,6 +43,7 @@ public:
     Backpack(std::deque<Player *> *_player, QWidget *_parent = nullptr);
 
     void addItem(IObject* _pObject);
+    QPushButton *getUseButton() const;
     void useItem(int _indice);
     void show();
 

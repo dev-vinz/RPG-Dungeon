@@ -20,7 +20,6 @@ void virtual attack2(Character*) override;
 public:
 Wizard()=delete;
 Wizard(int _damage, int _agility, int _defense, double _health, double _mana);
-~Wizard();
 
 QGridLayout virtual *show() const override;
 double getMana()const{return this->mana;};

@@ -40,10 +40,9 @@ public:
         MapDisplay
     };
 
+    void updateGame();
     void updateLayout();
-
-protected:
-    void mousePressEvent(QMouseEvent *event) override;
+    void updateMap();
 
 private:
     ActualDisplay currentDisplay = GameManager::ActualDisplay::GameDisplay;
@@ -56,17 +55,9 @@ private:
 
     QGridLayout *createActionButtons();
     QGridLayout *createCharacterStatistics();
-    QGridLayout *createInformationsBox();
-    QGridLayout *createLegends();
     QVBoxLayout *createMiniMap();
 
     void updateStatistics();
-
-public slots:
-    void refreshGame();
-
-signals:
-    void newActionRPG();
 };
 
 #endif // GAMEMANAGER_H

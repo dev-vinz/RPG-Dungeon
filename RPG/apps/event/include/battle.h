@@ -16,6 +16,7 @@
 #include <QEventLoop>
 #include <QMessageBox>
 #include <QPushButton>
+#include <QThread>
 
 #include "../../actors/include/ghoul.h"
 #include "../../actors/include/healer.h"
@@ -44,7 +45,7 @@ public:
         AttackTwoType = 2
     };
 
-    Battle(std::map<Player *, QLabel *> *_statsLabels, std::deque<Player *> *, Opponent *, QWidget *_parent = nullptr);
+    Battle(std::map<Player *, QLabel *> *_statsLabels, std::deque<Player *> *, Opponent *, QLabel *informations, QWidget *_parent = nullptr);
 
     Turn getWinner(QPushButton *, QPushButton *);
 
@@ -52,9 +53,9 @@ protected:
     Character *chooseAlly() const;
 
     void checkOver();
-    void nextTurn();
-    void opponentTurn();
-    void playerTurn();
+    QString nextTurn();
+    QString opponentTurn();
+    QString playerTurn();
 
 private:
     bool isBattle;
@@ -64,6 +65,10 @@ private:
     Turn winner;
 
     int idPlayer;
+
+    QLabel *informations;
+    QString pTurnString;
+    QString oTurnString;
 
     QPushButton *btnAttackOne;
     QPushButton *btnAttackTwo;
