@@ -16,9 +16,12 @@ void GameManager::display()
 
     QGridLayout *actionButtons = this->createActionButtons();
     QGridLayout *characterStatistics = this->createCharacterStatistics();
-    QGridLayout *informations = this->createInformationsBox();
-    QGridLayout *legends = this->createLegends();
+    //QGridLayout *informations = this->createInformationsBox();
+    //QGridLayout *legends = this->createLegends();
     QVBoxLayout *miniMap = this->createMiniMap();
+
+    QLabel *gameInformations = new QLabel("ACTIONS JEU");
+    gameInformations->setAlignment(Qt::AlignBottom | Qt::AlignRight);
 
     this->globalView = new QGraphicsView;
     QGraphicsScene *mainScene = this->game->getScene();
@@ -26,12 +29,13 @@ void GameManager::display()
     globalView->setScene(mainScene);
     globalView->fitInView(mainScene->sceneRect());
 
-    globalGrid->addWidget(globalView, 0, 0, 4, 4);
-    globalGrid->addLayout(actionButtons, 4, 0, 1, 2);
+    globalGrid->addWidget(globalView, 0, 0, 5, 4);
+    globalGrid->addLayout(actionButtons, 5, 0, 1, 2);
     globalGrid->addLayout(characterStatistics, 0, 4, 3, 1);
-    globalGrid->addLayout(informations, 5, 0, 1, 4);
-    globalGrid->addLayout(legends, 4, 2, 1, 2);
-    globalGrid->addLayout(miniMap, 4, 4, 1, 1);
+    //globalGrid->addLayout(informations, 5, 0, 1, 4);
+    //globalGrid->addLayout(legends, 4, 2, 1, 2);
+    globalGrid->addWidget(gameInformations, 5, 2, 2, 2);
+    globalGrid->addLayout(miniMap, 4, 4, 2, 1);
 
     this->setWindowTitle("RPG - HE-Arc");
     this->setLayout(globalGrid);
@@ -67,6 +71,7 @@ void GameManager::updateLayout()
     else
     {
         scene = this->map->getScene();
+        scene->addRect(scene->sceneRect(), Qt::DashDotLine);
         this->currentDisplay = GameManager::ActualDisplay::MapDisplay;
         this->game->btnMap->setEnabled(false);
     }
@@ -112,6 +117,11 @@ QGridLayout *GameManager::createActionButtons()
     actionButtons->addWidget(this->game->btnAttackTwo, 0, 1);
     actionButtons->addWidget(this->game->btnBackpack, 1, 0);
     actionButtons->addWidget(this->game->btnFlee, 1, 1);
+
+    this->game->btnAttackOne->setFixedHeight(50);
+    this->game->btnAttackTwo->setFixedHeight(50);
+    this->game->btnBackpack->setFixedHeight(50);
+    this->game->btnFlee->setFixedHeight(50);
 
     return actionButtons;
 }
