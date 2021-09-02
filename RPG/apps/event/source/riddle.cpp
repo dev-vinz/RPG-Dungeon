@@ -7,12 +7,9 @@ Riddle::Riddle(QWidget *_parent) : QWidget(_parent)
 
 void Riddle::display()
 {
-    this->connectToDatabase();
-    Query q = this->getRandomQuery();
-    QGridLayout *layout = this->createLayout(q);
-    this->database.close();
+    this->query = this->getRandomQuery();
 
-    this->query = q;
+    QGridLayout *layout = this->createLayout();
 
     this->window->setWindowTitle("Énigme");
     this->window->setWindowFlags(Qt::WindowTitleHint);
@@ -61,14 +58,14 @@ void Riddle::connectToDatabase()
     }
 }
 
-QGridLayout *Riddle::createLayout(Query _q)
+QGridLayout *Riddle::createLayout()
 {
     QGridLayout *riddleGrid = new QGridLayout(this->window);
 
-    QLabel *question = new QLabel(_q.question);
-    this->optionOne = new QPushButton(_q.optionOne);
-    this->optionTwo = new QPushButton(_q.optionTwo);
-    this->optionThree = new QPushButton(_q.optionThree);
+    QLabel *question = new QLabel(this->query.question);
+    this->optionOne = new QPushButton(this->query.optionOne);
+    this->optionTwo = new QPushButton(this->query.optionTwo);
+    this->optionThree = new QPushButton(this->query.optionThree);
 
     riddleGrid->addWidget(question, 0, 0, 1, 3);
     riddleGrid->addWidget(optionOne, 1, 0, 1, 1);
@@ -78,21 +75,41 @@ QGridLayout *Riddle::createLayout(Query _q)
     return riddleGrid;
 }
 
-Riddle::Query Riddle::getRandomQuery() const
+void Riddle::disconnectFromDatabase()
 {
-    int nbRows = this->getTableLength();
-    qint32 row = QRandomGenerator::global()->bounded(1, nbRows + 1);
+    // Remove connection to database
 
-    QSqlQuery query;
-    query.exec(QString("SELECT * FROM riddle WHERE id=%1").arg(row));
-    query.next();
+    QString connectionName = this->database.connectionName();
 
+    QSqlDatabase::removeDatabase(connectionName);
+}
+
+Riddle::Query Riddle::getRandomQuery()
+{
     Query q;
-    q.question = query.value("question").toString();
-    q.optionOne = query.value("option_1").toString();
-    q.optionTwo = query.value("option_2").toString();
-    q.optionThree = query.value("option_3").toString();
-    q.answer = query.value("answer").toInt();
+
+    {
+        // Connect first to database
+        this->connectToDatabase();
+
+        // Get some informations
+        int nbRows = this->getTableLength();
+        qint32 row = QRandomGenerator::global()->bounded(1, nbRows + 1);
+
+        // Make query
+        QSqlQuery query;
+        query.exec(QString("SELECT * FROM riddle WHERE id=%1").arg(row));
+        query.next();
+
+        q.question = query.value("question").toString();
+        q.optionOne = query.value("option_1").toString();
+        q.optionTwo = query.value("option_2").toString();
+        q.optionThree = query.value("option_3").toString();
+        q.answer = query.value("answer").toInt();
+    }
+
+    // And then disconnect from database
+    this->disconnectFromDatabase();
 
     return q;
 }

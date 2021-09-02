@@ -4,7 +4,7 @@
 #include "../include/potion.h"
 #include "../include/torch.h"
 
-Backpack::Backpack(std::deque<Player *> *_player, QWidget *_parent) : QWidget(_parent), player(_player)
+Backpack::Backpack(std::deque<Player *> *_player, QLabel *_infoLabel, QWidget *_parent) : QWidget(_parent), player(_player), infoLabel(_infoLabel)
 {
     QVBoxLayout *layout = this->createLayout();
 
@@ -12,6 +12,8 @@ Backpack::Backpack(std::deque<Player *> *_player, QWidget *_parent) : QWidget(_p
     this->window->setWindowFlags(Qt::WindowTitleHint);
     this->window->setWindowTitle("Sac à Dos");
     this->window->setLayout(layout);
+
+    this->addItem(new Torch);
 }
 
 void Backpack::addItem(IObject* _pObject)
@@ -35,6 +37,8 @@ void Backpack::useItem(int _indice)
 
     IObject *object = this->myBackpack.at(_indice);
 
+    this->infoLabel->setText(QString("Vous utilisez : %1\n%2").arg(object->show(), object->getAction()));
+
     Potion *ptrPotion = dynamic_cast<Potion *>(object);
     Scroll *ptrScroll = dynamic_cast<Scroll *>(object);
     Torch *ptrTorch = dynamic_cast<Torch *>(object);
@@ -57,8 +61,6 @@ void Backpack::useItem(int _indice)
     {
         Map::torchUsed = true;
     }
-
-    //myBackpack[_indice]->use(_character);
 
     myBackpack.erase(myBackpack.begin() + _indice);
 
@@ -151,10 +153,7 @@ void Backpack::closeBackpack()
 void Backpack::useItemButton()
 {
     int index = this->listItem->currentRow();
-    IObject *item = this->myBackpack.at(index);
     this->useItem(index);
-
-    qDebug() << "Utilisation de : " << item->show();
 
     if (this->listItem->count() == 0)
     {

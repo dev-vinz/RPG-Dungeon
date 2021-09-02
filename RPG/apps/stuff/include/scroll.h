@@ -20,6 +20,9 @@ public:
     int getFeature() override{return this->power;};
     QString getName() override{return QString("Parchemin");};
 
+    QString virtual getAction() const override { return QString("Vous infligez %1 dégâts").arg(QString::number(this->power)); }
+    QString virtual getDescription() const override { return "Inflige des dégâts à l'ennemi"; }
+
 };
 
 #endif // SCROLL_H

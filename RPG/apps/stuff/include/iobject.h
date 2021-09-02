@@ -25,6 +25,8 @@ public:
     QString virtual show();
     void virtual use(Character* _character) = 0;
 
+    QString virtual getAction() const = 0;
+    QString virtual getDescription() const = 0;
 };
 
 #endif // IOBJECT_H

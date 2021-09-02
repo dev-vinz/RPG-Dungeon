@@ -19,7 +19,8 @@ IObject *EventManager::lootEvent() const
 
     IObject *treasure = loot.getTreasure();
 
-    QMessageBox::information(NULL, "Loot Récupéré", QString("Bravo, vous avez récupéré : %1").arg(treasure->getName()));
+    //QMessageBox::information(NULL, "Loot Récupéré", QString("Bravo, vous avez récupéré : %1").arg(treasure->getName()));
+    this->gameLabel->setText(QString("Trésor Trouvé !\n\nBravo, vous avez récupéré une %1.\nDescription : %2").arg(treasure->show(), treasure->getDescription()));
 
     return treasure;
 }
@@ -33,7 +34,8 @@ void EventManager::riddleEvent(std::deque<Player *> *_player) const
 
     if (isCorrect)
     {
-        QMessageBox::information(NULL, "Énigme", "Bravo, vous avez trouvé la bonne réponse !");
+        //QMessageBox::information(NULL, "Énigme", "Bravo, vous avez trouvé la bonne réponse !");
+        this->gameLabel->setText("Bravo, vous avez trouvé la bonne réponse !");
         return;
     }
 
@@ -51,5 +53,6 @@ void EventManager::riddleEvent(std::deque<Player *> *_player) const
 
     QString msgStatus = ExtensionMethod::Join(pInformation, "\n");
     QString msg = QString("Oups, mauvaise réponse... chacun de vos personnages a perdu 10% de ses points de vie restants.\n\nStatut des Personnages\n\n%1").arg(msgStatus);
-    QMessageBox::critical(NULL, "Énigme", msg);
+    //QMessageBox::critical(NULL, "Énigme", msg);
+    this->gameLabel->setText("Oups, mauvaise réponse... chacun de vos personnages a perdu 10% de ses points de vie restants.");
 }

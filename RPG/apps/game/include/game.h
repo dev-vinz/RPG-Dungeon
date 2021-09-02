@@ -50,6 +50,7 @@ private:
     Opponent *opponent = nullptr;
 
     QLabel *labelInformations = nullptr;
+    QTime startGame;
 
     QPushButton *btnMap;
     QPushButton *btnAttackOne;

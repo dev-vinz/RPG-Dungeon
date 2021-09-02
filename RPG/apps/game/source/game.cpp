@@ -62,6 +62,7 @@ void Game::play()
 void Game::setLabelInformations(QLabel *_label)
 {
     this->labelInformations = _label;
+    this->playerBackpack = new Backpack(&player, _label);
     this->eventManager = new EventManager(this->statsLabel, _label);
 }
 
@@ -73,6 +74,7 @@ void Game::start()
 
     // TODO : Say Welcome
     this->update();
+    this->startGame = QTime::currentTime();
     this->play();
 }
 
@@ -147,7 +149,8 @@ void Game::chooseRandomEvent()
     case 1:
         // Empty room
         this->updateScene(EventManager::Event::NothingEvent);
-        QMessageBox::information(NULL, "Event", "CHEH");
+        //QMessageBox::information(NULL, "Event", "CHEH");
+        this->labelInformations->setText("Hum... il n'y a pas grand chose par ici...");
         break;
     case 2:
         // Riddle room
@@ -295,14 +298,29 @@ void Game::createScene()
 
 void Game::end()
 {
-    QMessageBox::information(NULL, "Fin du Jeu", "Le jeu est terminé");
+    // Disable all buttons...
+    this->btnAttackOne->setEnabled(false);
+    this->btnAttackTwo->setEnabled(false);
+    this->btnBackpack->setEnabled(false);
+    this->btnMap->setEnabled(false);
+
+    // ... except exit button
+    this->btnFlee->setEnabled(true);
+    this->btnFlee->setText("&Quitter le jeu");
+
+    // Get game duration
+    QTime endTime = QTime::currentTime();
+    int nbMsec = this->startGame.msecsTo(endTime);
+
+    QTime gameTime = QTime(0, 0, 0, 0).addMSecs(nbMsec);
+
+    this->labelInformations->setText(QString("Le jeu est terminé !\n\nTemps de jeu : %1").arg(gameTime.toString()));
+    //QMessageBox::information(NULL, "Fin du Jeu", "Le jeu est terminé");
 }
 
 void Game::initializePlayer()
 {
-    this->player.push_back(new Warrior(80, 20, 90, 1));
-    this->player.push_back(new Wizard(70, 50, 60, 1, 100));
-    this->player.push_back(new Healer(20, 80, 50, 1));
-
-    this->playerBackpack = new Backpack(&player);
+    this->player.push_back(new Warrior(80, 20, 90, 100));
+    this->player.push_back(new Wizard(70, 50, 60, 100, 100));
+    this->player.push_back(new Healer(20, 80, 50, 100));
 }

@@ -56,8 +56,9 @@ public:
 protected:
     void checkAnswer(int _idButton);
     void connectToDatabase();
-    QGridLayout *createLayout(Query);
-    Query getRandomQuery() const;
+    QGridLayout *createLayout();
+    void disconnectFromDatabase();
+    Query getRandomQuery();
     int getTableLength() const;
 };
 

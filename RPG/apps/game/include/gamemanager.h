@@ -40,6 +40,7 @@ public:
         MapDisplay
     };
 
+    void resetActionLabel();
     void updateGame();
     void updateLayout();
     void updateMap();

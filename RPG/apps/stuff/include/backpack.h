@@ -33,6 +33,7 @@ class Backpack : public QWidget
 private:
     std::vector<IObject *> myBackpack;
     std::deque<Player *> *player;
+    QLabel *infoLabel;
     QListWidget *listItem;
     QPushButton *btnUse;
     QWidget *window;
@@ -40,7 +41,7 @@ private:
     Player *chooseAlly() const;
 
 public:
-    Backpack(std::deque<Player *> *_player, QWidget *_parent = nullptr);
+    Backpack(std::deque<Player *> *_player, QLabel *_infoLabel = nullptr, QWidget *_parent = nullptr);
 
     void addItem(IObject* _pObject);
     QPushButton *getUseButton() const;

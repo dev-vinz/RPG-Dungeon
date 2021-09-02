@@ -14,14 +14,15 @@ void GameManager::display()
 {
     this->globalGrid = new QGridLayout(this);
 
+    QLabel *gameInformations = new QLabel;
+    gameInformations->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+    gameInformations->setStyleSheet("font-size: 16px; margin-left: 10px;");
+
+    this->game->setLabelInformations(gameInformations);
+
     QGridLayout *actionButtons = this->createActionButtons();
     QGridLayout *characterStatistics = this->createCharacterStatistics();
     QVBoxLayout *miniMap = this->createMiniMap();
-
-    QLabel *gameInformations = new QLabel;
-    gameInformations->setAlignment(Qt::AlignLeft);
-
-    this->game->setLabelInformations(gameInformations);
 
     this->globalView = new QGraphicsView;
     QGraphicsScene *mainScene = this->game->getScene();
@@ -42,6 +43,11 @@ void GameManager::display()
 void GameManager::startGame()
 {
     this->game->start();
+}
+
+void GameManager::resetActionLabel()
+{
+    this->game->labelInformations->setText("");
 }
 
 void GameManager::updateGame()
@@ -186,6 +192,7 @@ QVBoxLayout *GameManager::createMiniMap()
     QGridLayout *map = this->map->getMiniMap();
 
     connect(this->game->btnMap, &QPushButton::clicked, this, &GameManager::updateLayout);
+    connect(this->game->btnMap, &QPushButton::clicked, this, &GameManager::resetActionLabel);
 
     mapTitle->setAlignment(Qt::AlignHCenter | Qt::AlignBottom);
     mapTitle->setStyleSheet("font: bold 20px; text-decoration: underline");

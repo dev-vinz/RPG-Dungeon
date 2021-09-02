@@ -21,6 +21,9 @@ public:
     int getFeature() override{return this->power;};
     QString getName() override{return QString("Torche");};
     QString show() override;
+
+    QString virtual getAction() const override { return "Vous révèlez l'entièreté de la map."; }
+    QString virtual getDescription() const override { return "Révèle l'entièreté de la map"; }
 };
 
 #endif // TORCH_H
