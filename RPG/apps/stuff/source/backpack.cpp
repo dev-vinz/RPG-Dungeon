@@ -1,34 +1,152 @@
 #include "..\include\backpack.h"
 
-Backpack::Backpack()
+#include "../include/scroll.h"
+#include "../include/potion.h"
+#include "../include/torch.h"
+
+Backpack::Backpack(QWidget *_parent) : QWidget(_parent)
 {
-    Potion *potion1 = new Potion(5);
-    Torch *torch = new Torch(5);
-    Scroll *scroll = new Scroll(5);
-    myBackpack.push_back(potion1);
-    myBackpack.push_back(torch);
-    myBackpack.push_back(scroll);
+    QVBoxLayout *layout = this->createLayout();
+
+    this->window = new QWidget;
+    this->window->setWindowFlags(Qt::WindowTitleHint);
+    this->window->setWindowTitle("Sac à Dos");
+    this->window->setLayout(layout);
+
+    this->addItem(new Scroll(1));
+    this->addItem(new Scroll(2));
+    this->addItem(new Scroll(3));
+    this->addItem(new Potion(4));
+    this->addItem(new Potion(5));
+    this->addItem(new Potion(6));
+    this->addItem(new Torch(7));
+    this->addItem(new Torch(8));
+    this->addItem(new Torch(9));
 }
 
 void Backpack::addItem(IObject* _pObject)
 {
     myBackpack.push_back(_pObject);
+
+    QPixmap px(QString("../img/stuff/sprite_%1.png").arg(_pObject->getName().toLower()));
+    QListWidgetItem *it = new QListWidgetItem(_pObject->show(), this->listItem);
+
+    it->setIcon(px);
 }
 
-void Backpack::useItem(int _indice, Character *_character)
+void Backpack::useItem(int _indice)
 {
-    //il faut trouver l'item quon veut utiliser puis il faut l'enlever du sac
+    // We must find the item we want and pop it from pack
 
-    myBackpack[_indice]->use(_character);
+    IObject *object = this->myBackpack.at(_indice);
 
-    myBackpack.erase(myBackpack.begin()+_indice);
+    Potion *ptrPotion = dynamic_cast<Potion *>(object);
+    Scroll *ptrScroll = dynamic_cast<Scroll *>(object);
+    Torch *ptrTorch = dynamic_cast<Torch *>(object);
 
+    // USE POTION
+    if (ptrPotion != nullptr)
+    {
+
+    }
+
+    // USE SCROLL
+    if (ptrScroll != nullptr)
+    {
+
+    }
+
+    // USE TORCH
+    if (ptrTorch != nullptr)
+    {
+        //Map::TorchUsed = true;
+    }
+
+    //myBackpack[_indice]->use(_character);
+
+    myBackpack.erase(myBackpack.begin() + _indice);
+
+    QListWidgetItem *it = this->listItem->takeItem(_indice);
+    delete it;
 }
 
 void Backpack::show()
 {
-    for_each(myBackpack.begin(), myBackpack.end(), [](IObject *_object)
+    btnUse->setEnabled(this->myBackpack.size() > 0);
+
+    QListWidgetItem *firstIt = this->listItem->item(0);
+
+    if (firstIt != nullptr)
+        this->listItem->setCurrentItem(firstIt);
+
+    this->window->show();
+}
+
+/* * * * * * * * * * * * * * * * *
+ * * * * PROTECTED METHODS * * * *
+ * * * * * * * * * * * * * * * * */
+
+QHBoxLayout *Backpack::createButtons()
+{
+    QHBoxLayout *box = new QHBoxLayout;
+
+    QPushButton *btnUse = new QPushButton("&Utiliser");
+    QPushButton *btnClose = new QPushButton("&Fermer");
+
+    this->btnUse = btnUse;
+
+    QObject::connect(btnUse, &QPushButton::clicked, this, &Backpack::useItemButton);
+    QObject::connect(btnClose, &QPushButton::clicked, this, &Backpack::closeBackpack);
+
+    box->addWidget(btnUse);
+    box->addWidget(btnClose);
+
+    return box;
+}
+
+QVBoxLayout *Backpack::createLayout()
+{
+    QVBoxLayout *backpackGrid = new QVBoxLayout;
+
+    backpackGrid->addWidget(this->createListItems());
+    backpackGrid->addLayout(this->createButtons());
+
+    return backpackGrid;
+}
+
+QListWidget *Backpack::createListItems()
+{
+    this->listItem = new QListWidget;
+    listItem->setIconSize(QSize(50, 50));
+
+    return listItem;
+}
+
+/* * * * * * * * * * * * * * *
+ * * * * PUBLICS SLOTS * * * *
+ * * * * * * * * * * * * * * */
+
+void Backpack::closeBackpack()
+{
+    this->window->close();
+}
+
+void Backpack::useItemButton()
+{
+    int index = this->listItem->currentRow();
+    IObject *item = this->myBackpack.at(index);
+    this->useItem(index);
+
+    qDebug() << "Utilisation de : " << item->show();
+
+    if (this->listItem->count() == 0)
     {
-        _object->show();
-    });
+        this->btnUse->setEnabled(false);
+    }
+    else
+    {
+        QListWidgetItem *firstIt = this->listItem->item(0);
+        firstIt->setSelected(true);
+    }
+
 }

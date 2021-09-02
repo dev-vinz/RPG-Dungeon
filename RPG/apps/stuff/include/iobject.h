@@ -7,6 +7,7 @@
 #ifndef IOBJECT_H
 #define IOBJECT_H
 
+#include <QString>
 
 #include "..\..\actors\include\character.h"
 
@@ -22,7 +23,7 @@ public:
 
     QString virtual getName() = 0;
     int virtual getFeature() = 0;
-    void show();
+    QString virtual show();
     void virtual use(Character* _character) = 0;
 
 };

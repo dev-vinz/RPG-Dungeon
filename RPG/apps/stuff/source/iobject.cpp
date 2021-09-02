@@ -4,9 +4,10 @@ IObject::IObject(int _power)
 {
     this->power = _power;
 }
-void IObject::show()
+
+QString IObject::show()
 {
-    //cout << this->getName() + "(" + to_string(this->getFeature()) + ")" << endl;
+    return QString("%1 (%2)").arg(this->getName(), QString::number(this->getFeature()));
 }
 
 IObject::~IObject()

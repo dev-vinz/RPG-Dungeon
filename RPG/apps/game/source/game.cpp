@@ -53,7 +53,7 @@ void Game::play()
     this->btnAttackOne->setEnabled(false);
     this->btnAttackTwo->setEnabled(false);
     this->btnBackpack->setEnabled(true);
-    this->btnFlee->setEnabled(false);
+    this->btnFlee->setEnabled(true);
 
     // If exit is found, stop the game
     if (this->isExitFound)
@@ -149,7 +149,9 @@ void Game::riddle()
 
 void Game::treasure()
 {
-    this->eventManager->lootEvent(&player);
+    IObject *treasure = this->eventManager->lootEvent();
+
+    this->playerBackpack->addItem(treasure);
 }
 
 /* * * * * * * * * * * * * * * *
@@ -167,7 +169,7 @@ void Game::createButtons()
     this->btnAttackOne->setEnabled(false);
     this->btnAttackTwo->setEnabled(false);
     this->btnBackpack->setEnabled(true);
-    this->btnFlee->setEnabled(false);
+    this->btnFlee->setEnabled(true);
 }
 
 void Game::createScene()
@@ -176,13 +178,6 @@ void Game::createScene()
     gameScene->setSceneRect(0, 0, Game::GAME_WIDTH, Game::GAME_HEIGHT);
 
     gameScene->addRect(gameScene->sceneRect(), QPen(Qt::DashDotLine));
-
-    //this->setScene(gameScene);
-
-    /*qreal w = gameScene->sceneRect().width();
-    qreal h = gameScene->sceneRect().height();
-
-    this->fitInView(0, 0, w / this->GAME_RATIO, h / this->GAME_RATIO, Qt::KeepAspectRatioByExpanding);*/
 
     this->gameScene = gameScene;
 }
@@ -194,6 +189,7 @@ void Game::end()
 
 void Game::initializePlayer()
 {
+    this->playerBackpack = new Backpack;
     this->player.push_back(new Warrior(80, 20, 90, 100));
     this->player.push_back(new Wizard(70, 50, 60, 100, 100));
     this->player.push_back(new Healer(20, 80, 50, 100));

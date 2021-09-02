@@ -15,6 +15,7 @@ void Riddle::display()
     this->query = q;
 
     this->window->setWindowTitle("Énigme");
+    this->window->setWindowFlags(Qt::WindowTitleHint);
     this->window->setLayout(layout);
     this->window->show();
 }
@@ -29,7 +30,6 @@ bool Riddle::waitForAnswer()
     btnGrp->addButton(this->optionThree, 3);
 
     QObject::connect(btnGrp, &QButtonGroup::buttonClicked, &loop, &QEventLoop::quit);
-    //QObject::connect(btnGrp, &QButtonGroup::buttonClicked, this, &QApplication::quit);
     QObject::connect(btnGrp, &QButtonGroup::idClicked, this, &Riddle::checkAnswer);
 
     // Wait for button to be clicked

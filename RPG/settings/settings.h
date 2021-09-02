@@ -12,8 +12,7 @@
 enum Action{
     attack1 = 1,
     attack2 = 2,
-    backpack = 3,
-    flee = 4
+    flee = 3
 };
 
 #endif // SETTINGS_H

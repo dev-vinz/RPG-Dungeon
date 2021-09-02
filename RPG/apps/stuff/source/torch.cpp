@@ -10,3 +10,8 @@ void Torch::use(Character* _character)
 {
     //Affiche la map mais je sais pas comment
 }
+
+QString Torch::show()
+{
+    return this->getName();
+}

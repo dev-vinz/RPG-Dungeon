@@ -21,7 +21,7 @@ public:
     void virtual use(Character* _character) override;
     int getFeature() override{return this->power;};
     QString getName() override{return QString("Torch");};
-
+    QString show() override;
 };
 
 #endif // TORCH_H

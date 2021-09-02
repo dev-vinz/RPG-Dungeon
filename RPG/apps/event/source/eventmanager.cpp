@@ -15,7 +15,7 @@ bool EventManager::battleEvent(std::deque<Player *> *_player, QPushButton *_btnA
     return winner == Battle::Turn::PlayerTurn;
 }
 
-void EventManager::lootEvent(std::deque<Player *> *_player) const
+IObject *EventManager::lootEvent() const
 {
     Loot loot;
 
@@ -23,10 +23,7 @@ void EventManager::lootEvent(std::deque<Player *> *_player) const
 
     QMessageBox::information(NULL, "Loot Récupéré", QString("Bravo, vous avez récupéré : %1").arg(treasure->getName()));
 
-    for (Player *p : *_player)
-    {
-        p->playerBackpack.addItem(treasure);
-    }
+    return treasure;
 }
 
 void EventManager::riddleEvent(std::deque<Player *> *_player) const

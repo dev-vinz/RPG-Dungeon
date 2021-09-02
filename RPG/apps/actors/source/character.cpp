@@ -84,9 +84,6 @@ void Character::interaction(Character* _character, Action _action)
         case Action::attack2:
         this->attack2(_character);
         break;
-        case Action::backpack:
-        _player->backpack();
-        break;
         case Action::flee:
         _player->flee();
         break;

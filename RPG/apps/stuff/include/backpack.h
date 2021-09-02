@@ -7,26 +7,48 @@
 #ifndef BACKPACK_H
 #define BACKPACK_H
 
+#include <QHBoxLayout>
+#include <QGridLayout>
+#include <QListWidget>
+#include <QListWidgetItem>
+#include <QPushButton>
+#include <QVBoxLayout>
+#include <QWidget>
+
 #include <vector>
 
-#include "iobject.h"
-#include "..\..\actors\include\character.h"
-#include "..\include\torch.h"
-#include "..\include\potion.h"
-#include "..\include\scroll.h"
+#include "../../map/include/map.h"
 
-class Backpack
+#include "iobject.h"
+
+class Backpack : public QWidget
 {
+
+    Q_OBJECT
+
+    friend class Map;
 
 private:
     std::vector<IObject *> myBackpack;
+    QListWidget *listItem;
+    QPushButton *btnUse;
+    QWidget *window;
+
 public:
-    Backpack();
-    ~Backpack();
+    Backpack(QWidget *_parent = nullptr);
 
     void addItem(IObject* _pObject);
-    void useItem(int _indice, Character *_character);
+    void useItem(int _indice);
     void show();
+
+protected:
+    QHBoxLayout *createButtons();
+    QVBoxLayout *createLayout();
+    QListWidget *createListItems();
+
+public slots:
+    void closeBackpack();
+    void useItemButton();
 };
 
 #endif // BACKPACK_H

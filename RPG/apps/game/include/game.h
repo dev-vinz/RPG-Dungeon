@@ -24,6 +24,8 @@
 #include "../../event/include/eventmanager.h"
 #include "../../map/include/map.h"
 
+#include "../../stuff/include/backpack.h"
+
 #include <QLabel>
 
 class Game : public QGraphicsView
@@ -38,6 +40,7 @@ private:
 
     bool isExitFound = false;
     std::deque<Player *> player;
+    Backpack *playerBackpack;
     std::map<Player *, QLabel *> *statsLabel;
 
     EventManager *eventManager;

@@ -37,6 +37,14 @@ void GameManager::display()
     globalGrid->addWidget(gameInformations, 5, 2, 1, 2);
     globalGrid->addLayout(miniMap, 4, 4, 2, 1);
 
+    /*globalGrid->addWidget(globalView, 0, 0, 3, 4);
+    globalGrid->addLayout(actionButtons, 3, 0, 1, 2);
+    globalGrid->addLayout(characterStatistics, 0, 4, 1, 1);
+    //globalGrid->addLayout(informations, 5, 0, 1, 4);
+    //globalGrid->addLayout(legends, 4, 2, 1, 2);
+    globalGrid->addWidget(gameInformations, 3, 2, 1, 2);
+    globalGrid->addLayout(miniMap, 2, 4, 2, 1);*/
+
     this->setWindowTitle("RPG - HE-Arc");
     this->setLayout(globalGrid);
 }
@@ -117,6 +125,9 @@ QGridLayout *GameManager::createActionButtons()
     actionButtons->addWidget(this->game->btnAttackTwo, 0, 1);
     actionButtons->addWidget(this->game->btnBackpack, 1, 0);
     actionButtons->addWidget(this->game->btnFlee, 1, 1);
+
+    QObject::connect(this->game->btnFlee, &QPushButton::clicked, this, &QApplication::quit);
+    QObject::connect(this->game->btnBackpack, &QPushButton::clicked, this->game->playerBackpack, &Backpack::show);
 
     this->game->btnAttackOne->setFixedHeight(50);
     this->game->btnAttackTwo->setFixedHeight(50);
