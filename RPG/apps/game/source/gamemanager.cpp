@@ -21,7 +21,7 @@ void GameManager::display()
     QVBoxLayout *miniMap = this->createMiniMap();
 
     QLabel *gameInformations = new QLabel("ACTIONS JEU");
-    gameInformations->setAlignment(Qt::AlignBottom | Qt::AlignRight);
+    gameInformations->setAlignment(Qt::AlignCenter);
 
     this->globalView = new QGraphicsView;
     QGraphicsScene *mainScene = this->game->getScene();
@@ -34,7 +34,7 @@ void GameManager::display()
     globalGrid->addLayout(characterStatistics, 0, 4, 3, 1);
     //globalGrid->addLayout(informations, 5, 0, 1, 4);
     //globalGrid->addLayout(legends, 4, 2, 1, 2);
-    globalGrid->addWidget(gameInformations, 5, 2, 2, 2);
+    globalGrid->addWidget(gameInformations, 5, 2, 1, 2);
     globalGrid->addLayout(miniMap, 4, 4, 2, 1);
 
     this->setWindowTitle("RPG - HE-Arc");
