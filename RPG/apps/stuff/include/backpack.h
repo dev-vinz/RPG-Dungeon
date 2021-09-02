@@ -15,8 +15,10 @@
 #include <QVBoxLayout>
 #include <QWidget>
 
+#include <deque>
 #include <vector>
 
+#include "../../actors/include/player.h"
 #include "../../map/include/map.h"
 
 #include "iobject.h"
@@ -30,12 +32,15 @@ class Backpack : public QWidget
 
 private:
     std::vector<IObject *> myBackpack;
+    std::deque<Player *> *player;
     QListWidget *listItem;
     QPushButton *btnUse;
     QWidget *window;
 
+    Player *chooseAlly() const;
+
 public:
-    Backpack(QWidget *_parent = nullptr);
+    Backpack(std::deque<Player *> *_player, QWidget *_parent = nullptr);
 
     void addItem(IObject* _pObject);
     void useItem(int _indice);

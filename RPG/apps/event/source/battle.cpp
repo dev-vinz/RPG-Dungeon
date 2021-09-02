@@ -8,21 +8,17 @@ Battle::Battle(std::map<Player *, QLabel *> *_statsLabels, std::deque<Player *> 
     this->statsLabels = _statsLabels;
 }
 
-Battle::Turn Battle::getWinner(QPushButton *_btnAOne, QPushButton *_btnATwo, QPushButton *_btnBackpack, QPushButton *_btnFlee)
+Battle::Turn Battle::getWinner(QPushButton *_btnAOne, QPushButton *_btnATwo)
 {
     this->turn = Battle::Turn::PlayerTurn;
     this->isBattle = true;
 
     this->btnAttackOne = _btnAOne;
     this->btnAttackTwo = _btnATwo;
-    this->btnBackpack = _btnBackpack;
-    this->btnFlee = _btnFlee;
 
     QButtonGroup *globalButtons = new QButtonGroup;
     globalButtons->addButton(_btnAOne, 1);
     globalButtons->addButton(_btnATwo, 2);
-    globalButtons->addButton(_btnBackpack, 3);
-    globalButtons->addButton(_btnFlee, 4);
 
     QObject::connect(globalButtons, &QButtonGroup::idClicked, this, &Battle::doAction);
 
@@ -71,9 +67,6 @@ void Battle::doAction(int _id)
             action = Action::attack2;
             ptrWarrior->interaction(target, action);
             break;
-        case Battle::ButtonType::BackpackType:
-        case Battle::ButtonType::FleeType:
-            break;
         default:
             exit(-1);
         }
@@ -101,9 +94,6 @@ void Battle::doAction(int _id)
             action = Action::attack2;
             ptrWizard->interaction(target, action);
             break;
-        case Battle::ButtonType::BackpackType:
-        case Battle::ButtonType::FleeType:
-            break;
         default:
             exit(-1);
         }
@@ -130,9 +120,6 @@ void Battle::doAction(int _id)
             target = this->opponent;
             action = Action::attack2;
             ptrHealer->interaction(target, action);
-            break;
-        case Battle::ButtonType::BackpackType:
-        case Battle::ButtonType::FleeType:
             break;
         default:
             exit(-1);
@@ -211,8 +198,6 @@ void Battle::opponentTurn()
     // Disable buttons
     this->btnAttackOne->setEnabled(false);
     this->btnAttackTwo->setEnabled(false);
-    this->btnBackpack->setEnabled(false);
-    this->btnFlee->setEnabled(false);
 
     // Do a random attack...
     qint32 a = QRandomGenerator::global()->bounded(1, 3);
@@ -233,16 +218,12 @@ void Battle::playerTurn()
     // Réactiver les boutons
     this->btnAttackOne->setEnabled(true);
     this->btnAttackTwo->setEnabled(true);
-    this->btnBackpack->setEnabled(true);
-    this->btnFlee->setEnabled(true);
 
     QMessageBox::information(NULL, "Information", "Here we go");
     QEventLoop loop;
 
     QObject::connect(btnAttackOne, &QPushButton::clicked, &loop, &QEventLoop::quit);
     QObject::connect(btnAttackTwo, &QPushButton::clicked, &loop, &QEventLoop::quit);
-    QObject::connect(btnBackpack, &QPushButton::clicked, &loop, &QEventLoop::quit);
-    QObject::connect(btnFlee, &QPushButton::clicked, &loop, &QEventLoop::quit);
 
     // Wait for button to be clicked
     loop.exec();

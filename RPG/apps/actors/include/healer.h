@@ -19,7 +19,7 @@ public:
 Healer()=delete;
 Healer(int _damage, int _agility, int _defense, double _health);
 ~Healer();
-QString getName() const override{return QString("Healer");};
+QString getName() const override{return QString("Soigneur");};
 QGridLayout virtual *show() const override;
 QString virtual showStat() const override;
 

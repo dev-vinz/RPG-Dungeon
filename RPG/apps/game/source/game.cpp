@@ -81,7 +81,7 @@ void Game::updateScene()
 
 bool Game::battle()
 {
-    return this->eventManager->battleEvent(&player, this->btnAttackOne, this->btnAttackTwo, this->btnBackpack, this->btnFlee);
+    return this->eventManager->battleEvent(&player, this->btnAttackOne, this->btnAttackTwo);
 }
 
 void Game::chooseRandomEvent()
@@ -189,8 +189,9 @@ void Game::end()
 
 void Game::initializePlayer()
 {
-    this->playerBackpack = new Backpack;
     this->player.push_back(new Warrior(80, 20, 90, 100));
     this->player.push_back(new Wizard(70, 50, 60, 100, 100));
     this->player.push_back(new Healer(20, 80, 50, 100));
+
+    this->playerBackpack = new Backpack(&player);
 }

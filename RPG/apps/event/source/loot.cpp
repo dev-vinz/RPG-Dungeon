@@ -16,17 +16,15 @@ IObject *Loot::getTreasure() const
         // Potion Heal
     case 4:
         // Potion Heal
-        item = this->getHealPotion();
-        break;
     case 5:
-        // Potion Damage
+        // Potion Heal
     case 6:
-        // Potion Damage
+        // Potion Heal
     case 7:
-        // Potion Damage
+        // Potion Heal
     case 8:
-        // Potion Damage
-        item = this->getDamageScroll();
+        // Potion Heal
+        item = this->getHealPotion();
         break;
     case 9:
         // Torch

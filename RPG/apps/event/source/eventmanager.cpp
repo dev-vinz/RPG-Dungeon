@@ -4,13 +4,13 @@ EventManager::EventManager(std::map<Player *, QLabel *> *_statsLabels) : statsLa
 {
 }
 
-bool EventManager::battleEvent(std::deque<Player *> *_player, QPushButton *_btnAOne, QPushButton *_btnATwo, QPushButton *_btnBackpack, QPushButton *_btnFlee) const
+bool EventManager::battleEvent(std::deque<Player *> *_player, QPushButton *_btnAOne, QPushButton *_btnATwo) const
 {
     Opponent *newOpponent = new Skeleton(50, 20, 40, 100);
 
     Battle battle(this->statsLabels, _player, newOpponent);
 
-    Battle::Turn winner = battle.getWinner(_btnAOne, _btnATwo, _btnBackpack, _btnFlee);
+    Battle::Turn winner = battle.getWinner(_btnAOne, _btnATwo);
 
     return winner == Battle::Turn::PlayerTurn;
 }

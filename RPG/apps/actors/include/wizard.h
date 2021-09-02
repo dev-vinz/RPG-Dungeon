@@ -25,7 +25,7 @@ Wizard(int _damage, int _agility, int _defense, double _health, double _mana);
 QGridLayout virtual *show() const override;
 double getMana()const{return this->mana;};
 void updateMana(double);
-QString getName() const override{return QString("Wizard");};
+QString getName() const override{return QString("Sorcier");};
 QString virtual showStat() const override;
 };
 #endif

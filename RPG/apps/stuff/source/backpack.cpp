@@ -4,7 +4,7 @@
 #include "../include/potion.h"
 #include "../include/torch.h"
 
-Backpack::Backpack(QWidget *_parent) : QWidget(_parent)
+Backpack::Backpack(std::deque<Player *> *_player, QWidget *_parent) : QWidget(_parent), player(_player)
 {
     QVBoxLayout *layout = this->createLayout();
 
@@ -47,13 +47,14 @@ void Backpack::useItem(int _indice)
     // USE POTION
     if (ptrPotion != nullptr)
     {
-
+        Player *p = this->chooseAlly();
+        this->myBackpack.at(_indice)->use(p);
     }
 
     // USE SCROLL
     if (ptrScroll != nullptr)
     {
-
+        // NOT IMPLEMENTED
     }
 
     // USE TORCH
@@ -120,6 +121,27 @@ QListWidget *Backpack::createListItems()
     listItem->setIconSize(QSize(50, 50));
 
     return listItem;
+}
+
+/* * * * * * * * * * * * * * * *
+ * * * * PRIVATE METHODS * * * *
+ * * * * * * * * * * * * * * * */
+
+Player *Backpack::chooseAlly() const
+{
+    // We choose always the one who has less pv
+
+    int i = 0;
+    int iMin = 0;
+
+    for (Player *p : *this->player)
+    {
+        if (p->getHealth() < this->player->at(iMin)->getHealth())
+            iMin = i++;
+    }
+
+    return this->player->at(iMin);
+
 }
 
 /* * * * * * * * * * * * * * *

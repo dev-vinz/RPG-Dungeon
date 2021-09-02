@@ -41,14 +41,12 @@ public:
     enum ButtonType
     {
         AttackOneType = 1,
-        AttackTwoType = 2,
-        BackpackType = 3,
-        FleeType = 4
+        AttackTwoType = 2
     };
 
     Battle(std::map<Player *, QLabel *> *_statsLabels, std::deque<Player *> *, Opponent *, QWidget *_parent = nullptr);
 
-    Turn getWinner(QPushButton *, QPushButton *, QPushButton *, QPushButton *);
+    Turn getWinner(QPushButton *, QPushButton *);
 
 protected:
     Character *chooseAlly() const;
@@ -69,8 +67,6 @@ private:
 
     QPushButton *btnAttackOne;
     QPushButton *btnAttackTwo;
-    QPushButton *btnBackpack;
-    QPushButton *btnFlee;
 
     std::map<Player *, QLabel *> *statsLabels;
 
