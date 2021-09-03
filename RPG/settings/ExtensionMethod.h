@@ -12,11 +12,11 @@ class ExtensionMethod
 {
 public:
     template <typename T>
-    static QString Join(const T& v, const QString& delim)
+    static QString Join(const T &v, const QString &delim)
     {
         QString s;
 
-        for (const auto& i : v)
+        for (const auto &i : v)
         {
             if (&i != &v[0])
             {

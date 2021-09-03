@@ -1,7 +1,7 @@
 /**
  * RPG Project
  * Authors : Vincent JEANNIN, Benjamin MOUCHET, Guillaume MOUCHET
- * Date : 30.08.2021
+ * Date : 03.09.2021
  * Course : HES d'Été
  */
 

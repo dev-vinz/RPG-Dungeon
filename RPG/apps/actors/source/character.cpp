@@ -1,6 +1,6 @@
 #include "..\include\character.h"
 #include "..\include\player.h"
-#include <QLabel>
+
 Character::Character(int _damage, int _agility, int _defense, double _health)
 {
     this->damage = _damage;
@@ -15,15 +15,15 @@ QGridLayout *Character::show() const
     //Sprite
     QLabel *myimage = new QLabel();
     QPixmap pix("C:/DEV/HES_ETE_Projet/QT/Serie7_Ex1/img/Smiley.jpg");
-    pix.scaled(20,20);
+    pix.scaled(20, 20);
     myimage->setPixmap(pix);
-    statistics->addWidget(myimage,0,0,Qt::AlignCenter);
+    statistics->addWidget(myimage, 0, 0, Qt::AlignCenter);
     return statistics;
 }
 
 bool Character::isAlive()
 {
-    return(getHealth()>0);
+    return (getHealth() > 0);
 }
 
 bool Character::dodge()
@@ -34,7 +34,7 @@ bool Character::dodge()
 
 int Character::totalDamage(Character *_character)
 {
-    int total = ((this->getDamage()) * (100.0/(100+_character->getDefense())));
+    int total = ((this->getDamage()) * (100.0 / (100 + _character->getDefense())));
     return total;
 }
 
@@ -50,7 +50,7 @@ void Character::updateDefense(double _defense)
  */
 bool Character::updateHealth(double _health)
 {
-    if(_health>0)
+    if (_health > 0)
     {
         //cout << this->getName() +" gagne des points de vie" << endl;
         if (_health >= (MAX_HEALTH - this->getHealth()))
@@ -63,7 +63,8 @@ bool Character::updateHealth(double _health)
             this->health += _health;
             //globalLabel->UpdateText("Vous vous soignez de " + to_string(_health) + "Hp.");
         }
-    }else if (_health<0)
+    }
+    else if (_health < 0)
     {
         //cout << this->getName() << " perds de points de vie" << endl;
         if (this->dodge())
@@ -71,7 +72,8 @@ bool Character::updateHealth(double _health)
             return true;
             //globalLabel->UpdateText("Bravo vous avez esquivé l'attaque");
             //cout << this->getName() << " a esquivé l'attaque" << endl;
-        } else
+        }
+        else
         {
             //Since damage are counted as negatives we must add them to the total health
             this->health += _health;
@@ -81,25 +83,25 @@ bool Character::updateHealth(double _health)
     return false;
 }
 
-QString Character::interaction(Character* _character, Action _action)
+QString Character::interaction(Character *_character, Action _action)
 {
     QString report;
     Player *_player = dynamic_cast<Player *>(this);
-    switch(_action)
+    switch (_action)
     {
-        case Action::attack1:
+    case Action::attack1:
         report = this->attack1(_character);
         break;
-        case Action::attack2:
+    case Action::attack2:
         report = this->attack2(_character);
         break;
-        case Action::flee:
+    case Action::flee:
         _player->flee();
         break;
 
-        default:
-            //Retour au choix des boutons
-            exit(-1);
+    default:
+        //Retour au choix des boutons
+        exit(-1);
     }
 
     return report;

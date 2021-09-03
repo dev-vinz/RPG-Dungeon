@@ -1,7 +1,7 @@
 /**
  * RPG Project
  * Authors : Vincent JEANNIN, Benjamin MOUCHET, Guillaume MOUCHET
- * Date : 30.08.2021
+ * Date : 03.09.2021
  * Course : HES d'Été
  */
 
@@ -12,6 +12,7 @@
 
 #include <QApplication>
 #include <QButtonGroup>
+#include <QDialog>
 #include <QEventLoop>
 #include <QGridLayout>
 #include <QLabel>
@@ -24,7 +25,7 @@
 
 #include "../../actors/include/player.h"
 
-class Riddle : public QWidget
+class Riddle : public QDialog
 {
     Q_OBJECT
 
@@ -33,7 +34,7 @@ private:
     QPushButton *optionTwo;
     QPushButton *optionThree;
     QSqlDatabase database;
-    QWidget *window;
+    QDialog *window;
 
     struct Query
     {

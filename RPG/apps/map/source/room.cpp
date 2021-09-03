@@ -2,7 +2,6 @@
 
 Room::Room()
 {
-
 }
 
 Room::Room(int _x, int _y)
@@ -26,14 +25,17 @@ int Room::getPosx()
 {
     return posx;
 }
+
 int Room::getPosy()
 {
     return posy;
 }
+
 Room::RoomType Room::getType()
 {
     return this->type;
 }
+
 void Room::setVisited(bool v)
 {
     this->visited = v;
@@ -43,6 +45,7 @@ bool Room::isVisited()
 {
     return visited;
 }
+
 void Room::setType(RoomType t)
 {
     this->type = t;
@@ -50,5 +53,4 @@ void Room::setType(RoomType t)
 
 Room::~Room()
 {
-
 }

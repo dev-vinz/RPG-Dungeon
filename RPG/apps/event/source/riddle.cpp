@@ -1,8 +1,9 @@
 #include "../include/riddle.h"
 
-Riddle::Riddle(QWidget *_parent) : QWidget(_parent)
+Riddle::Riddle(QWidget *_parent) : QDialog(_parent)
 {
-    this->window = new QWidget;
+    this->window = new QDialog;
+    this->window->setModal(true);
 }
 
 void Riddle::display()

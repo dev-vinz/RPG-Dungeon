@@ -86,7 +86,8 @@ void GameManager::updateMap()
 {
     this->updateStatistics();
 
-    if (this->currentDisplay != ActualDisplay::MapDisplay) return;
+    if (this->currentDisplay != ActualDisplay::MapDisplay)
+        return;
 
     QGraphicsScene *scene;
     scene = this->map->getScene();

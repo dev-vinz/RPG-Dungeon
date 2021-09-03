@@ -49,7 +49,7 @@ IObject *Loot::getDamageScroll() const
 
 IObject *Loot::getHealPotion() const
 {
-    qint32 power = QRandomGenerator::global()->bounded(1, 11);
+    qint32 power = QRandomGenerator::global()->bounded(10, 21);
     return new Potion(power);
 }
 

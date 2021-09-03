@@ -1,7 +1,7 @@
 /**
  * RPG Project
  * Authors : Vincent JEANNIN, Benjamin MOUCHET, Guillaume MOUCHET
- * Date : 30.08.2021
+ * Date : 03.09.2021
  * Course : HES d'Été
  */
 
@@ -12,6 +12,7 @@
 
 #include <QGraphicsView>
 #include <QGraphicsScene>
+#include <QLabel>
 
 #include "../../actors/include/ghoul.h"
 #include "../../actors/include/healer.h"
@@ -26,7 +27,7 @@
 
 #include "../../stuff/include/backpack.h"
 
-#include <QLabel>
+#include "../../../settings/settings.h"
 
 class Game : public QGraphicsView
 {

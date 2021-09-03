@@ -12,5 +12,4 @@ QString IObject::show()
 
 IObject::~IObject()
 {
-
 }

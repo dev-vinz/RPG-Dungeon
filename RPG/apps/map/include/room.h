@@ -1,7 +1,7 @@
 /**
  * RPG Project
  * Authors : Vincent JEANNIN, Benjamin MOUCHET, Guillaume MOUCHET
- * Date : 30.08.2021
+ * Date : 03.09.2021
  * Course : HES d'Été
  */
 
@@ -9,7 +9,6 @@
 #define ROOM_H
 
 #include <QPushButton>
-
 
 /*Room class is used for the Map class. It is used to have a PushButton as well as a type and other attributes*/
 
@@ -29,7 +28,7 @@ public:
     /**
      * @brief Constructor used for the room generation in map class in order to have the correct room disposition in the layout
      */
-    Room(int, int);  
+    Room(int, int);
     QPushButton *roomBtn = new QPushButton;
 
     //Getters
@@ -48,8 +47,6 @@ protected:
     int posy;
     bool visited = false;
     RoomType type;
-
-
 };
 
 #endif // ROOM_H

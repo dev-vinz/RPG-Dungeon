@@ -54,7 +54,8 @@ void Battle::doAction(int _id)
     Wizard *ptrWizard = dynamic_cast<Wizard *>(currentPlayer);
     Healer *ptrHealer = dynamic_cast<Healer *>(currentPlayer);
 
-    switch (btnType) {
+    switch (btnType)
+    {
     case Battle::ButtonType::AttackOneType:
         this->pTurnString.append(QString("%1 utilise l'attaque %2\n").arg(currentPlayer->getName(), currentPlayer->getAttackOneName()));
         break;
@@ -174,7 +175,8 @@ void Battle::checkOver()
         Player *p = this->player->front();
         this->player->pop_front();
 
-        if (p->isAlive()){
+        if (p->isAlive())
+        {
             alivePlayers.push_back(p);
         }
         else
@@ -225,7 +227,6 @@ Character *Battle::chooseAlly() const
     }
 
     return this->player->at(iMin);
-
 }
 
 QString Battle::opponentTurn()

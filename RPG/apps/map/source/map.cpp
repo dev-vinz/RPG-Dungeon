@@ -54,47 +54,47 @@ bool Map::checkDist(int otherRoom)
 {
     //By checking distance in x and y in the layout, it is possible to assume the distance between two rooms.
     //If it is strictly equal to 1 the rooms are adjacent. A diagonal room would be equal to 2
-    return(getDist(otherRoom)==1);
+    return (getDist(otherRoom) == 1);
 }
+
 int Map::getDist(int otherRoom)
 {
     int deltaX, deltaY, delta;
-    deltaX = abs(rooms[otherRoom].getPosx()-rooms[activeRoom].getPosx());
-    deltaY = abs(rooms[otherRoom].getPosy()-rooms[activeRoom].getPosy());
+    deltaX = abs(rooms[otherRoom].getPosx() - rooms[activeRoom].getPosx());
+    deltaY = abs(rooms[otherRoom].getPosy() - rooms[activeRoom].getPosy());
     delta = deltaX + deltaY;
     return delta;
 }
 
 int Map::checkDistX(int otherRoom)
 {
-    return rooms[otherRoom].getPosx()-rooms[activeRoom].getPosx();
+    return rooms[otherRoom].getPosx() - rooms[activeRoom].getPosx();
 }
 
 int Map::checkDistY(int otherRoom)
 {
-    return rooms[otherRoom].getPosy()-rooms[activeRoom].getPosy();
+    return rooms[otherRoom].getPosy() - rooms[activeRoom].getPosy();
 }
 
 void Map::createRooms()
 {
     for (int i = 0; i < NBROFROOMS; i++)
     {
-        if(i<6)
+        if (i < 6)
         {
-            rooms[i] = new Room(0,i);
-
+            rooms[i] = new Room(0, i);
         }
-        else if(i<12)
+        else if (i < 12)
         {
-            rooms[i] = new Room(1,i-6);
+            rooms[i] = new Room(1, i - 6);
         }
-        else if(i<18)
+        else if (i < 18)
         {
-            rooms[i] = new Room(2 , i - 12);
+            rooms[i] = new Room(2, i - 12);
         }
         else
         {
-            rooms[i] = new Room(3,i-18);
+            rooms[i] = new Room(3, i - 18);
         }
         roomsBtnGroup->addButton(rooms[i].roomBtn, i);
         layout->addWidget(rooms[i].roomBtn, rooms[i].getPosx(), rooms[i].getPosy());
@@ -133,7 +133,7 @@ void Map::createScene(int _width, int _height)
 
 void Map::connectRooms()
 {
-    for(int i = 0; i < NBROFROOMS; i++)
+    for (int i = 0; i < NBROFROOMS; i++)
     {
         connect(roomsBtnGroup, &QButtonGroup::idClicked, this, &Map::move);
     }
@@ -152,11 +152,11 @@ void Map::generateMiniMap()
     //activeMini->setIcon(QIcon(icon));
     activeMini->setStyleSheet("QPushButton{border-image:url(../img/map/active.png);}\n");
     //The five buttons are added to the miniMap, they will be set in/visible when updateMiniMap() is called
-    miniMapLayout->addWidget(topMini,0,1);
-    miniMapLayout->addWidget(leftMini,1,0);
-    miniMapLayout->addWidget(rightMini,1,2);
+    miniMapLayout->addWidget(topMini, 0, 1);
+    miniMapLayout->addWidget(leftMini, 1, 0);
+    miniMapLayout->addWidget(rightMini, 1, 2);
     miniMapLayout->addWidget(bottomMini, 2, 1);
-    miniMapLayout->addWidget(activeMini, 1,1);
+    miniMapLayout->addWidget(activeMini, 1, 1);
 
     topMini->setEnabled(false);
     leftMini->setEnabled(false);
@@ -180,27 +180,16 @@ void Map::generateMiniMap()
     sp_retain_bottom.setRetainSizeWhenHidden(true);
     bottomMini->setSizePolicy(sp_retain_bottom);
 
-    /*activeMini->setMinimumSize(MINWIDTH, MINHEIGHT);
-    activeMini->setMaximumSize(MAXWIDTH, MAXHEIGHT);
-    topMini->setMinimumSize(MINWIDTH, MINHEIGHT);
-    topMini->setMaximumSize(MAXWIDTH, MAXHEIGHT);
-    leftMini->setMinimumSize(MINWIDTH, MINHEIGHT);
-    leftMini->setMaximumSize(MAXWIDTH, MAXHEIGHT);
-    rightMini->setMinimumSize(MINWIDTH, MINHEIGHT);
-    rightMini->setMaximumSize(MAXWIDTH, MAXHEIGHT);
-    bottomMini->setMinimumSize(MINWIDTH, MINHEIGHT);
-    bottomMini->setMaximumSize(MAXWIDTH, MAXHEIGHT);*/
-
-    activeMini->setMinimumSize(75, 75);
-    activeMini->setMaximumSize(75, 75);
-    topMini->setMinimumSize(75, 75);
-    topMini->setMaximumSize(75, 75);
-    leftMini->setMinimumSize(75, 75);
-    leftMini->setMaximumSize(75, 75);
-    rightMini->setMinimumSize(75, 75);
-    rightMini->setMaximumSize(75, 75);
-    bottomMini->setMinimumSize(75, 75);
-    bottomMini->setMaximumSize(75, 75);
+    activeMini->setMinimumSize(MINI_MAP_WIDTH, MINI_MAP_HEIGHT);
+    activeMini->setMaximumSize(MINI_MAP_WIDTH, MINI_MAP_HEIGHT);
+    topMini->setMinimumSize(MINI_MAP_WIDTH, MINI_MAP_HEIGHT);
+    topMini->setMaximumSize(MINI_MAP_WIDTH, MINI_MAP_HEIGHT);
+    leftMini->setMinimumSize(MINI_MAP_WIDTH, MINI_MAP_HEIGHT);
+    leftMini->setMaximumSize(MINI_MAP_WIDTH, MINI_MAP_HEIGHT);
+    rightMini->setMinimumSize(MINI_MAP_WIDTH, MINI_MAP_HEIGHT);
+    rightMini->setMaximumSize(MINI_MAP_WIDTH, MINI_MAP_HEIGHT);
+    bottomMini->setMinimumSize(MINI_MAP_WIDTH, MINI_MAP_HEIGHT);
+    bottomMini->setMaximumSize(MINI_MAP_WIDTH, MINI_MAP_HEIGHT);
 }
 
 void Map::generateRoomType()
@@ -210,24 +199,23 @@ void Map::generateRoomType()
     int exitIndex = 0;
     do
     {
-        exitIndex=QRandomGenerator::global()->bounded(1,24);
-    }
-    while(getDist(exitIndex) < 3);
+        exitIndex = QRandomGenerator::global()->bounded(1, 24);
+    } while (getDist(exitIndex) < 3);
 
-    for(int i = 0; i < NBROFROOMS; i++)
+    for (int i = 0; i < NBROFROOMS; i++)
     {
-        if(i==0)
+        if (i == 0)
         {
             rooms[i].setType(Room::RoomType::Start);
         }
-        else if(i==exitIndex)
+        else if (i == exitIndex)
         {
             rooms[i].setType(Room::RoomType::Exit);
         }
         else
         {
-            int randEvent = QRandomGenerator::global()->bounded(0,2);
-            if(randEvent == 0)
+            int randEvent = QRandomGenerator::global()->bounded(0, 2);
+            if (randEvent == 0)
             {
                 rooms[i].setType(Room::RoomType::Event);
             }
@@ -242,7 +230,7 @@ void Map::generateRoomType()
 void Map::move(int clickedRoomid)
 {
 
-    if(checkDist(clickedRoomid))
+    if (checkDist(clickedRoomid))
     {
         changeActive(clickedRoomid);
         updateMiniMap();
@@ -258,13 +246,14 @@ QGraphicsScene *Map::getScene()
 
     return this->mapScene;
 }
+
 void Map::revealMap()
 {
-    for(int i = 0; i < NBROFROOMS; i++)
+    for (int i = 0; i < NBROFROOMS; i++)
     {
-        if(rooms[i].isVisited()==false)
+        if (rooms[i].isVisited() == false)
         {
-            if(rooms[i].getType() == Room::RoomType::Battle)
+            if (rooms[i].getType() == Room::RoomType::Battle)
             {
                 rooms[i].roomBtn->setStyleSheet("QPushButton{border-image:url(../img/map/monster.png);}\n");
             }
@@ -279,17 +268,17 @@ void Map::revealMap()
             //QString roomType = QChar((char)rooms[i].getType());
             //rooms[i].roomBtn->setStyleSheet("QPushButton{ background-color: rgb(100,100,100); }\n QPushButton:disabled{ color: black; }\n");
             //rooms[i].roomBtn->setText(roomType);
-
         }
     }
 }
+
 void Map::revealTile()
 {
-    for(int i = 0; i < NBROFROOMS; i++)
+    for (int i = 0; i < NBROFROOMS; i++)
     {
-        if(checkDist(i)==true && rooms[i].isVisited()==false)
+        if (checkDist(i) == true && rooms[i].isVisited() == false)
         {
-            if(rooms[i].getType() == Room::RoomType::Battle)
+            if (rooms[i].getType() == Room::RoomType::Battle)
             {
                 rooms[i].roomBtn->setStyleSheet("QPushButton{border-image:url(../img/map/monster.png);}\n");
             }
@@ -304,7 +293,6 @@ void Map::revealTile()
             //QString roomType = QChar((char)rooms[i].getType());
             //rooms[i].roomBtn->setStyleSheet("QPushButton{ background-color: rgb(100,100,100); }\n QPushButton:disabled{ color: black; }\n");
             //rooms[i].roomBtn->setText(roomType);
-
         }
     }
 }
@@ -319,28 +307,28 @@ void Map::updateMiniMap()
     for (int i = 0; i < NBROFROOMS; i++)
     {
         //TOP Button
-        if(checkDistX(i) == -1 && checkDistY(i)==0)
+        if (checkDistX(i) == -1 && checkDistY(i) == 0)
         {
             topMini->setText(rooms[i].roomBtn->text());
             topMini->setStyleSheet(rooms[i].roomBtn->styleSheet());
             topMini->setVisible(true);
         }
         //LEFT button
-        else if(checkDistX(i) == 0 && checkDistY(i)==-1)
+        else if (checkDistX(i) == 0 && checkDistY(i) == -1)
         {
             leftMini->setText(rooms[i].roomBtn->text());
             leftMini->setStyleSheet(rooms[i].roomBtn->styleSheet());
             leftMini->setVisible(true);
         }
         //RIGHT button
-        else if(checkDistX(i) == 0 && checkDistY(i)== 1)
+        else if (checkDistX(i) == 0 && checkDistY(i) == 1)
         {
             rightMini->setText(rooms[i].roomBtn->text());
             rightMini->setStyleSheet(rooms[i].roomBtn->styleSheet());
             rightMini->setVisible(true);
         }
         //BOTTOM button
-        else if(checkDistX(i) == 1 && checkDistY(i)==0)
+        else if (checkDistX(i) == 1 && checkDistY(i) == 0)
         {
             bottomMini->setText(rooms[i].roomBtn->text());
             bottomMini->setStyleSheet(rooms[i].roomBtn->styleSheet());
@@ -351,7 +339,6 @@ void Map::updateMiniMap()
     miniMapLayout->setVerticalSpacing(VERTICALSPACING);
     miniMapLayout->setHorizontalSpacing(HORIZONTALSPACING);
 }
-
 
 QButtonGroup *Map::getButtonGroup() const
 {
@@ -371,4 +358,3 @@ QGridLayout *Map::getMiniMap() const
 Map::~Map()
 {
 }
-

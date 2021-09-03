@@ -32,7 +32,8 @@ QGraphicsScene *Game::getScene()
 
 void Game::play()
 {
-    if (this->isExitFound) return;
+    if (this->isExitFound)
+        return;
 
     // Load room
     Room currentRoom = this->map->getActive();
@@ -139,15 +140,15 @@ void Game::updateScene(EventManager::Event _event, Opponent *_opponent)
 
 bool Game::battle()
 {
-    qint32 random = QRandomGenerator::global()->bounded(1,3);
+    qint32 random = QRandomGenerator::global()->bounded(1, 3);
 
-    switch(random)
+    switch (random)
     {
     case 1:
-        this->opponent = new Ghoul(50, 30, 50, 100);
+        this->opponent = new Ghoul(50, 30, 50, MAX_HEALTH);
         break;
     case 2:
-        this->opponent = new Skeleton(65, 15, 45, 100);
+        this->opponent = new Skeleton(65, 15, 45, MAX_HEALTH);
         break;
     default:
         break;
@@ -287,7 +288,8 @@ void Game::addScenePlayers()
         Wizard *ptrWizard = dynamic_cast<Wizard *>(p);
         Healer *ptrHealer = dynamic_cast<Healer *>(p);
 
-        if (!p->isAlive()) continue;
+        if (!p->isAlive())
+            continue;
 
         if (ptrWarrior != nullptr)
             this->gameScene->addItem(iWarrior);
@@ -323,7 +325,7 @@ void Game::createScene()
 
     // Add the background
     QPixmap startMenu("../img/startMenu.png");
-    startMenu = startMenu.scaled(gameScene->sceneRect().width() * 1.8, gameScene->sceneRect().height() * 1.8, Qt::KeepAspectRatioByExpanding );
+    startMenu = startMenu.scaled(gameScene->sceneRect().width() * 1.8, gameScene->sceneRect().height() * 1.8, Qt::KeepAspectRatioByExpanding);
 
     gameScene->setBackgroundBrush(QBrush(startMenu));
 
@@ -402,7 +404,7 @@ void Game::end()
 
 void Game::initializePlayer()
 {
-    this->player.push_back(new Warrior(80, 20, 90, 100));
-    this->player.push_back(new Wizard(70, 50, 60, 100, 100));
-    this->player.push_back(new Healer(20, 80, 50, 100));
+    this->player.push_back(new Warrior(80, 20, 90, MAX_HEALTH));
+    this->player.push_back(new Wizard(70, 50, 60, MAX_HEALTH, MAX_MANA));
+    this->player.push_back(new Healer(20, 80, 50, MAX_HEALTH));
 }

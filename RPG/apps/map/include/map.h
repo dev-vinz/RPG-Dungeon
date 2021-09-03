@@ -1,12 +1,8 @@
 /**
  * RPG Project
  * Authors : Vincent JEANNIN, Benjamin MOUCHET, Guillaume MOUCHET
- * Date : 30.08.2021
+ * Date : 03.09.2021
  * Course : HES d'Été
- * Games assets taken from:     https://0x72.itch.io/dungeontileset-ii?download  Artist: 0x72
- *                              https://pixel-poem.itch.io/dungeon-assetpuck    Artist: Pixel_Poem
- *                              https://ohnoponogames.itch.io/retro-cloud-tileset   Artist: ohnoponogames
- *                              https://darkpixel-kronovi.itch.io/mecha-golem-free Artist: Kronovi
  */
 
 #ifndef MAP_H
@@ -20,6 +16,9 @@
 #include <QString>
 #include <QGraphicsScene>
 #include "room.h"
+
+#define MINI_MAP_WIDTH 75
+#define MINI_MAP_HEIGHT 75
 
 #define NBROFROOMS 24
 #define MAXWIDTH 200
@@ -41,7 +40,7 @@ public:
 
     //QWidget *window = new QWidget; //Used only for display when not connected to gameManger
     //QWidget *miniMapWindow = new QWidget; //Used only for display when not connected to gameManger
-    QGridLayout *layout = new QGridLayout; //Remove: (window) when connected with gameManager
+    QGridLayout *layout = new QGridLayout;        //Remove: (window) when connected with gameManager
     QGridLayout *miniMapLayout = new QGridLayout; //Remove: (window) when connected with gameManager
     QGraphicsScene *mapScene;
 
@@ -69,8 +68,8 @@ public:
 
     Room rooms[NBROFROOMS];
     static bool torchUsed;
-protected:
 
+protected:
     //Index of the active room
     int activeRoom = 0;
     //Array receiving generated rooms
@@ -126,7 +125,6 @@ protected:
     /**
      * @brief Called at each movement to update the miniMap
      */
-    void updateMiniMap(); 
-
+    void updateMiniMap();
 };
 #endif // MAP_H

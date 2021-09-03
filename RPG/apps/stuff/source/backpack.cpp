@@ -1,25 +1,22 @@
 #include "..\include\backpack.h"
 
-#include "../include/scroll.h"
-#include "../include/potion.h"
-#include "../include/torch.h"
-
-Backpack::Backpack(std::deque<Player *> *_player, QLabel *_infoLabel, QWidget *_parent) : QWidget(_parent), player(_player), infoLabel(_infoLabel)
+Backpack::Backpack(std::deque<Player *> *_player, QLabel *_infoLabel, QWidget *_parent) : QDialog(_parent), player(_player), infoLabel(_infoLabel)
 {
     QVBoxLayout *layout = this->createLayout();
 
     QPixmap icon("../img/stuff/sprite_backpack.png");
 
-    this->window = new QWidget;
+    this->window = new QDialog;
     this->window->setWindowFlags(Qt::WindowTitleHint);
     this->window->setWindowTitle("Sac à Dos");
     this->window->setWindowIcon(QIcon(icon));
     this->window->setLayout(layout);
+    this->window->setModal(true);
 
-    this->addItem(new Torch);
+    this->addItem(new Potion(10));
 }
 
-void Backpack::addItem(IObject* _pObject)
+void Backpack::addItem(IObject *_pObject)
 {
     myBackpack.push_back(_pObject);
 
@@ -143,7 +140,6 @@ Player *Backpack::chooseAlly() const
     }
 
     return this->player->at(iMin);
-
 }
 
 /* * * * * * * * * * * * * * *
@@ -169,5 +165,4 @@ void Backpack::useItemButton()
         QListWidgetItem *firstIt = this->listItem->item(0);
         firstIt->setSelected(true);
     }
-
 }

@@ -2,10 +2,9 @@
 
 Potion::Potion(int _power) : IObject(_power)
 {
-
 }
 
-void Potion::use(Character* _character)
+void Potion::use(Character *_character)
 {
     _character->updateHealth(this->getFeature());
 }
