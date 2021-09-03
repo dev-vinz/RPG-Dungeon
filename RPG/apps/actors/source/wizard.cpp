@@ -6,25 +6,52 @@ Wizard::Wizard(int _damage ,int _agility ,int _defense ,double _health, double _
 {
     this->mana = _mana;
 }
-void Wizard::attack1(Character* _character)
+
+QString Wizard::attack1(Character* _character)
 {
+    QString attack;
     //cout << "Vous faites une attaque simple" << endl;
     int damage = this->totalDamage(_character);
-    _character->updateHealth(-damage);
+    bool hasDodged = _character->updateHealth(-damage);
+
+    if (hasDodged)
+    {
+        attack = QString("%1 a esquivé l'attaque").arg(_character->getName());
+    }
+    else
+    {
+        attack = QString("%1 a perdu %2 points de vie").arg(_character->getName(), QString::number(damage));
+    }
+
+    return attack;
 }
- void Wizard::attack2(Character* _character)
+
+ QString Wizard::attack2(Character* _character)
 {
+     QString attack;
     int manaCost = 8;
     if(manaCost>this->getMana())
     {
         //globalLabel->UpdateText("Vous n'avez pas assez de mana.");
         //cout <<"Vous n'avez pas assez de mana." << endl;
-        this->interaction(_character, Action::attack1);
+        attack = "Vous n'avez pas assez de mana\n";
+        return attack.append(this->interaction(_character, Action::attack1));
     }else{
         this->updateMana(-manaCost);
         //cout << "Vous faire une grosse attaque" << endl;
         int damage = this->totalDamage(_character) + 10;
-        _character->updateHealth(-damage);
+        bool hasDodged = _character->updateHealth(-damage);
+
+        if (hasDodged)
+        {
+            attack = QString("%1 a esquivé l'attaque").arg(_character->getName());
+        }
+        else
+        {
+            attack = QString("%1 a perdu %2 points de vie").arg(_character->getName(), QString::number(damage));
+        }
+
+        return attack;
     }
 }
 QGridLayout *Wizard::show() const

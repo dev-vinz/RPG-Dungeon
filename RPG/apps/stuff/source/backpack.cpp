@@ -8,9 +8,12 @@ Backpack::Backpack(std::deque<Player *> *_player, QLabel *_infoLabel, QWidget *_
 {
     QVBoxLayout *layout = this->createLayout();
 
+    QPixmap icon("../img/stuff/sprite_backpack.png");
+
     this->window = new QWidget;
     this->window->setWindowFlags(Qt::WindowTitleHint);
     this->window->setWindowTitle("Sac à Dos");
+    this->window->setWindowIcon(QIcon(icon));
     this->window->setLayout(layout);
 
     this->addItem(new Torch);
@@ -134,7 +137,9 @@ Player *Backpack::chooseAlly() const
     for (Player *p : *this->player)
     {
         if (p->getHealth() < this->player->at(iMin)->getHealth())
-            iMin = i++;
+            iMin = i;
+
+        i++;
     }
 
     return this->player->at(iMin);

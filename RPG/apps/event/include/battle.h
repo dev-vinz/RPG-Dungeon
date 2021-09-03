@@ -16,6 +16,7 @@
 #include <QEventLoop>
 #include <QMessageBox>
 #include <QPushButton>
+#include <QTest>
 #include <QThread>
 
 #include "../../actors/include/ghoul.h"
@@ -47,7 +48,7 @@ public:
 
     Battle(std::map<Player *, QLabel *> *_statsLabels, std::deque<Player *> *, Opponent *, QLabel *informations, QWidget *_parent = nullptr);
 
-    Turn getWinner(QPushButton *, QPushButton *);
+    Turn getWinner(QPushButton *, QPushButton *, QPushButton *_btnBackpack, QPushButton *_btnFlee);
 
 protected:
     Character *chooseAlly() const;
@@ -72,11 +73,14 @@ private:
 
     QPushButton *btnAttackOne;
     QPushButton *btnAttackTwo;
+    QPushButton *btnBackpack;
+    QPushButton *btnFlee;
 
     std::map<Player *, QLabel *> *statsLabels;
 
 public slots:
     void doAction(int id);
+    void stopBattle();
 };
 
 #endif // BATTLE_H

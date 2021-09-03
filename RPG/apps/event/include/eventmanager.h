@@ -27,12 +27,13 @@ public:
     {
         NothingEvent,
         LootEvent,
-        RiddleEvent
+        RiddleEvent,
+        ExitRoom
     };
 
     EventManager(std::map<Player *, QLabel *> *_statsLabels, QLabel *_gameLabel);
 
-    bool battleEvent(std::deque<Player *> *_player, Opponent *_opponent, QPushButton *_btnAOne, QPushButton *_btnATwo) const;
+    bool battleEvent(std::deque<Player *> *_player, Opponent *_opponent, QPushButton *_btnAOne, QPushButton *_btnATwo, QPushButton *_btnBackpack, QPushButton *_btnFlee) const;
     IObject *lootEvent() const;
     void riddleEvent(std::deque<Player *> *_player) const;
 };

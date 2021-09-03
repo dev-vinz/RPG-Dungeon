@@ -20,8 +20,11 @@ public:
     //void virtual show() const override;
     QString virtual showStat() const = 0 ;
     void flee();
-    void virtual attack1(Character*) override = 0;
-    void virtual attack2(Character*) override = 0;
+    QString virtual attack1(Character*) override = 0;
+    QString virtual attack2(Character*) override = 0;
+
+    QString virtual getAttackOneName() const override = 0;
+    QString virtual getAttackTwoName() const override = 0;
 
 };
 #endif

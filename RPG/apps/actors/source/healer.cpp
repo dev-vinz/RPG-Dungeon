@@ -1,20 +1,33 @@
 #include "..\include\healer.h"
 #include <QLabel>
 
-void Healer::attack1(Character* _character)
+QString Healer::attack1(Character* _character)
 {
     //Watch to target a Player and not an Opponent
-
     int heal = 20;
     //cout << "Vous soignez un allié" << endl;
     _character->updateHealth(heal);
+
+    return QString("%1 a gagné %2 HP").arg(_character->getName(), QString::number(heal));
 }
 
-void Healer::attack2(Character* _character)
+QString Healer::attack2(Character* _character)
 {
+    QString attack;
     int damage = this->totalDamage(_character);
     //cout << "Vous infligez des dégats." << endl;
-    _character->updateHealth(-damage);
+    bool hasDodged = _character->updateHealth(-damage);
+
+    if (hasDodged)
+    {
+        attack = QString("%1 a esquivé l'attaque").arg(_character->getName());
+    }
+    else
+    {
+        attack = QString("%1 a perdu %2 points de vie").arg(_character->getName(), QString::number(damage));
+    }
+
+    return attack;
 }
 
 Healer::Healer(int _damage ,int _agility ,int _defense ,double _health) : Player(_damage, _agility, _defense, _health)

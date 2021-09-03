@@ -54,6 +54,9 @@ void Game::play()
     this->btnBackpack->setEnabled(true);
     this->btnFlee->setEnabled(true);
 
+    this->btnAttackOne->setText("");
+    this->btnAttackTwo->setText("");
+
     // If exit is found, stop the game
     if (this->isExitFound)
         return this->end();
@@ -89,14 +92,16 @@ void Game::updateScene(EventManager::Event _event, Opponent *_opponent)
     QPixmap basic("../img/rooms/basicRoom.png");
     QPixmap loot("../img/rooms/lootRoom.png");
     QPixmap riddle("../img/rooms/riddleRoom.png");
+    QPixmap exitRoom("../img/rooms/exitRoom.png");
 
     basic = basic.scaled(this->gameScene->sceneRect().width(), this->gameScene->sceneRect().height(), Qt::KeepAspectRatioByExpanding);
     loot = loot.scaled(this->gameScene->sceneRect().width(), this->gameScene->sceneRect().height(), Qt::KeepAspectRatioByExpanding);
     riddle = riddle.scaled(this->gameScene->sceneRect().width(), this->gameScene->sceneRect().height(), Qt::KeepAspectRatioByExpanding);
+    exitRoom = exitRoom.scaled(this->gameScene->sceneRect().width(), this->gameScene->sceneRect().height(), Qt::KeepAspectRatioByExpanding);
 
     Room currentRoom = this->map->getActive();
 
-    if (currentRoom.isVisited())
+    if (currentRoom.isVisited() && _event != EventManager::Event::ExitRoom)
     {
         this->gameScene->setBackgroundBrush(QBrush(basic));
     }
@@ -112,6 +117,9 @@ void Game::updateScene(EventManager::Event _event, Opponent *_opponent)
             break;
         case EventManager::Event::RiddleEvent:
             this->gameScene->setBackgroundBrush(QBrush(riddle));
+            break;
+        case EventManager::Event::ExitRoom:
+            this->gameScene->setBackgroundBrush(QBrush(exitRoom));
             break;
         default:
             qDebug() << "[ERROR] Game::updateScene : Unknown state of EventManager::Event";
@@ -131,9 +139,29 @@ void Game::updateScene(EventManager::Event _event, Opponent *_opponent)
 
 bool Game::battle()
 {
-    this->opponent = new Ghoul(50, 20, 40, 100);
+    qint32 random = QRandomGenerator::global()->bounded(1,3);
+
+    switch(random)
+    {
+    case 1:
+        this->opponent = new Ghoul(50, 30, 50, 100);
+        break;
+    case 2:
+        this->opponent = new Skeleton(65, 15, 45, 100);
+        break;
+    default:
+        break;
+    }
+
     this->updateScene(EventManager::Event::NothingEvent, this->opponent);
-    bool win = this->eventManager->battleEvent(&player, this->opponent, this->btnAttackOne, this->btnAttackTwo);
+
+    this->labelInformations->setText(QString("Nouveau combat !\n\nVous affrontez : %1").arg(this->opponent->getName()));
+
+    bool win = this->eventManager->battleEvent(&player, this->opponent, this->btnAttackOne, this->btnAttackTwo, this->btnBackpack, this->btnFlee);
+
+    if (win)
+        this->labelInformations->setText(QString("Bravo !\n\nVous avez vaincu %1").arg(this->opponent->getName()));
+
     this->opponent = nullptr;
     this->updateScene();
 
@@ -149,7 +177,6 @@ void Game::chooseRandomEvent()
     case 1:
         // Empty room
         this->updateScene(EventManager::Event::NothingEvent);
-        //QMessageBox::information(NULL, "Event", "CHEH");
         this->labelInformations->setText("Hum... il n'y a pas grand chose par ici...");
         break;
     case 2:
@@ -184,10 +211,8 @@ void Game::releaseEvent(Room::RoomType _roomType)
         break;
     case Room::RoomType::Exit:
         this->isExitFound = true;
-        QMessageBox::information(NULL, "Exit", "Sortie trouvée");
         break;
     case Room::RoomType::Start:
-        QMessageBox::information(NULL, "Start", "Bienvenue en enfer");
         break;
     default:
         qDebug() << "[ERROR] Game::releaseEvent : Unknown type of Room::RoomType";
@@ -196,13 +221,14 @@ void Game::releaseEvent(Room::RoomType _roomType)
 
     if (!doWeContinue)
     {
-        QMessageBox::information(NULL, "Information", "Vous êtes mort, vous avez perdu");
+        QMessageBox::critical(NULL, "Information", "Vous êtes mort, vous avez perdu");
         exit(-1);
     }
 }
 
 void Game::riddle()
 {
+    this->labelInformations->setText("Un gardien protège cette salle, répondez à son énigme.");
     this->eventManager->riddleEvent(&player);
 }
 
@@ -237,6 +263,8 @@ void Game::addSceneOpponent(Opponent *_opponent)
 
 void Game::addScenePlayers()
 {
+    gameScene->setSceneRect(0, 0, Game::GAME_WIDTH, Game::GAME_HEIGHT);
+
     QPixmap warrior("../img/characters/sprite_guerrier.png");
     QPixmap wizard("../img/characters/sprite_sorcier.png");
     QPixmap healer("../img/characters/sprite_soigneur.png");
@@ -275,8 +303,8 @@ void Game::addScenePlayers()
 void Game::createButtons()
 {
     this->btnMap = new QPushButton("&Ouvrir Map");
-    this->btnAttackOne = new QPushButton("Attaque &1");
-    this->btnAttackTwo = new QPushButton("Attaque &2");
+    this->btnAttackOne = new QPushButton;
+    this->btnAttackTwo = new QPushButton;
     this->btnBackpack = new QPushButton("&Sac à Dos");
     this->btnFlee = new QPushButton("&Fuir");
 
@@ -289,15 +317,70 @@ void Game::createButtons()
 void Game::createScene()
 {
     QGraphicsScene *gameScene = new QGraphicsScene;
-    gameScene->setSceneRect(0, 0, Game::GAME_WIDTH, Game::GAME_HEIGHT);
 
-    //gameScene->addRect(gameScene->sceneRect(), QPen(Qt::DashDotLine));
+    // Moving the scene for the pixmap to be in fully visible
+    gameScene->setSceneRect(0, 350, Game::GAME_WIDTH, Game::GAME_HEIGHT);
+
+    // Add the background
+    QPixmap startMenu("../img/startMenu.png");
+    startMenu = startMenu.scaled(gameScene->sceneRect().width() * 1.8, gameScene->sceneRect().height() * 1.8, Qt::KeepAspectRatioByExpanding );
+
+    gameScene->setBackgroundBrush(QBrush(startMenu));
+
+    // Add the characters on the scene
+    QPixmap warrior("../img/characters/sprite_guerrier.png");
+    QPixmap wizard("../img/characters/sprite_sorcier.png");
+    QPixmap healer("../img/characters/sprite_soigneur.png");
+
+    warrior = warrior.scaled(250, 250, Qt::KeepAspectRatioByExpanding);
+    wizard = wizard.scaled(250, 250, Qt::KeepAspectRatioByExpanding);
+    healer = healer.scaled(250, 250, Qt::KeepAspectRatioByExpanding);
+
+    QGraphicsPixmapItem *iWarrior = new QGraphicsPixmapItem(warrior);
+    QGraphicsPixmapItem *iWizard = new QGraphicsPixmapItem(wizard);
+    QGraphicsPixmapItem *iHealer = new QGraphicsPixmapItem(healer);
+
+    iWarrior->setPos(750, 800);
+    iWizard->setPos(500, 1000);
+    iHealer->setPos(220, 900);
+
+    gameScene->addItem(iWarrior);
+    gameScene->addItem(iWizard);
+    gameScene->addItem(iHealer);
+
+    // Add HE-ARC logo on the scene
+    QPixmap heArc("../img/logoTrans.png");
+    heArc = heArc.scaled(50, 150, Qt::KeepAspectRatioByExpanding);
+
+    QGraphicsPixmapItem *iHeArc = new QGraphicsPixmapItem(heArc);
+
+    iHeArc->setPos(-800, 1500);
+    gameScene->addItem(iHeArc);
+
+    // Add label to start the game
+    QGraphicsSimpleTextItem *textStart = new QGraphicsSimpleTextItem("Bienvenue dans le donjon !\nOuvrez la carte pour commencer...");
+    textStart->setPos(1400, 1200);
+    textStart->setFont(QFont("Arial", 60, 1));
+    textStart->setBrush(QBrush(Qt::white));
+    gameScene->addItem(textStart);
+
+    // Add rectangle
+    gameScene->addRect(-500, 250, 1300, 225, QPen(), QBrush(QColor(0, 0, 0, 128)));
+
+    // Add title
+    QGraphicsSimpleTextItem *textTitle = new QGraphicsSimpleTextItem("Arc Dungeon");
+    textTitle->setPos(-450, 245);
+    textTitle->setFont(QFont("Arial", 150, 1));
+    textTitle->setBrush(QBrush(Qt::white));
+    gameScene->addItem(textTitle);
 
     this->gameScene = gameScene;
 }
 
 void Game::end()
 {
+    this->updateScene(EventManager::Event::ExitRoom);
+
     // Disable all buttons...
     this->btnAttackOne->setEnabled(false);
     this->btnAttackTwo->setEnabled(false);
@@ -315,7 +398,6 @@ void Game::end()
     QTime gameTime = QTime(0, 0, 0, 0).addMSecs(nbMsec);
 
     this->labelInformations->setText(QString("Le jeu est terminé !\n\nTemps de jeu : %1").arg(gameTime.toString()));
-    //QMessageBox::information(NULL, "Fin du Jeu", "Le jeu est terminé");
 }
 
 void Game::initializePlayer()

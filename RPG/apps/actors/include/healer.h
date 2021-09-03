@@ -13,14 +13,17 @@
 class Healer : public Player
 {
 protected:
-void virtual attack1(Character*) override;
-void virtual attack2(Character*) override;
+    QString virtual attack1(Character*) override;
+    QString virtual attack2(Character*) override;
 public:
-Healer()=delete;
-Healer(int _damage, int _agility, int _defense, double _health);
-QString getName() const override{return QString("Soigneur");};
-QGridLayout virtual *show() const override;
-QString virtual showStat() const override;
+    Healer()=delete;
+    Healer(int _damage, int _agility, int _defense, double _health);
+    QString getName() const override{return QString("Soigneur");};
+    QGridLayout virtual *show() const override;
+    QString virtual showStat() const override;
+
+    QString virtual getAttackOneName() const override { return "Soin"; }
+    QString virtual getAttackTwoName() const override { return "Coup de bâton"; }
 
 };
 #endif

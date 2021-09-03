@@ -15,13 +15,16 @@
 class Skeleton : public Opponent
 {
 protected:
-    void virtual attack1(Character*) override;
-    void virtual attack2(Character*) override;
+    QString virtual attack1(Character*) override;
+    QString virtual attack2(Character*) override;
 public:
     Skeleton()=delete;
     Skeleton(int,int, int, double);
     QString getName() const override {return QString("Squelette");};
     QGridLayout virtual *show() const override;
+
+    QString virtual getAttackOneName() const override { return "Lancement d'os"; }
+    QString virtual getAttackTwoName() const override { return "Coup de poignard"; }
 };
 
 #endif // SKELETON_H

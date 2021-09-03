@@ -31,10 +31,11 @@ public:
     QGridLayout virtual *show() const = 0;
 
     bool isAlive();
-    void interaction(Character* _character, Action _action);
+    QString interaction(Character* _character, Action _action);
     bool dodge();
     int totalDamage(Character* _character);
-    void updateHealth(double _health);
+    void updateDefense(double _defense);
+    bool updateHealth(double _health);
 
     int getDamage()const{return this->damage;};
     int getDefense()const{return this->defense;};
@@ -42,8 +43,11 @@ public:
     double getHealth()const{return this->health;};
 
     QString virtual getName() const = 0;
-    void virtual attack1(Character*) = 0;
-    void virtual attack2(Character*) = 0;
+    QString virtual attack1(Character*) = 0;
+    QString virtual attack2(Character*) = 0;
+
+    QString virtual getAttackOneName() const = 0;
+    QString virtual getAttackTwoName() const = 0;
 
 };
 #endif

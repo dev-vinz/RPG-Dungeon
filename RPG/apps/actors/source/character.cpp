@@ -37,8 +37,18 @@ int Character::totalDamage(Character *_character)
     int total = ((this->getDamage()) * (100.0/(100+_character->getDefense())));
     return total;
 }
-#include <QMessageBox>
-void Character::updateHealth(double _health)
+
+void Character::updateDefense(double _defense)
+{
+    this->defense += _defense;
+}
+
+/**
+ * @brief Character::updateHealth
+ * @param _health
+ * @return True if the character has dodged the attack
+ */
+bool Character::updateHealth(double _health)
 {
     if(_health>0)
     {
@@ -58,7 +68,7 @@ void Character::updateHealth(double _health)
         //cout << this->getName() << " perds de points de vie" << endl;
         if (this->dodge())
         {
-            QMessageBox::information(NULL, "Character", QString("%1 a dodge").arg(this->getName()));
+            return true;
             //globalLabel->UpdateText("Bravo vous avez esquivé l'attaque");
             //cout << this->getName() << " a esquivé l'attaque" << endl;
         } else
@@ -67,18 +77,21 @@ void Character::updateHealth(double _health)
             this->health += _health;
         }
     }
+
+    return false;
 }
 
-void Character::interaction(Character* _character, Action _action)
+QString Character::interaction(Character* _character, Action _action)
 {
+    QString report;
     Player *_player = dynamic_cast<Player *>(this);
     switch(_action)
     {
         case Action::attack1:
-        this->attack1(_character);
+        report = this->attack1(_character);
         break;
         case Action::attack2:
-        this->attack2(_character);
+        report = this->attack2(_character);
         break;
         case Action::flee:
         _player->flee();
@@ -88,4 +101,6 @@ void Character::interaction(Character* _character, Action _action)
             //Retour au choix des boutons
             exit(-1);
     }
+
+    return report;
 }

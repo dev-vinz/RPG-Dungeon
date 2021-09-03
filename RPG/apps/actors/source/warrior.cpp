@@ -3,19 +3,32 @@
 
 #include <QMessageBox>
 
-void Warrior::attack1(Character* _character)
+QString Warrior::attack1(Character* _character)
 {
     //cout << "Vous protegez un allié" << endl;
-    _character->show();
-    QMessageBox::information(NULL, "Warrior", QString("Help on %1").arg(_character->getName()));
+    int updateDef = 3;
+    _character->updateDefense(updateDef);
+
+    return QString("%1 gagne %2 points de défense").arg(_character->getName(), QString::number(updateDef));
 }
 
-void Warrior::attack2(Character* _character)
+QString Warrior::attack2(Character* _character)
 {
-    QMessageBox::information(NULL, "Warrior", QString("Attack on %1").arg(_character->getName()));
+    QString attack;
     int damage = this->totalDamage(_character);
     //cout << "Vous infligez des dégats" << endl;
-    _character->updateHealth(-damage);
+    bool hasDodged = _character->updateHealth(-damage);
+
+    if (hasDodged)
+    {
+        attack = QString("%1 a esquivé l'attaque").arg(_character->getName());
+    }
+    else
+    {
+        attack = QString("%1 a perdu %2 points de vie").arg(_character->getName(), QString::number(damage));
+    }
+
+    return attack;
 }
 
 Warrior::Warrior(int _damage ,int _agility ,int _defense ,double _health) :Player (_damage, _agility, _defense, _health)

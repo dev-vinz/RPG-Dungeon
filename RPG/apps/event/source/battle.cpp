@@ -9,25 +9,32 @@ Battle::Battle(std::map<Player *, QLabel *> *_statsLabels, std::deque<Player *> 
     this->statsLabels = _statsLabels;
 }
 
-Battle::Turn Battle::getWinner(QPushButton *_btnAOne, QPushButton *_btnATwo)
+Battle::Turn Battle::getWinner(QPushButton *_btnAOne, QPushButton *_btnATwo, QPushButton *_btnBackpack, QPushButton *_btnFlee)
 {
     this->turn = Battle::Turn::PlayerTurn;
     this->isBattle = true;
 
     this->btnAttackOne = _btnAOne;
     this->btnAttackTwo = _btnATwo;
+    this->btnBackpack = _btnBackpack;
+    this->btnFlee = _btnFlee;
 
     QButtonGroup *globalButtons = new QButtonGroup;
     globalButtons->addButton(_btnAOne, 1);
     globalButtons->addButton(_btnATwo, 2);
 
     QObject::connect(globalButtons, &QButtonGroup::idClicked, this, &Battle::doAction);
+    QObject::connect(_btnFlee, &QPushButton::clicked, this, &Battle::stopBattle);
 
     while (this->isBattle)
     {
         ExtensionMethod::UpdateStatsLayout(this->statsLabels);
         QString report = this->nextTurn();
+
         this->informations->setText(report);
+
+        if (this->turn == Battle::Turn::OpponentTurn)
+            QTest::qWait(2000);
     }
 
     return this->winner;
@@ -36,16 +43,27 @@ Battle::Turn Battle::getWinner(QPushButton *_btnAOne, QPushButton *_btnATwo)
 void Battle::doAction(int _id)
 {
     Battle::ButtonType btnType = (Battle::ButtonType)_id;
+
     // Get current player
     Player *currentPlayer = this->player->at(this->idPlayer % this->player->size());
     this->idPlayer++;
 
-    QMessageBox::information(NULL, "Information", QString("Current player : %1").arg(currentPlayer->getName()));
-    QMessageBox::information(NULL, "Information", QString("Button clicked : %1").arg(btnType));
+    this->statsLabels->at(currentPlayer)->setStyleSheet("font-weight: bold");
 
     Warrior *ptrWarrior = dynamic_cast<Warrior *>(currentPlayer);
     Wizard *ptrWizard = dynamic_cast<Wizard *>(currentPlayer);
     Healer *ptrHealer = dynamic_cast<Healer *>(currentPlayer);
+
+    switch (btnType) {
+    case Battle::ButtonType::AttackOneType:
+        this->pTurnString.append(QString("%1 utilise l'attaque %2\n").arg(currentPlayer->getName(), currentPlayer->getAttackOneName()));
+        break;
+    case Battle::ButtonType::AttackTwoType:
+        this->pTurnString.append(QString("%1 utilise l'attaque %2\n").arg(currentPlayer->getName(), currentPlayer->getAttackTwoName()));
+        break;
+    default:
+        break;
+    }
 
     /**
      *  NAME : Warrior
@@ -62,12 +80,12 @@ void Battle::doAction(int _id)
         case Battle::ButtonType::AttackOneType:
             target = this->chooseAlly();
             action = Action::attack1;
-            ptrWarrior->interaction(target, action);
+            this->pTurnString.append(ptrWarrior->interaction(target, action));
             break;
         case Battle::ButtonType::AttackTwoType:
             target = this->opponent;
             action = Action::attack2;
-            ptrWarrior->interaction(target, action);
+            this->pTurnString.append(ptrWarrior->interaction(target, action));
             break;
         default:
             exit(-1);
@@ -89,12 +107,12 @@ void Battle::doAction(int _id)
         case Battle::ButtonType::AttackOneType:
             target = this->opponent;
             action = Action::attack1;
-            ptrWizard->interaction(target, action);
+            this->pTurnString.append(ptrWizard->interaction(target, action));
             break;
         case Battle::ButtonType::AttackTwoType:
             target = this->opponent;
             action = Action::attack2;
-            ptrWizard->interaction(target, action);
+            this->pTurnString.append(ptrWizard->interaction(target, action));
             break;
         default:
             exit(-1);
@@ -116,12 +134,12 @@ void Battle::doAction(int _id)
         case Battle::ButtonType::AttackOneType:
             target = this->chooseAlly();
             action = Action::attack1;
-            ptrHealer->interaction(target, action);
+            this->pTurnString.append(ptrHealer->interaction(target, action));
             break;
         case Battle::ButtonType::AttackTwoType:
             target = this->opponent;
             action = Action::attack2;
-            ptrHealer->interaction(target, action);
+            this->pTurnString.append(ptrHealer->interaction(target, action));
             break;
         default:
             exit(-1);
@@ -133,7 +151,13 @@ void Battle::doAction(int _id)
     ptrHealer = nullptr;
 
     ExtensionMethod::UpdateStatsLayout(this->statsLabels);
+    this->statsLabels->at(currentPlayer)->setStyleSheet("font-weight: normal");
     this->checkOver();
+}
+
+void Battle::stopBattle()
+{
+    this->isBattle = false;
 }
 
 /* * * * * * * * * * * * * * * * *
@@ -195,7 +219,9 @@ Character *Battle::chooseAlly() const
     for (Player *p : *this->player)
     {
         if (p->getHealth() < this->player->at(iMin)->getHealth())
-            iMin = i++;
+            iMin = i;
+
+        i++;
     }
 
     return this->player->at(iMin);
@@ -206,10 +232,6 @@ QString Battle::opponentTurn()
 {
     this->oTurnString = "";
 
-    // Disable buttons
-    this->btnAttackOne->setEnabled(false);
-    this->btnAttackTwo->setEnabled(false);
-
     // Do a random attack...
     qint32 a = QRandomGenerator::global()->bounded(1, 3);
     Action attack = (Action)(a);
@@ -218,9 +240,22 @@ QString Battle::opponentTurn()
     qint32 pId = QRandomGenerator::global()->bounded(0, (int)this->player->size());
     Player *p = this->player->at(pId);
 
-    oTurnString.append(QString("%1 utilise l'attaque %2").arg(this->opponent->getName(), QString::number(a)));
+    QString attackDisplay;
 
-    this->opponent->interaction(p, attack);
+    switch (attack)
+    {
+    case Action::attack1:
+        attackDisplay = this->opponent->getAttackOneName();
+        break;
+    case Action::attack2:
+        attackDisplay = this->opponent->getAttackTwoName();
+        break;
+    default:
+        break;
+    }
+
+    oTurnString.append(QString("%1 utilise l'attaque %2\n").arg(this->opponent->getName(), attackDisplay));
+    oTurnString.append(this->opponent->interaction(p, attack));
 
     ExtensionMethod::UpdateStatsLayout(this->statsLabels);
     this->checkOver();
@@ -232,21 +267,34 @@ QString Battle::playerTurn()
 {
     this->pTurnString = "";
 
+    Player *currentPlayer = this->player->at(this->idPlayer % this->player->size());
+    this->statsLabels->at(currentPlayer)->setStyleSheet("font-weight: bold");
+
     // Réactiver les boutons
     this->btnAttackOne->setEnabled(true);
     this->btnAttackTwo->setEnabled(true);
+    this->btnBackpack->setEnabled(true);
+    this->btnFlee->setEnabled(true);
 
-    QMessageBox::information(NULL, "Information", "Here we go");
+    this->btnAttackOne->setText("[&1]  " + currentPlayer->getAttackOneName());
+    this->btnAttackTwo->setText("[&2]  " + currentPlayer->getAttackTwoName());
+
     QEventLoop loop;
 
     QObject::connect(btnAttackOne, &QPushButton::clicked, &loop, &QEventLoop::quit);
     QObject::connect(btnAttackTwo, &QPushButton::clicked, &loop, &QEventLoop::quit);
+    QObject::connect(btnFlee, &QPushButton::clicked, &loop, &QEventLoop::quit);
 
     // Wait for button to be clicked
     loop.exec();
 
     ExtensionMethod::UpdateStatsLayout(this->statsLabels);
-    QMessageBox::information(NULL, "Information", "Thanks for clicking");
+
+    // Disable buttons
+    this->btnAttackOne->setEnabled(false);
+    this->btnAttackTwo->setEnabled(false);
+    this->btnBackpack->setEnabled(false);
+    this->btnFlee->setEnabled(false);
 
     return this->pTurnString;
 }
@@ -264,7 +312,6 @@ QString Battle::nextTurn()
     {
         report = this->opponentTurn();
         this->turn = Battle::Turn::PlayerTurn;
-        //QThread::sleep(5);
     }
 
     return report;

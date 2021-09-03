@@ -29,6 +29,8 @@ class GameManager : public QWidget
     friend class Game;
 
 public:
+    static int const EXIT_CODE_RESTART_GAME;
+
     GameManager(QWidget *_parent = nullptr);
 
     void display();
@@ -59,6 +61,9 @@ private:
     QVBoxLayout *createMiniMap();
 
     void updateStatistics();
+
+public slots:
+    void restartGame();
 };
 
 #endif // GAMEMANAGER_H

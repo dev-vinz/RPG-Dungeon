@@ -14,8 +14,11 @@ public:
     Opponent()=delete;
     Opponent(int _damage, int _agility, int _defense, double _health);
     //QGridLayout virtual *show() const override;
-    void virtual attack1(Character*) override = 0;
-    void virtual attack2(Character*) override = 0;
+    QString virtual attack1(Character*) override = 0;
+    QString virtual attack2(Character*) override = 0;
+
+    QString virtual getAttackOneName() const override = 0;
+    QString virtual getAttackTwoName() const override = 0;
 };
 
 #endif // OPPONENT_H

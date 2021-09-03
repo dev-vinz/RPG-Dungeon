@@ -1,5 +1,7 @@
 #include "../include/gamemanager.h"
 
+int const GameManager::EXIT_CODE_RESTART_GAME = -123456789;
+
 GameManager::GameManager(QWidget *_parent) : QWidget(_parent)
 {
     this->map = new Map;
@@ -205,4 +207,13 @@ QVBoxLayout *GameManager::createMiniMap()
     miniMap->addWidget(this->game->btnMap, Qt::AlignHCenter);
 
     return miniMap;
+}
+
+/* * * * * * * * * * *
+ * * * * SLOTS * * * *
+ * * * * * * * * * * */
+
+void GameManager::restartGame()
+{
+    qApp->exit(GameManager::EXIT_CODE_RESTART_GAME);
 }
