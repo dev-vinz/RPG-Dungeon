@@ -209,12 +209,3 @@ QVBoxLayout *GameManager::createMiniMap()
 
     return miniMap;
 }
-
-/* * * * * * * * * * *
- * * * * SLOTS * * * *
- * * * * * * * * * * */
-
-void GameManager::restartGame()
-{
-    qApp->exit(GameManager::EXIT_CODE_RESTART_GAME);
-}

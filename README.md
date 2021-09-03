@@ -5,9 +5,17 @@
 # Contributors
 
 ### Authors
-- [Vincent Jeannin](mailto:vincent.jeannin@he-arc.ch)
-- [Benjamin Mouchet](mailto:benjamin.mouchet@he-arc.ch)
-- [Guillaume Mouchet](mailto:guillaume.mouchet@he-arc.ch)
+- [Jeannin Vincent](mailto:vincent.jeannin@he-arc.ch)
+- [Mouchet Benjamin](mailto:benjamin.mouchet@he-arc.ch)
+- [Mouchet Guillaume](mailto:guillaume.mouchet@he-arc.ch)
+
+### Professors
+- [Beurret Stéphane](mailto:stephane.beurret@he-arc.ch)
+- [Le Callennec Benoit](mailto:benoit.lecallennec@he-arc.ch)
+
+### Assistants
+- [Divernois Margaux](mailto:margaux.divernois@he-arc.ch)
+- [Srdjenovic Luca](mailto:luca.srdjenovic@he-arc.ch)
 
 &copy; 2021 All rights reserved, HE-Arc
 
