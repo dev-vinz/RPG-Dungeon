@@ -8,6 +8,34 @@ Character::Character(int _damage, int _agility, int _defense, double _health)
     this->defense = _defense;
     this->health = _health;
 }
+bool Character::isAlive()
+{
+    return (getHealth() > 0);
+}
+
+QString Character::interaction(Character *_character, Action _action)
+{
+    QString report;
+    Player *_player = dynamic_cast<Player *>(this);
+    switch (_action)
+    {
+    case Action::attack1:
+        report = this->attack1(_character);
+        break;
+    case Action::attack2:
+        report = this->attack2(_character);
+        break;
+    case Action::flee:
+        _player->flee();
+        break;
+
+    default:
+        //Retour au choix des boutons
+        exit(-1);
+    }
+
+    return report;
+}
 
 QGridLayout *Character::show() const
 {
@@ -19,28 +47,6 @@ QGridLayout *Character::show() const
     myimage->setPixmap(pix);
     statistics->addWidget(myimage, 0, 0, Qt::AlignCenter);
     return statistics;
-}
-
-bool Character::isAlive()
-{
-    return (getHealth() > 0);
-}
-
-bool Character::dodge()
-{
-    qint32 v = QRandomGenerator::global()->bounded(0, 101);
-    return (v % 100 + 1 <= this->getAgility());
-}
-
-int Character::totalDamage(Character *_character)
-{
-    int total = ((this->getDamage()) * (100.0 / (100 + _character->getDefense())));
-    return total;
-}
-
-void Character::updateDefense(double _defense)
-{
-    this->defense += _defense;
 }
 
 /**
@@ -83,26 +89,23 @@ bool Character::updateHealth(double _health)
     return false;
 }
 
-QString Character::interaction(Character *_character, Action _action)
+void Character::updateDefense(double _defense)
 {
-    QString report;
-    Player *_player = dynamic_cast<Player *>(this);
-    switch (_action)
-    {
-    case Action::attack1:
-        report = this->attack1(_character);
-        break;
-    case Action::attack2:
-        report = this->attack2(_character);
-        break;
-    case Action::flee:
-        _player->flee();
-        break;
+    this->defense += _defense;
+}
 
-    default:
-        //Retour au choix des boutons
-        exit(-1);
-    }
+/* * * * * * * * * * * * * * * * *
+ * * * * PROTECTED METHODS * * * *
+ * * * * * * * * * * * * * * * * */
 
-    return report;
+bool Character::dodge()
+{
+    qint32 v = QRandomGenerator::global()->bounded(0, 101);
+    return (v % 100 + 1 <= this->getAgility());
+}
+
+int Character::totalDamage(Character *_character)
+{
+    int total = ((this->getDamage()) * (100.0 / (100 + _character->getDefense())));
+    return total;
 }

@@ -1,5 +1,9 @@
 #include "..\include\warrior.h"
 
+Warrior::Warrior(int _damage, int _agility, int _defense, double _health) : Player(_damage, _agility, _defense, _health)
+{
+}
+
 QString Warrior::attack1(Character *_character)
 {
     //cout << "Vous protegez un allié" << endl;
@@ -28,20 +32,6 @@ QString Warrior::attack2(Character *_character)
     return attack;
 }
 
-Warrior::Warrior(int _damage, int _agility, int _defense, double _health) : Player(_damage, _agility, _defense, _health)
-{
-}
-
-QString Warrior::showStat() const
-{
-    //Name
-    QString Name = QString("%1").arg(this->getName());
-    //Stat
-    QLabel *warriorStat = new QLabel("HP : " + QString::number(this->getHealth()) + "/" + QString::number(MAX_HEALTH));
-
-    return QString("%1\n%2").arg(Name, warriorStat->text());
-}
-
 QGridLayout *Warrior::show() const
 {
     QGridLayout *statistics = new QGridLayout;
@@ -52,4 +42,14 @@ QGridLayout *Warrior::show() const
     myimage->setPixmap(pix);
     statistics->addWidget(myimage, 0, 0, Qt::AlignCenter);
     return statistics;
+}
+
+QString Warrior::showStat() const
+{
+    //Name
+    QString Name = QString("%1").arg(this->getName());
+    //Stat
+    QLabel *warriorStat = new QLabel("HP : " + QString::number(this->getHealth()) + "/" + QString::number(MAX_HEALTH));
+
+    return QString("%1\n%2").arg(Name, warriorStat->text());
 }

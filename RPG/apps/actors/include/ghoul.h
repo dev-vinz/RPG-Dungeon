@@ -19,11 +19,12 @@ protected:
 public:
     Ghoul() = delete;
     Ghoul(int, int, int, double);
-    QString getName() const override { return QString("Goule"); };
+
     QGridLayout virtual *show() const override;
 
     QString virtual getAttackOneName() const override { return "Griffe"; }
     QString virtual getAttackTwoName() const override { return "Tranche"; }
+    QString getName() const override { return QString("Goule"); };
 };
 
 #endif // GHOUL_H

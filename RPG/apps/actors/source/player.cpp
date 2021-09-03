@@ -5,6 +5,5 @@ Player::Player(int _damage, int _agility, int _defense, double _health) : Charac
 
 void Player::flee()
 {
-    //cout << "Vous fuyez" << endl;
     exit(-1);
 }

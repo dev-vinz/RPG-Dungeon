@@ -21,13 +21,13 @@ public:
     IObject(int _power = 0);
     ~IObject();
 
-    QString virtual getName() = 0;
-    int virtual getFeature() = 0;
-    QString virtual show();
+    QString virtual show() const;
     void virtual use(Character *_character) = 0;
 
     QString virtual getAction() const = 0;
     QString virtual getDescription() const = 0;
+    int virtual getFeature() const = 0;
+    QString virtual getName() const = 0;
 };
 
 #endif // IOBJECT_H

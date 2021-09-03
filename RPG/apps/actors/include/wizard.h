@@ -22,13 +22,13 @@ public:
     Wizard(int _damage, int _agility, int _defense, double _health, double _mana);
 
     QGridLayout virtual *show() const override;
-    double getMana() const { return this->mana; };
-    void updateMana(double);
-    QString getName() const override { return QString("Sorcier"); };
     QString virtual showStat() const override;
+    void updateMana(double);
 
     QString virtual getAttackOneName() const override { return "Coup de bâton"; }
     QString virtual getAttackTwoName() const override { return "Boule de feu (8)"; }
+    QString getName() const override { return QString("Sorcier"); };
+    double getMana() const { return this->mana; };
 };
 
 #endif

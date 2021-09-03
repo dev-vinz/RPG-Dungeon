@@ -19,12 +19,13 @@ protected:
 public:
     Healer() = delete;
     Healer(int _damage, int _agility, int _defense, double _health);
-    QString getName() const override { return QString("Soigneur"); };
+
     QGridLayout virtual *show() const override;
     QString virtual showStat() const override;
 
     QString virtual getAttackOneName() const override { return "Soin"; }
     QString virtual getAttackTwoName() const override { return "Coup de bâton"; }
+    QString getName() const override { return QString("Soigneur"); };
 };
 
 #endif

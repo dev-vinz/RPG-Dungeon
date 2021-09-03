@@ -19,11 +19,12 @@ protected:
 public:
     Skeleton() = delete;
     Skeleton(int, int, int, double);
-    QString getName() const override { return QString("Squelette"); };
+
     QGridLayout virtual *show() const override;
 
     QString virtual getAttackOneName() const override { return "Lancement d'os"; }
     QString virtual getAttackTwoName() const override { return "Coup de poignard"; }
+    QString getName() const override { return QString("Squelette"); };
 };
 
 #endif // SKELETON_H

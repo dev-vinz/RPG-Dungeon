@@ -1,5 +1,9 @@
 #include "..\include\skeleton.h"
 
+Skeleton::Skeleton(int _damage, int _agility, int _defense, double _health) : Opponent(_damage, _agility, _defense, _health)
+{
+}
+
 QString Skeleton::attack1(Character *_character)
 {
     QString attack;
@@ -34,10 +38,6 @@ QString Skeleton::attack2(Character *_character)
     }
 
     return attack;
-}
-
-Skeleton::Skeleton(int _damage, int _agility, int _defense, double _health) : Opponent(_damage, _agility, _defense, _health)
-{
 }
 
 QGridLayout *Skeleton::show() const

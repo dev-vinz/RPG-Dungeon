@@ -49,9 +49,10 @@ public:
     Backpack(std::deque<Player *> *_player, QLabel *_infoLabel = nullptr, QWidget *_parent = nullptr);
 
     void addItem(IObject *_pObject);
-    QPushButton *getUseButton() const;
-    void useItem(int _indice);
     void show();
+    void useItem(int _indice);
+
+    QPushButton *getUseButton() const;
 
 protected:
     QHBoxLayout *createButtons();

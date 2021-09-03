@@ -26,9 +26,16 @@ void Backpack::addItem(IObject *_pObject)
     it->setIcon(px);
 }
 
-QPushButton *Backpack::getUseButton() const
+void Backpack::show()
 {
-    return this->btnUse;
+    btnUse->setEnabled(this->myBackpack.size() > 0);
+
+    QListWidgetItem *firstIt = this->listItem->item(0);
+
+    if (firstIt != nullptr)
+        this->listItem->setCurrentItem(firstIt);
+
+    this->window->show();
 }
 
 void Backpack::useItem(int _indice)
@@ -68,18 +75,10 @@ void Backpack::useItem(int _indice)
     delete it;
 }
 
-void Backpack::show()
+QPushButton *Backpack::getUseButton() const
 {
-    btnUse->setEnabled(this->myBackpack.size() > 0);
-
-    QListWidgetItem *firstIt = this->listItem->item(0);
-
-    if (firstIt != nullptr)
-        this->listItem->setCurrentItem(firstIt);
-
-    this->window->show();
+    return this->btnUse;
 }
-
 /* * * * * * * * * * * * * * * * *
  * * * * PROTECTED METHODS * * * *
  * * * * * * * * * * * * * * * * */

@@ -4,7 +4,7 @@ Torch::Torch(int _power) : IObject(_power)
 {
 }
 
-QString Torch::show()
+QString Torch::show() const
 {
     return this->getName();
 }

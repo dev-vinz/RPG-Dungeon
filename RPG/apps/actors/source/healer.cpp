@@ -1,5 +1,9 @@
 #include "..\include\healer.h"
 
+Healer::Healer(int _damage, int _agility, int _defense, double _health) : Player(_damage, _agility, _defense, _health)
+{
+}
+
 QString Healer::attack1(Character *_character)
 {
     //Watch to target a Player and not an Opponent
@@ -29,20 +33,6 @@ QString Healer::attack2(Character *_character)
     return attack;
 }
 
-Healer::Healer(int _damage, int _agility, int _defense, double _health) : Player(_damage, _agility, _defense, _health)
-{
-}
-
-QString Healer::showStat() const
-{
-    //Name
-    QString Name = QString("%1").arg(this->getName());
-    //Stat
-    QLabel *healerStat = new QLabel("HP : " + QString::number(this->getHealth()) + "/" + QString::number(MAX_HEALTH));
-
-    return QString("%1\n%2").arg(Name, healerStat->text());
-}
-
 QGridLayout *Healer::show() const
 {
     QGridLayout *statistics = new QGridLayout;
@@ -53,4 +43,14 @@ QGridLayout *Healer::show() const
     myimage->setPixmap(pix);
     statistics->addWidget(myimage, 0, 0, Qt::AlignCenter);
     return statistics;
+}
+
+QString Healer::showStat() const
+{
+    //Name
+    QString Name = QString("%1").arg(this->getName());
+    //Stat
+    QLabel *healerStat = new QLabel("HP : " + QString::number(this->getHealth()) + "/" + QString::number(MAX_HEALTH));
+
+    return QString("%1\n%2").arg(Name, healerStat->text());
 }
