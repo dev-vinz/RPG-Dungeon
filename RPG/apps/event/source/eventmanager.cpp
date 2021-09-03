@@ -44,15 +44,18 @@ void EventManager::riddleEvent(std::deque<Player *> *_player) const
     for (Player *p : *_player)
     {
         double ratio = 10.0 / 100.0;
-        p->updateHealth(-(ratio * p->getHealth()));
+        bool hasDodged = p->updateHealth(-(ratio * p->getHealth()));
 
-        pInformation.push_back(QString("%1 : %2 HP").arg(p->getName(), QString::number(p->getHealth())));
+        if (hasDodged)
+            pInformation.push_back(QString("%1 a esquivé").arg(p->getName()));
     }
 
     ExtensionMethod::UpdateStatsLayout(this->statsLabels);
 
-    QString msgStatus = ExtensionMethod::Join(pInformation, "\n");
-    QString msg = QString("Oups, mauvaise réponse... chacun de vos personnages a perdu 10% de ses points de vie restants.\n\nStatut des Personnages\n\n%1").arg(msgStatus);
-    //QMessageBox::critical(NULL, "Énigme", msg);
-    this->gameLabel->setText("Oups, mauvaise réponse... chacun de vos personnages a perdu 10% de ses points de vie restants.");
+    QString msg = "Oups, mauvaise réponse... certains personnages ont perdu 10% de leurs points de vie restants.\n";
+    QString additionalMsg = ExtensionMethod::Join(pInformation, "\n");
+
+    msg.append(additionalMsg);
+
+    this->gameLabel->setText(msg);
 }

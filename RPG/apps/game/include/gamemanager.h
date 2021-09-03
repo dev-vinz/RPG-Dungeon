@@ -61,9 +61,6 @@ private:
     QVBoxLayout *createMiniMap();
 
     void updateStatistics();
-
-public slots:
-    void restartGame();
 };
 
 #endif // GAMEMANAGER_H
