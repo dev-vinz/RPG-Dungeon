@@ -47,6 +47,19 @@ void GameManager::startGame()
     this->game->start();
 }
 
+void GameManager::areYouSureToQuit()
+{
+    QMessageBox *box = new QMessageBox(QMessageBox::Question,
+                                       qApp->applicationName(),
+                                       "Êtes-vous sûr de vouloir fuir ?\nCeci quittera le jeu",
+                                       QMessageBox::Yes | QMessageBox::No);
+
+    QObject::connect(box->button(QMessageBox::Yes), &QAbstractButton::clicked, this, &QApplication::quit);
+
+    box->setModal(true);
+    box->show();
+}
+
 void GameManager::resetActionLabel()
 {
     this->game->labelInformations->setText("");
@@ -137,7 +150,7 @@ QGridLayout *GameManager::createActionButtons()
 
     QObject::connect(this->game->btnAttackOne, &QPushButton::clicked, this, &GameManager::updateGame);
     QObject::connect(this->game->btnAttackTwo, &QPushButton::clicked, this, &GameManager::updateGame);
-    QObject::connect(this->game->btnFlee, &QPushButton::clicked, this, &QApplication::quit);
+    QObject::connect(this->game->btnFlee, &QPushButton::clicked, this, &GameManager::areYouSureToQuit);
     QObject::connect(this->game->btnBackpack, &QPushButton::clicked, this->game->playerBackpack, &Backpack::show);
     QObject::connect(this->game->playerBackpack->getUseButton(), &QPushButton::clicked, this, &GameManager::updateMap);
 

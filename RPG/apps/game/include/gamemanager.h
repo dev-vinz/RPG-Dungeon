@@ -42,6 +42,7 @@ public:
         MapDisplay
     };
 
+    void areYouSureToQuit();
     void resetActionLabel();
     void updateGame();
     void updateLayout();
