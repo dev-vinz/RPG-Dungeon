@@ -2,6 +2,23 @@
 
 - [Project Wiki](https://gitlab-etu.ing.he-arc.ch/isc/2021-22/niveau-2/conception-logiciel-intro-donnees/g3/-/wikis/home)
 
+# Informations
+In order to launch the game, you have to change the build directory in Qt Creator.
+
+Here are the steps to do
+
+**1st Step**
+
+![First Step](./img/informations/first_step.png)
+
+**2nd Step**
+
+![Second Step](./img/informations/second_step.png)
+
+**3rd Step**
+
+![Third Step](./img/informations/third_step.png)
+
 # Contributors
 
 ### Authors
