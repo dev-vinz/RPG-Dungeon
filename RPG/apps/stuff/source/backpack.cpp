@@ -89,7 +89,8 @@ QHBoxLayout *Backpack::createButtons()
 
     QPushButton *btnUse = new QPushButton("&Utiliser");
     QPushButton *btnClose = new QPushButton("&Fermer");
-
+    btnUse->setFont(QFont("Arial", 13, 1));
+    btnClose->setFont(QFont("Arial", 13, 1));
     this->btnUse = btnUse;
 
     QObject::connect(btnUse, &QPushButton::clicked, this, &Backpack::useItemButton);
@@ -114,7 +115,8 @@ QVBoxLayout *Backpack::createLayout()
 QListWidget *Backpack::createListItems()
 {
     this->listItem = new QListWidget;
-    listItem->setIconSize(QSize(50, 50));
+    listItem->setIconSize(QSize(75, 75));
+    listItem->setFont(QFont("Arial", 13, 1));
 
     return listItem;
 }

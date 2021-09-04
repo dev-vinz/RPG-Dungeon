@@ -73,7 +73,7 @@ QString Wizard::showStat() const
     QString Name = QString("%1").arg(this->getName());
     //stat
     QLabel *wizardStat1 = new QLabel("HP : " + QString::number(this->getHealth()) + "/" + QString::number(MAX_HEALTH));
-    QLabel *wizardStat2 = new QLabel("Mana : " + QString::number(this->getMana()) + "/" + QString::number(MAX_MANA));
+    QLabel *wizardStat2 = new QLabel("MP : " + QString::number(this->getMana()) + "/" + QString::number(MAX_MANA));
 
     return QString("%1\n%2\n%3").arg(Name, wizardStat1->text(), wizardStat2->text());
 }

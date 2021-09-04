@@ -18,7 +18,7 @@ void GameManager::display()
 
     QLabel *gameInformations = new QLabel;
     gameInformations->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
-    gameInformations->setStyleSheet("font-size: 16px; margin-left: 10px;");
+    gameInformations->setStyleSheet("font-size: 24px; margin-left: 10px;");
 
     this->game->setLabelInformations(gameInformations);
 
@@ -49,13 +49,22 @@ void GameManager::startGame()
 
 void GameManager::areYouSureToQuit()
 {
+    QString msg;
+    if(game->isExitFound)
+    {
+        msg = "Êtes-vous sûr de vouloir sortir du donjon ?\nCeci quittera le jeu";
+    }else
+    {
+       msg = "Êtes-vous sûr de vouloir fuir ?\nCeci quittera le jeu";
+    }
+
+
     QMessageBox *box = new QMessageBox(QMessageBox::Question,
                                        qApp->applicationName(),
-                                       "Êtes-vous sûr de vouloir fuir ?\nCeci quittera le jeu",
+                                       QString("%1").arg(msg),
                                        QMessageBox::Yes | QMessageBox::No);
-
     QObject::connect(box->button(QMessageBox::Yes), &QAbstractButton::clicked, this, &QApplication::quit);
-
+    box->setFont(QFont("Arial", 15, 1));
     box->setModal(true);
     box->show();
 }
@@ -133,7 +142,9 @@ void GameManager::updateStatistics()
         {
             l->setText(p->getName() + "\nRIP");
         }
+        l->setFont(QFont("Arial", 15, 1));
     }
+
 }
 
 /**
@@ -179,18 +190,19 @@ QGridLayout *GameManager::createCharacterStatistics()
 
         QLabel *iconLabel = new QLabel;
         QPixmap pix(QString("../img/characters/sprite_%1.png").arg(p->getName().toLower()));
-        pix = pix.scaled(50, 50, Qt::KeepAspectRatioByExpanding);
+        pix = pix.scaled(60, 60, Qt::KeepAspectRatioByExpanding);
         iconLabel->setPixmap(pix);
 
         l->setText(p->showStat());
 
         QVBoxLayout *box = new QVBoxLayout;
-        box->addWidget(iconLabel, Qt::AlignHCenter);
-        box->addWidget(l, Qt::AlignHCenter);
+        box->addWidget(iconLabel, Qt::AlignCenter);
+        box->addWidget(l, Qt::AlignCenter);
 
-        statistics->addLayout(box, row, 0, Qt::AlignHCenter);
+        statistics->addLayout(box, row, 0, Qt::AlignCenter);
 
         row++;
+        l->setFont(QFont("Arial", 17, 1));
     }
 
     return statistics;
@@ -204,7 +216,7 @@ QVBoxLayout *GameManager::createMiniMap()
 {
     QVBoxLayout *miniMap = new QVBoxLayout;
 
-    QLabel *mapTitle = new QLabel("Mini Map");
+    QLabel *mapTitle = new QLabel("Carte de poche");
     QGridLayout *map = this->map->getMiniMap();
 
     connect(this->game->btnMap, &QPushButton::clicked, this, &GameManager::updateLayout);

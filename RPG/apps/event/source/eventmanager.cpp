@@ -6,8 +6,8 @@ EventManager::EventManager(std::map<Player *, QLabel *> *_statsLabels, QLabel *_
 
 bool EventManager::battleEvent(std::deque<Player *> *_player, Opponent *_opponent, QPushButton *_btnAOne, QPushButton *_btnATwo, QPushButton *_btnBackpack, QPushButton *_btnFlee) const
 {
+    this->gameLabel->setFont(QFont("Arial", 15, 1));
     Battle battle(this->statsLabels, _player, _opponent, this->gameLabel);
-
     Battle::Turn winner = battle.getWinner(_btnAOne, _btnATwo, _btnBackpack, _btnFlee);
 
     return winner == Battle::Turn::PlayerTurn;
@@ -15,11 +15,13 @@ bool EventManager::battleEvent(std::deque<Player *> *_player, Opponent *_opponen
 
 IObject *EventManager::lootEvent() const
 {
+    this->gameLabel->setFont(QFont("Arial", 15, 1));
     Loot loot;
 
     IObject *treasure = loot.getTreasure();
 
     //QMessageBox::information(NULL, "Loot Récupéré", QString("Bravo, vous avez récupéré : %1").arg(treasure->getName()));
+
     this->gameLabel->setText(QString("Trésor Trouvé !\n\nBravo, vous avez récupéré une %1.\nDescription : %2").arg(treasure->show(), treasure->getDescription()));
 
     return treasure;
@@ -27,8 +29,8 @@ IObject *EventManager::lootEvent() const
 
 void EventManager::riddleEvent(std::deque<Player *> *_player) const
 {
+    this->gameLabel->setFont(QFont("Arial", 15, 1));
     Riddle riddle;
-
     riddle.display();
     bool isCorrect = riddle.waitForAnswer();
 

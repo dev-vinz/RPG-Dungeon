@@ -5,6 +5,7 @@ Battle::Battle(std::map<Player *, QLabel *> *_statsLabels, std::deque<Player *> 
     this->player = _player;
     this->opponent = _opponent;
     this->informations = informations;
+    this->informations->setFont(QFont("Arial", 15, 1));
     this->idPlayer = 0;
     this->statsLabels = _statsLabels;
 }

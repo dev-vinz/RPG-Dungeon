@@ -11,7 +11,6 @@ void Riddle::display()
     this->query = this->getRandomQuery();
 
     QGridLayout *layout = this->createLayout();
-
     this->window->setWindowTitle("Énigme");
     this->window->setWindowFlags(Qt::WindowTitleHint);
     this->window->setLayout(layout);
@@ -61,13 +60,18 @@ void Riddle::connectToDatabase()
 
 QGridLayout *Riddle::createLayout()
 {
+    int fontSize = 15;
+    int fontSizeBtn = 13;
     QGridLayout *riddleGrid = new QGridLayout(this->window);
 
     QLabel *question = new QLabel(this->query.question);
     this->optionOne = new QPushButton(this->query.optionOne);
     this->optionTwo = new QPushButton(this->query.optionTwo);
     this->optionThree = new QPushButton(this->query.optionThree);
-
+    question->setFont(QFont("Arial", fontSize,1));
+    this->optionOne->setFont(QFont("Arial", fontSizeBtn,1));
+    this->optionTwo->setFont(QFont("Arial", fontSizeBtn,1));
+    this->optionThree->setFont(QFont("Arial", fontSizeBtn,1));
     riddleGrid->addWidget(question, 0, 0, 1, 3);
     riddleGrid->addWidget(optionOne, 1, 0, 1, 1);
     riddleGrid->addWidget(optionTwo, 1, 1, 1, 1);

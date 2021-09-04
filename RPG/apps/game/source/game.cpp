@@ -9,6 +9,7 @@ Game::Game(Map *_map, QWidget *_parent) : QGraphicsView(_parent)
     this->createButtons();
     this->createScene();
     this->initializePlayer();
+
 }
 
 std::map<Player *, QLabel *> *Game::createStatsLabel()
@@ -304,11 +305,17 @@ void Game::addScenePlayers()
 
 void Game::createButtons()
 {
-    this->btnMap = new QPushButton("&Ouvrir Map");
+    int fontSize = 17;
+    this->btnMap = new QPushButton("&Ouvrir Carte");
+    this->btnMap->setFont((QFont("Arial", fontSize, 1)));
     this->btnAttackOne = new QPushButton;
+    this->btnAttackOne->setFont((QFont("Arial", fontSize, 1)));
     this->btnAttackTwo = new QPushButton;
+    this->btnAttackTwo->setFont((QFont("Arial", fontSize, 1)));
     this->btnBackpack = new QPushButton("&Sac à Dos");
+    this->btnBackpack->setFont((QFont("Arial", fontSize, 1)));
     this->btnFlee = new QPushButton("&Fuir");
+    this->btnFlee->setFont((QFont("Arial", fontSize, 1)));
 
     this->btnAttackOne->setEnabled(false);
     this->btnAttackTwo->setEnabled(false);
@@ -321,11 +328,11 @@ void Game::createScene()
     QGraphicsScene *gameScene = new QGraphicsScene;
 
     // Moving the scene for the pixmap to be in fully visible
-    gameScene->setSceneRect(0, 350, Game::GAME_WIDTH, Game::GAME_HEIGHT);
+    gameScene->setSceneRect(0, 555, Game::GAME_WIDTH, Game::GAME_HEIGHT);
 
     // Add the background
     QPixmap startMenu("../img/startMenu.png");
-    startMenu = startMenu.scaled(gameScene->sceneRect().width() * 1.8, gameScene->sceneRect().height() * 1.8, Qt::KeepAspectRatioByExpanding);
+    startMenu = startMenu.scaled(gameScene->sceneRect().width() * 2.2, gameScene->sceneRect().height() * 2.2, Qt::KeepAspectRatioByExpanding);
 
     gameScene->setBackgroundBrush(QBrush(startMenu));
 
@@ -334,17 +341,17 @@ void Game::createScene()
     QPixmap wizard("../img/characters/sprite_sorcier.png");
     QPixmap healer("../img/characters/sprite_soigneur.png");
 
-    warrior = warrior.scaled(250, 250, Qt::KeepAspectRatioByExpanding);
-    wizard = wizard.scaled(250, 250, Qt::KeepAspectRatioByExpanding);
-    healer = healer.scaled(250, 250, Qt::KeepAspectRatioByExpanding);
+    warrior = warrior.scaled(350, 350, Qt::KeepAspectRatioByExpanding);
+    wizard = wizard.scaled(350, 350, Qt::KeepAspectRatioByExpanding);
+    healer = healer.scaled(350, 350, Qt::KeepAspectRatioByExpanding);
 
     QGraphicsPixmapItem *iWarrior = new QGraphicsPixmapItem(warrior);
     QGraphicsPixmapItem *iWizard = new QGraphicsPixmapItem(wizard);
     QGraphicsPixmapItem *iHealer = new QGraphicsPixmapItem(healer);
 
-    iWarrior->setPos(750, 800);
-    iWizard->setPos(500, 1000);
-    iHealer->setPos(220, 900);
+    iWarrior->setPos(550, 900);
+    iWizard->setPos(280, 1100);
+    iHealer->setPos(20, 800);
 
     gameScene->addItem(iWarrior);
     gameScene->addItem(iWizard);
@@ -356,13 +363,13 @@ void Game::createScene()
 
     QGraphicsPixmapItem *iHeArc = new QGraphicsPixmapItem(heArc);
 
-    iHeArc->setPos(-800, 1500);
+    iHeArc->setPos(-1350, 1830);
     gameScene->addItem(iHeArc);
 
     // Add label to start the game
     QGraphicsSimpleTextItem *textStart = new QGraphicsSimpleTextItem("Bienvenue dans le donjon !\nOuvrez la carte pour commencer...");
-    textStart->setPos(1400, 1200);
-    textStart->setFont(QFont("Arial", 60, 1));
+    textStart->setPos(1360, 1475);
+    textStart->setFont(QFont("Arial", 80, 1));
     textStart->setBrush(QBrush(Qt::white));
     gameScene->addItem(textStart);
 

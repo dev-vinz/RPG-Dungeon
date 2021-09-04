@@ -19,8 +19,8 @@ public:
     QString show() const override;
     void virtual use(Character *) override;
 
-    QString virtual getAction() const override { return "Vous révèlez l'entièreté de la map."; }
-    QString virtual getDescription() const override { return "Révèle l'entièreté de la map"; }
+    QString virtual getAction() const override { return "Vous révèlez l'entièreté de la carte."; }
+    QString virtual getDescription() const override { return "Révèle l'entièreté de la carte"; }
     int virtual getFeature() const override { return this->power; };
     QString virtual getName() const override { return QString("Torche"); };
 };
