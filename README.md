@@ -3,7 +3,12 @@
 - [Project Wiki](https://gitlab-etu.ing.he-arc.ch/isc/2021-22/niveau-2/conception-logiciel-intro-donnees/g3/-/wikis/home)
 
 # Informations
-In order to launch the game, you have to change the build directory in Qt Creator.
+In order to launch the game, you have to do some modifications.
+
+First, you have to change your screen zoom to 100%.
+
+If you download the project locally, you have to go in `Riddle.h`, and change the static variable `RELEASE_MODE` to `false`.
+Then, you must change the build directory in Qt Creator.
 
 Here are the steps to do
 
