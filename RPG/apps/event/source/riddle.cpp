@@ -49,7 +49,9 @@ void Riddle::checkAnswer(int _idButton)
 void Riddle::connectToDatabase()
 {
     this->database = QSqlDatabase::addDatabase("QSQLITE");
-    this->database.setDatabaseName("../RPG/settings/database.db");
+
+    QString path = Riddle::RELEASE_MODE ? "../database.db" : "../RPG/settings/database.db";
+    this->database.setDatabaseName(path);
 
     if (!this->database.open())
     {

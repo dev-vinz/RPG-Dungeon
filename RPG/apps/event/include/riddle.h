@@ -48,6 +48,8 @@ private:
     bool pAnswer = false;
     Query query;
 
+    bool RELEASE_MODE = true;
+
 public:
     Riddle(QWidget *_parent = nullptr);
 
