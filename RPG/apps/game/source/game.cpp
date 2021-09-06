@@ -46,7 +46,6 @@ void Game::play()
     if (!currentRoom.isVisited())
         this->releaseEvent(eventType);
 
-    // TODO : Find other solution
     this->map->rooms[this->map->getActiveId()].setVisited(true);
 
     // Initial state of buttons
@@ -77,7 +76,6 @@ void Game::start()
 
     QObject::connect(this->map->getButtonGroup(), &QButtonGroup::buttonClicked, this, &Game::play);
 
-    // TODO : Say Welcome
     this->update();
     this->startGame = QTime::currentTime();
     this->play();
