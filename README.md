@@ -1,7 +1,5 @@
 # Project Overview
 
-- [Project Wiki](https://gitlab-etu.ing.he-arc.ch/isc/2021-22/niveau-2/conception-logiciel-intro-donnees/g3/-/wikis/home)
-
 # Informations
 The final version of this project is under the tag `v1.1`.
 
